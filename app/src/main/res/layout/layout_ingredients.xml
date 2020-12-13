@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/fab_add"
+                android:id="@+id/remove"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center|right"
