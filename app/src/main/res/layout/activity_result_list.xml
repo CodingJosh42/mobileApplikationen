@@ -13,7 +13,7 @@
         android:layout_marginTop="40dp"
         android:text="@string/resultList"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,17 +23,15 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="150dp">
 
         <LinearLayout
             android:id="@+id/linearlayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:orientation="vertical"
+            android:paddingBottom="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent" />
 
     </ScrollView>
