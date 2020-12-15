@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="Zutat"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
                 android:id="@+id/remove"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:layout_gravity="center|right"
+                android:layout_gravity="center|end"
                 android:layout_marginLeft="7dp"
                 android:layout_marginStart="7dp"
                 android:background="#00FFFFFF"
