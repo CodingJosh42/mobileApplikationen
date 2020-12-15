@@ -21,4 +21,13 @@ class RestDummy {
         list.add(Recipe(5,"Pizza5", ing, "placeholder", matches))
         return list
     }
+
+    fun getRecipe(id: Int): Recipe {
+        val ing = ArrayList<String>()
+        ing.add("Käse")
+        ing.add("Tomaten")
+        ing.add("Hefe")
+        ing.add("Mehl")
+        return Recipe(id, "Pizza Margherita", ing, "placeholder", "Zuerst wird der Teig hergestellt. Teig 30 Minuten lang gehen lassen. Pizza belegen und 15 Minuten im Ofen backen" )
+    }
 }
