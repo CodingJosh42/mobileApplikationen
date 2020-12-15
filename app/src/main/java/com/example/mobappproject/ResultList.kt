@@ -1,9 +1,11 @@
 package com.example.mobappproject
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -31,12 +33,23 @@ class ResultList : AppCompatActivity() {
         return dummy.getRecipes()
     }
 
+    private fun showRecipe(view: View, id: Int) {
+        val intent = Intent(this, ShowRecipe::class.java)
+        intent.putExtra("Id", id)
+        startActivity(intent)
+    }
+
     private fun addViews(view: LinearLayout, recipes: List<Recipe>) {
         for (recipe in recipes) {
             val listItem = inflater?.inflate(R.layout.layout_list_item, null)
 
             val title = listItem?.findViewById(R.id.title) as TextView
             title.text = recipe.title
+
+            listItem.id = recipe.id
+            title.setOnClickListener {
+                showRecipe(it, listItem.id)
+            }
 
             val img = listItem.findViewById(R.id.imageView) as ImageView
             val imgId = this.getResources().getIdentifier(recipe.img, "drawable", this.getPackageName())
