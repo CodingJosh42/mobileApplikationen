@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.cardview.widget.CardView
@@ -39,6 +41,28 @@ class MainActivity : AppCompatActivity() {
             addCatchPhrase(catchPhrases)
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.ingredientList -> {
+                val intent = Intent(this, IngredientList::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.spiceList -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     /** Called when the user taps the Search button */
     fun search(view: View) {

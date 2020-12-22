@@ -16,19 +16,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResultList"
-            android:parentActivityName="com.example.mobappproject.MainActivity">
+        <activity
+            android:name=".IngredientList"
+            android:parentActivityName=".MainActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mobappproject.MainActivity" />
-
         </activity>
-        <activity android:name=".ShowRecipe"
-            android:parentActivityName="com.example.mobappproject.ResultList">
+        <activity
+            android:name=".ResultList"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mobappproject.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ShowRecipe"
+            android:parentActivityName=".ResultList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mobappproject.ResultList" />
-
         </activity>
     </application>
 
