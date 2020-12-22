@@ -9,26 +9,40 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobAppProject">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResultList"
-            android:parentActivityName="com.example.mobappproject.MainActivity">
+        <activity
+            android:name=".activities.IngredientList"
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mobappproject.MainActivity" />
-
+                android:value="com.example.mobappproject.activities.MainActivity" />
         </activity>
-        <activity android:name=".ShowRecipe"
-            android:parentActivityName="com.example.mobappproject.ResultList">
+        <activity
+            android:name=".activities.SpiceList"
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mobappproject.ResultList" />
-
+                android:value="com.example.mobappproject.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ResultList"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mobappproject.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ShowRecipe"
+            android:parentActivityName=".activities.ResultList">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mobappproject.activities.ResultList" />
         </activity>
     </application>
 

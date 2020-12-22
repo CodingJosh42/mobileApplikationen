@@ -1,9 +1,12 @@
-package com.example.mobappproject
+package com.example.mobappproject.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.mobappproject.R
+import com.example.mobappproject.dataClasses.Recipe
+import com.example.mobappproject.rest.RestDummy
 
 class ShowRecipe : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +23,7 @@ class ShowRecipe : AppCompatActivity() {
         }
     }
 
-    private fun loadRecipe(id: Int): Recipe{
+    private fun loadRecipe(id: Int): Recipe {
         val dummy = RestDummy()
         return dummy.getRecipe(id)
     }
