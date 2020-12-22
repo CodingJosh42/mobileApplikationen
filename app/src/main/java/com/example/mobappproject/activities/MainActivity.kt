@@ -1,14 +1,16 @@
-package com.example.mobappproject
+package com.example.mobappproject.activities
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.mobappproject.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +42,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.ingredientList -> {
+                val intent = Intent(this, IngredientList::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.spiceList -> {
+                val intent = Intent(this, SpiceList::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
     /** Called when the user taps the Search button */
     fun search(view: View) {
         val intent = Intent(this, ResultList::class.java)
@@ -49,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     fun addIngredient(view: LinearLayout) {
         val text: EditText = findViewById(R.id.inputIngredient)
         if(text.getText().toString() != "") {
-            val ingredient = inflater?.inflate(R.layout.layout_ingredients, null)
+            val ingredient = inflater?.inflate(R.layout.layout_ingredient_main_activity, null)
             if (ingredient != null) {
                 ingredient.setId(ingCount)
 
@@ -66,7 +92,6 @@ class MainActivity : AppCompatActivity() {
                 view.addView(ingredient)
                 ingredientList.add(text.getText().toString())
                 ingCount++
-                System.out.println(ingredient.getTag().toString())
             }
             val scroll : ScrollView = findViewById(R.id.scrollview1)
             scroll.fullScroll(View.FOCUS_DOWN)
@@ -86,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     fun addCatchPhrase(view: LinearLayout) {
         val text: EditText = findViewById(R.id.inputCatchPhrase)
         if(text.getText().toString() != "") {
-            val catchPhrase = inflater?.inflate(R.layout.layout_ingredients, null)
+            val catchPhrase = inflater?.inflate(R.layout.layout_ingredient_main_activity, null)
             if (catchPhrase != null) {
                 catchPhrase.setId(catchCount)
 

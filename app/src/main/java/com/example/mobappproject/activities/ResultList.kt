@@ -1,8 +1,7 @@
-package com.example.mobappproject
+package com.example.mobappproject.activities
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mobappproject.R
+import com.example.mobappproject.dataClasses.Recipe
+import com.example.mobappproject.rest.RestDummy
 
 
 class ResultList : AppCompatActivity() {
@@ -41,7 +43,7 @@ class ResultList : AppCompatActivity() {
 
     private fun addViews(view: LinearLayout, recipes: List<Recipe>) {
         for (recipe in recipes) {
-            val listItem = inflater?.inflate(R.layout.layout_list_item, null)
+            val listItem = inflater?.inflate(R.layout.layout_resultList_item, null)
 
             val title = listItem?.findViewById(R.id.title) as TextView
             title.text = recipe.title

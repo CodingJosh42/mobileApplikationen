@@ -1,4 +1,4 @@
-package com.example.mobappproject
+package com.example.mobappproject.dataClasses
 
 class Recipe {
     var id: Int = 0

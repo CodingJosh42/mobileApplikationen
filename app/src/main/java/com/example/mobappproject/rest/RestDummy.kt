@@ -1,4 +1,6 @@
-package com.example.mobappproject
+package com.example.mobappproject.rest
+
+import com.example.mobappproject.dataClasses.Recipe
 
 class RestDummy {
     fun getRecipes():  List<Recipe> {
