@@ -1,8 +1,9 @@
-package com.example.mobappproject
+package com.example.mobappproject.recycleViewIngredients
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobappproject.dataClasses.Ingredient
 
 class RecyclerAdapter(private val list: ArrayList<Ingredient>) : RecyclerView.Adapter<IngredientHolder>() {
 

@@ -1,4 +1,4 @@
-package com.example.mobappproject
+package com.example.mobappproject.activities
 
 import android.content.Context
 import android.content.Intent
@@ -9,8 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.mobappproject.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     fun addIngredient(view: LinearLayout) {
         val text: EditText = findViewById(R.id.inputIngredient)
         if(text.getText().toString() != "") {
-            val ingredient = inflater?.inflate(R.layout.layout_ingredients, null)
+            val ingredient = inflater?.inflate(R.layout.layout_ingredient_main_activity, null)
             if (ingredient != null) {
                 ingredient.setId(ingCount)
 
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     fun addCatchPhrase(view: LinearLayout) {
         val text: EditText = findViewById(R.id.inputCatchPhrase)
         if(text.getText().toString() != "") {
-            val catchPhrase = inflater?.inflate(R.layout.layout_ingredients, null)
+            val catchPhrase = inflater?.inflate(R.layout.layout_ingredient_main_activity, null)
             if (catchPhrase != null) {
                 catchPhrase.setId(catchCount)
 

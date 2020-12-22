@@ -1,10 +1,12 @@
-package com.example.mobappproject
+package com.example.mobappproject.recycleViewIngredients
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobappproject.dataClasses.Ingredient
+import com.example.mobappproject.R
 
 class IngredientHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_ingredient_list_item, parent, false)) {
