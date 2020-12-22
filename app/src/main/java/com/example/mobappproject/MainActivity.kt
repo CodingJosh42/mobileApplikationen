@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.spiceList -> {
+                val intent = Intent(this, SpiceList::class.java)
+                startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -90,7 +92,6 @@ class MainActivity : AppCompatActivity() {
                 view.addView(ingredient)
                 ingredientList.add(text.getText().toString())
                 ingCount++
-                System.out.println(ingredient.getTag().toString())
             }
             val scroll : ScrollView = findViewById(R.id.scrollview1)
             scroll.fullScroll(View.FOCUS_DOWN)
