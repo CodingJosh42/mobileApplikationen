@@ -5,6 +5,7 @@ class Recipe {
     var title: String = ""
     var ingredients = ArrayList<String>()
     var img: String = ""
+    var imgId: Int = 0
     var matches = ArrayList<String>()
     var preparation = ""
 

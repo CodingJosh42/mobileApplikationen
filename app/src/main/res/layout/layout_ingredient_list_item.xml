@@ -19,7 +19,9 @@
             android:layout_toLeftOf="@+id/delete"
             android:layout_alignParentLeft="true"
             android:textSize="30sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/delete" />
 
         <Button
             android:id="@+id/delete"
@@ -29,7 +31,8 @@
             android:backgroundTint="@color/red"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
