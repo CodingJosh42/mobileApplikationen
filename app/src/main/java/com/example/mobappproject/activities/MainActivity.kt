@@ -1,12 +1,15 @@
 package com.example.mobappproject.activities
 
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
@@ -34,6 +37,20 @@ class MainActivity : AppCompatActivity() {
         ingredientButton.setOnClickListener {
             addIngredient()
         }
+        val inputIng: EditText = findViewById(R.id.inputIngredient)
+        inputIng.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                addIngredient()
+                val focus = this.currentFocus
+                if (focus != null) {
+                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(focus.windowToken, 0)
+                }
+                return@OnKeyListener true
+            }
+            false
+        })
+
 
         val linearLayoutManagerCatch = LinearLayoutManager(this)
         recyclerCatchphrase = findViewById(R.id.catchPhrases)
@@ -44,6 +61,19 @@ class MainActivity : AppCompatActivity() {
         catchPhraseButton.setOnClickListener {
             addCatchPhrase()
         }
+        val inputCatch: EditText = findViewById(R.id.inputCatchPhrase)
+        inputCatch.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                addCatchPhrase()
+                val focus = this.currentFocus
+                if (focus != null) {
+                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(focus.windowToken, 0)
+                }
+                return@OnKeyListener true
+            }
+            false
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -81,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         if(input.text.toString() != "") {
             ingredientList.add(Ingredient(input.text.toString()))
             recyclerIngredients?.adapter?.notifyDataSetChanged()
-            recyclerIngredients?.scrollToPosition(ingredientList.size -1)
+            recyclerIngredients?.scrollToPosition(ingredientList.size - 1)
         }
     }
 
@@ -91,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         if(input.text.toString() != "") {
             catchPhraseList.add(Ingredient(input.text.toString()))
             recyclerIngredients?.adapter?.notifyDataSetChanged()
-            recyclerCatchphrase?.scrollToPosition(catchPhraseList.size -1)
+            recyclerCatchphrase?.scrollToPosition(catchPhraseList.size - 1)
         }
     }
 
