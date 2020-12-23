@@ -9,36 +9,42 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
+import com.example.mobappproject.dataClasses.Ingredient
+import com.example.mobappproject.recyclerIngredientMain.RecyclerAdapterMain
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-
-    private var inflater: LayoutInflater? = null
-    private var mContext: Context? = null
-    private var ingredientList = ArrayList<String>()
-    private var ingCount = 0
-    private var catchPhraseList = ArrayList<String>()
-    private var catchCount = 0
+    
+    private var ingredientList = ArrayList<Ingredient>()
+    private var catchPhraseList = ArrayList<Ingredient>()
+    private var recyclerIngredients: RecyclerView? = null
+    private var recyclerCatchphrase: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mContext = this
-        inflater = mContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerIngredients = findViewById(R.id.ingredients)
+        recyclerIngredients?.layoutManager = linearLayoutManager
+        recyclerIngredients?.adapter = RecyclerAdapterMain(ingredientList)
 
-        val layout : LinearLayout  = findViewById(R.id.ingredients)
         val ingredientButton: FloatingActionButton = findViewById(R.id.ingredientButton)
         ingredientButton.setOnClickListener {
-            addIngredient(layout)
+            addIngredient()
         }
 
-        val catchPhrases : LinearLayout  = findViewById(R.id.catchPhrases)
+        val linearLayoutManagerCatch = LinearLayoutManager(this)
+        recyclerCatchphrase = findViewById(R.id.catchPhrases)
+        recyclerCatchphrase?.layoutManager = linearLayoutManagerCatch
+        recyclerCatchphrase?.adapter = RecyclerAdapterMain(catchPhraseList)
+
         val catchPhraseButton: FloatingActionButton = findViewById(R.id.catchPhraseButton)
         catchPhraseButton.setOnClickListener {
-            addCatchPhrase(catchPhrases)
+            addCatchPhrase()
         }
     }
 
@@ -72,74 +78,23 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun addIngredient(view: LinearLayout) {
-        val text: EditText = findViewById(R.id.inputIngredient)
-        if(text.getText().toString() != "") {
-            val ingredient = inflater?.inflate(R.layout.layout_ingredient_main_activity, null)
-            if (ingredient != null) {
-                ingredient.setId(ingCount)
-
-                val newText : TextView = ingredient.findViewById(R.id.textView1)
-                newText.setText(text.getText().toString())
-
-                val imgButt : ImageButton = ingredient.findViewById(R.id.remove)
-                imgButt.setOnClickListener{
-                    removeIngredient(view, ingredient.getId())
-                }
-
-                ingredient.setTag("ingredient$ingCount")
-
-                view.addView(ingredient)
-                ingredientList.add(text.getText().toString())
-                ingCount++
-            }
-            val scroll : ScrollView = findViewById(R.id.scrollview1)
-            scroll.fullScroll(View.FOCUS_DOWN)
-
+    private fun addIngredient() {
+        val input: EditText = findViewById(R.id.inputIngredient)
+        if(input.text.toString() != "") {
+            ingredientList.add(Ingredient(input.text.toString()))
+            recyclerIngredients?.adapter?.notifyDataSetChanged()
+            recyclerIngredients?.scrollToPosition(ingredientList.size -1)
         }
     }
 
-    fun removeIngredient(view: LinearLayout, id: Int) {
-        System.out.println(id)
-        val ing: ConstraintLayout = view.findViewWithTag("ingredient$id")
-        val text : TextView = ing.findViewById(R.id.textView1)
 
-        ingredientList.remove(text.getText().toString())
-        view.removeView(ing)
-    }
-
-    fun addCatchPhrase(view: LinearLayout) {
-        val text: EditText = findViewById(R.id.inputCatchPhrase)
-        if(text.getText().toString() != "") {
-            val catchPhrase = inflater?.inflate(R.layout.layout_ingredient_main_activity, null)
-            if (catchPhrase != null) {
-                catchPhrase.setId(catchCount)
-
-                val newText : TextView = catchPhrase.findViewById(R.id.textView1)
-                newText.setText(text.getText().toString())
-
-                val imgButt : ImageButton = catchPhrase.findViewById(R.id.remove)
-                imgButt.setOnClickListener{
-                    removeCatchPhrase(view, catchPhrase.getId())
-                }
-
-                catchPhrase.setTag("catchPhrase$catchCount")
-
-                view.addView(catchPhrase)
-                catchPhraseList.add(text.getText().toString())
-                catchCount++
-            }
-
-            val scroll : ScrollView = findViewById(R.id.scrollview2)
-            scroll.fullScroll(View.FOCUS_DOWN)
+    private fun addCatchPhrase() {
+        val input: EditText = findViewById(R.id.inputCatchPhrase)
+        if(input.text.toString() != "") {
+            catchPhraseList.add(Ingredient(input.text.toString()))
+            recyclerIngredients?.adapter?.notifyDataSetChanged()
+            recyclerCatchphrase?.scrollToPosition(catchPhraseList.size -1)
         }
     }
 
-    fun removeCatchPhrase(view: LinearLayout, id: Int) {
-        val catch: ConstraintLayout = view.getRootView().findViewWithTag("catchPhrase$id")
-        val text : TextView = catch.findViewById(R.id.textView1)
-
-        catchPhraseList.remove(text.getText().toString())
-        view.removeView(catch)
-    }
 }
