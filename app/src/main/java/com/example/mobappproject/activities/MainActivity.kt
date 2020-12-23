@@ -1,10 +1,8 @@
 package com.example.mobappproject.activities
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,7 +15,7 @@ import com.example.mobappproject.recyclerIngredientMain.RecyclerAdapterMain
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-    
+
     private var ingredientList = ArrayList<Ingredient>()
     private var catchPhraseList = ArrayList<Ingredient>()
     private var recyclerIngredients: RecyclerView? = null

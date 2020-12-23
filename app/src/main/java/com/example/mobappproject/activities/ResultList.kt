@@ -1,33 +1,30 @@
 package com.example.mobappproject.activities
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Recipe
+import com.example.mobappproject.recylcerResultList.RecylcerAdapterResult
 import com.example.mobappproject.rest.RestDummy
 
 
 class ResultList : AppCompatActivity() {
 
-    private var inflater: LayoutInflater? = null
-    private var mContext: Context? = null
+    private var recyclerView: RecyclerView? = null
+    private var recipes = ArrayList<Recipe>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result_list)
 
-        mContext = this
-        inflater = mContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        val layout : LinearLayout  = findViewById(R.id.linearlayout1)
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerView = findViewById(R.id.results)
+        recyclerView?.layoutManager = linearLayoutManager
+        recyclerView?.adapter = RecylcerAdapterResult(this, recipes)
 
-        addViews(layout, loadRecipes())
+        addViews(loadRecipes())
     }
 
     private fun loadRecipes(): List<Recipe> {
@@ -35,49 +32,16 @@ class ResultList : AppCompatActivity() {
         return dummy.getRecipes()
     }
 
-    private fun showRecipe(view: View, id: Int) {
-        val intent = Intent(this, ShowRecipe::class.java)
-        intent.putExtra("Id", id)
-        startActivity(intent)
-    }
 
-    private fun addViews(view: LinearLayout, recipes: List<Recipe>) {
-        for (recipe in recipes) {
-            val listItem = inflater?.inflate(R.layout.layout_result_ist_item, null)
+    private fun addViews(recipeList: List<Recipe>) {
+        for (recipe in recipeList) {
 
-            val title = listItem?.findViewById(R.id.title) as TextView
-            title.text = recipe.title
-
-            listItem.id = recipe.id
-            title.setOnClickListener {
-                showRecipe(it, listItem.id)
-            }
-
-            val img = listItem.findViewById(R.id.imageView) as ImageView
             val imgId = this.getResources().getIdentifier(recipe.img, "drawable", this.getPackageName())
-            img.setImageResource(imgId)
+            recipe.imgId = imgId
 
-            val ingredients = listItem.findViewById(R.id.ingredients) as TextView
-            var ings = "Zutaten: "
-            for(i in 0 .. recipe.ingredients.size-1){
-                ings += recipe.ingredients.get(i)
-                if(i != recipe.ingredients.size-1) {
-                    ings += ", "
-                }
-            }
-            ingredients.text = ings
+            recipes.add(recipe)
+            recyclerView?.adapter?.notifyDataSetChanged()
 
-            val matches = listItem.findViewById(R.id.matches) as TextView
-            var matchingIngs = "Matches: "
-            for(i in 0 .. recipe.matches.size-1){
-                matchingIngs += recipe.matches.get(i)
-                if(i != recipe.matches.size-1) {
-                    matchingIngs += ", "
-                }
-            }
-            matches.text = matchingIngs
-
-            view.addView(listItem)
         }
     }
 
