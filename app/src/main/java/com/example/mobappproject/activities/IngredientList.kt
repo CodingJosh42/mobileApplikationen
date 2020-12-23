@@ -1,9 +1,15 @@
 package com.example.mobappproject.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
@@ -38,6 +44,26 @@ class IngredientList : AppCompatActivity() {
         addInput.setOnClickListener {
             addIngredient()
         }
+
+        val input = findViewById<EditText>(R.id.input)
+        input.setOnEditorActionListener(TextView.OnEditorActionListener  { view, keyCode, event ->
+            var handled = false
+            if (keyCode == EditorInfo.IME_ACTION_DONE ) {
+                addIngredient()
+                handled = true
+            } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
+                addIngredient()
+                handled = true
+            }
+            if(handled){
+                val focus = this.currentFocus
+                if (focus != null) {
+                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(focus.windowToken, 0)
+                }
+            }
+            return@OnEditorActionListener handled
+        })
     }
 
     private fun addIngredient() {
@@ -45,6 +71,7 @@ class IngredientList : AppCompatActivity() {
         if(input.text.toString() != "") {
             mIngredients.add(Ingredient(input.text.toString()))
             recyclerView?.adapter?.notifyDataSetChanged()
+            recyclerView?.scrollToPosition(mIngredients.size-1)
         }
 
     }
