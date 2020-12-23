@@ -43,7 +43,7 @@ class ResultList : AppCompatActivity() {
 
     private fun addViews(view: LinearLayout, recipes: List<Recipe>) {
         for (recipe in recipes) {
-            val listItem = inflater?.inflate(R.layout.layout_resultList_item, null)
+            val listItem = inflater?.inflate(R.layout.layout_result_ist_item, null)
 
             val title = listItem?.findViewById(R.id.title) as TextView
             title.text = recipe.title
