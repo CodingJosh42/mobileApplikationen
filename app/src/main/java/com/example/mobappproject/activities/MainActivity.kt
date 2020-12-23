@@ -17,9 +17,7 @@ import com.example.mobappproject.recyclerIngredientMain.RecyclerAdapterMain
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-
-    private var inflater: LayoutInflater? = null
-    private var mContext: Context? = null
+    
     private var ingredientList = ArrayList<Ingredient>()
     private var catchPhraseList = ArrayList<Ingredient>()
     private var recyclerIngredients: RecyclerView? = null
@@ -28,9 +26,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        mContext = this
-        inflater = mContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
 
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerIngredients = findViewById(R.id.ingredients)
