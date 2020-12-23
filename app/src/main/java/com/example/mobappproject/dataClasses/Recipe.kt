@@ -15,6 +15,7 @@ class Recipe {
         this.img = img
         this.matches = matches
     }
+
     constructor(id: Int, title: String, ingredients: ArrayList<String>, img: String, preparation: String) {
         this.id = id
         this.title = title
