@@ -126,18 +126,34 @@
             android:layout_below="@+id/linearLayout1"
             />
     </RelativeLayout>
+    <CheckBox android:id="@+id/checkbox_ingredient"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/catchphraseContainer"
+        android:text="Zutatenliste benutzen" />
+    <CheckBox android:id="@+id/checkbox_spice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient"
+        android:text="Gewürzliste benutzen" />
+
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="15dp"
         android:onClick="search"
         android:text="@string/search"
         android:textSize="20sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/catchphraseContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/checkbox_spice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
