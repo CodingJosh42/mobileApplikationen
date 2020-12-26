@@ -108,20 +108,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun addIngredient() {
         val input: EditText = findViewById(R.id.inputIngredient)
-        if(input.text.toString() != "") {
-            ingredientList.add(Ingredient(input.text.toString()))
+        val text = input.text.toString()
+        if(text != "" && !checkDoubles(text, ingredientList)) {
+            ingredientList.add(Ingredient(text))
             recyclerIngredients?.adapter?.notifyDataSetChanged()
             recyclerIngredients?.scrollToPosition(ingredientList.size - 1)
+            input.text.clear()
         }
+    }
+
+    private fun checkDoubles(toAdd: String, list: ArrayList<Ingredient>): Boolean {
+        return list.contains(Ingredient(toAdd))
     }
 
 
     private fun addCatchPhrase() {
         val input: EditText = findViewById(R.id.inputCatchPhrase)
-        if(input.text.toString() != "") {
-            catchPhraseList.add(Ingredient(input.text.toString()))
+        val text = input.text.toString()
+        if(text != "" && !checkDoubles(text, catchPhraseList)) {
+            catchPhraseList.add(Ingredient(text))
             recyclerIngredients?.adapter?.notifyDataSetChanged()
             recyclerCatchphrase?.scrollToPosition(catchPhraseList.size - 1)
+            input.text.clear()
         }
     }
 
