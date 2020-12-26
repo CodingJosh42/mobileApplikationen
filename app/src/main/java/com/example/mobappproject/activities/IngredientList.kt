@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
@@ -68,13 +68,23 @@ class IngredientList : AppCompatActivity() {
 
     private fun addIngredient() {
         val input = findViewById<EditText>(R.id.input)
-        if(input.text.toString() != "") {
-            mIngredients.add(Ingredient(input.text.toString()))
-            recyclerView?.adapter?.notifyDataSetChanged()
-            recyclerView?.scrollToPosition(mIngredients.size-1)
+        val text = input.text.toString()
+        if(text != "") {
+            if(!checkDoubles(text)) {
+                mIngredients.add(Ingredient(text))
+                recyclerView?.adapter?.notifyDataSetChanged()
+                recyclerView?.scrollToPosition(mIngredients.size - 1)
+                input.text.clear()
+            } else {
+                val msg = Toast.makeText(this, text + " ist bereits in der Liste", Toast.LENGTH_SHORT)
+                msg.show()
+            }
         }
 
     }
 
+    private fun checkDoubles(toAdd: String): Boolean {
+        return mIngredients.contains(Ingredient(toAdd))
+    }
 
 }
