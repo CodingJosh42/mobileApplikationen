@@ -12,7 +12,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         private const val DB_NAME = "Recipe_Database"
         private const val DB_Version = 1
         private const val TABLE_USER = "UserTable"
-        private const val TABLE_INGREDIENT = "IngredientsTable"
+        private const val TABLE_INGREDIENT = "IngredientTable"
         private const val TABLE_QUANTITY = "QuantityTable"
         private const val TABLE_RECIPE = "RecipeTable"
 
@@ -22,7 +22,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         private const val INGREDIENT_KEY_ID = "_id"
         private const val INGREDIENT_KEY_NAME = "name"
         private const val INGREDIENT_KEY_SPICE = "spice"
-        private const val INGREDIENT_KEY_STORED = "STORED"
+        private const val INGREDIENT_KEY_STORED = "stored"
         //TABLE_QUANTITY Content
         private const val QUANTITY_KEY_INGREDIENTID = "ingredient_id"
         private const val QUANTITY_KEY_RECIPEID = "recipe_id"
@@ -78,15 +78,14 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
     fun addRecipe(recipe: DBRecipe):Long{
         val db = this.writableDatabase
 
+        //GET ID FROM THIS RECIPE
+
         val contentValues = ContentValues()
         contentValues.put(RECIPE_KEY_NAME, recipe.name)
         contentValues.put(RECIPE_KEY_DESCRIPTION, recipe.description)
         contentValues.put(RECIPE_KEY_PICTURE, recipe.picture)
         val writeDB = db.insert(TABLE_RECIPE, null, contentValues)
-
-
-
-        // Connect Recipe and Ingredients
+        // Connect Recipe and Ingredients needs to be done
         db.close()
         return writeDB
 
