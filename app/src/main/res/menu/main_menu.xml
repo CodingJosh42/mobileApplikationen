@@ -6,4 +6,9 @@
         android:title="Zutatenliste"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/spiceList"
+        android:title="Gewürzliste"
+        app:showAsAction="never"
+        />
 </menu>
