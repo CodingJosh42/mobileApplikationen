@@ -1,6 +1,8 @@
 package com.example.mobappproject.dataClasses
 
-data class Ingredient(val name: String) {
+import java.io.Serializable
+
+data class Ingredient(val name: String) : Serializable{
     override fun equals(other: Any?): Boolean {
         if(other != null && other is Ingredient)
             return other.name.equals(name, ignoreCase = true)
