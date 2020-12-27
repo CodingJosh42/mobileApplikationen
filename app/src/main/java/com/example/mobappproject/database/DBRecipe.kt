@@ -1,3 +1,5 @@
 package com.example.mobappproject.database
 
-class DBRecipe(val id: Int, val name: String, val description: String, val picture: String,)
+import com.example.mobappproject.dataClasses.Ingredient
+
+class DBRecipe(val id: Int, val name: String, val description: String, val picture: String, val ingredients: List<DBQuantity>)
