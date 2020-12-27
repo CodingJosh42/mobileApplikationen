@@ -29,42 +29,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val linearLayoutManager = LinearLayoutManager(this)
-        recyclerIngredients = findViewById(R.id.ingredients)
-        recyclerIngredients?.layoutManager = linearLayoutManager
-        recyclerIngredients?.adapter = RecyclerAdapter(ingredientList)
+        // Set RecyclerView
+        setRecyclerView()
 
-        val ingredientButton: FloatingActionButton = findViewById(R.id.ingredientButton)
-        ingredientButton.setOnClickListener {
-            addIngredient()
-        }
-        val inputIng: EditText = findViewById(R.id.inputIngredient)
-        inputIng.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                addIngredient()
-                return@OnKeyListener true
-            }
-            false
-        })
+        // Set onClick Listener for adding Ingredients and eventListener for enter
+        setUpAddIngredient()
 
-
-        val inputSearch: EditText = findViewById(R.id.inputSearch)
-        inputSearch.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                search(view)
-                val focus = this.currentFocus
-                if (focus != null) {
-                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(focus.windowToken, 0)
-                }
-                return@OnKeyListener true
-            }
-            false
-        })
+        // Set eventlistener (ENTER) for search input
+        setUpSearch()
 
         // load ingredientlist from user
         getIngredientList()
 
+        // Set onCheckedChangedListener to add and remove userIngredientList from ingredientList
+        setUpSwitchButton()
+    }
+
+    /**
+     * Sets up switch Button to add and remove userIngredientList from ingredientList
+     */
+    private fun setUpSwitchButton() {
         val useList = findViewById<SwitchCompat>(R.id.useList)
         useList.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -75,12 +59,67 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Add onKeyListener (ENTER) to EditText from search input
+     */
+    private fun setUpSearch() {
+        val inputSearch: EditText = findViewById(R.id.inputSearch)
+        inputSearch.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                search(view)
+                val focus = this.currentFocus
+                if (focus != null) {
+                    val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(focus.windowToken, 0)
+                }
+                return@OnKeyListener true
+            }
+            false
+        })
+    }
+
+    /**
+     * Adds onClickListener to add Ingredient Button and onKeyListener (ENTER) to EditText
+     * from add Ingredient input
+     */
+    private fun setUpAddIngredient() {
+        val ingredientButton: FloatingActionButton = findViewById(R.id.ingredientButton)
+        ingredientButton.setOnClickListener {
+            addIngredient()
+        }
+
+        val inputIng: EditText = findViewById(R.id.inputIngredient)
+        inputIng.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                addIngredient()
+                return@OnKeyListener true
+            }
+            false
+        })
+    }
+
+    /**
+     * Sets up the RecylcerView of ingredients
+     */
+    private fun setRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerIngredients = findViewById(R.id.ingredients)
+        recyclerIngredients?.layoutManager = linearLayoutManager
+        recyclerIngredients?.adapter = RecyclerAdapter(ingredientList)
+    }
+
+    /**
+     * Creates OptionsMenu
+     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
+    /**
+     * Handles selected menu Item
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
@@ -99,7 +138,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    /** Called when the user taps the Search button */
+    /**
+     * Starts new Activity (ResultList) and gives ingredients and catchPhrase to it
+     * ResultList performs search with given information
+     */
     fun search(view: View) {
         val inputSearch: EditText = findViewById(R.id.inputSearch)
         val text = inputSearch.text.toString()
@@ -113,6 +155,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Adds an ingredient to the list
+     */
     private fun addIngredient() {
         val input: EditText = findViewById(R.id.inputIngredient)
         val text = input.text.toString()
@@ -129,6 +174,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Loads ingredientList from user
+     */
     private fun getIngredientList() {
         userIngredientList.addAll(arrayListOf(
                 Ingredient("Gurke"),
@@ -143,6 +191,9 @@ class MainActivity : AppCompatActivity() {
         ))
     }
 
+    /**
+     * Adds ingredients from userlist to ingredientList
+     */
     private fun addUserList() {
         if(userIngredientList.size > 0) {
             for(ing in userIngredientList){
@@ -155,6 +206,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Removes ingredients from userList to ingredientList
+     */
     private fun removeUserList() {
         if(userIngredientList.size > 0){
             ingredientList.removeAll(userIngredientList)
@@ -163,8 +217,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
+    /**
+     * Checks if given list contains ingredient with given String
+     */
     private fun checkDoubles(toAdd: String, list: ArrayList<Ingredient>): Boolean {
         return list.contains(Ingredient(toAdd))
     }
