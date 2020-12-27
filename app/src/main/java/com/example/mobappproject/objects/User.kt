@@ -25,6 +25,10 @@ object User {
         )
     }
 
+    /**
+     * Loading spices from Database
+     * NOT FINISHED
+     */
     fun loadSpices(){
         spices.addAll(arrayListOf(
                 Ingredient("Pfeffer"),

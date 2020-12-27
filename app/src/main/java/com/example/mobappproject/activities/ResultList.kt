@@ -45,4 +45,8 @@ class ResultList : AppCompatActivity() {
         }
     }
 
+    private fun filterRecipes(){
+        
+    }
+
 }
