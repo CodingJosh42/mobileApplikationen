@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private var ingredientList = ArrayList<Ingredient>()
     private var recyclerIngredients: RecyclerView? = null
+    private var userIngredientList = ArrayList<Ingredient>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,6 +110,22 @@ class MainActivity : AppCompatActivity() {
             input.text.clear()
         }
     }
+
+    private fun getIngredientList() {
+        userIngredientList.addAll(arrayListOf(
+                Ingredient("Gurke"),
+                Ingredient("Tomate"),
+                Ingredient("Käse"),
+                Ingredient("Hefe"),
+                Ingredient("Mehl"),
+                Ingredient("Butter"),
+                Ingredient("Öl"),
+                Ingredient("Milch"),
+                Ingredient("Schinken"),
+        ))
+    }
+
+
 
     private fun checkDoubles(toAdd: String, list: ArrayList<Ingredient>): Boolean {
         return list.contains(Ingredient(toAdd))
