@@ -14,15 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Ingredient
-import com.example.mobappproject.recyclerIngredientMain.RecyclerAdapterMain
+import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
     private var ingredientList = ArrayList<Ingredient>()
-    private var catchPhraseList = ArrayList<Ingredient>()
     private var recyclerIngredients: RecyclerView? = null
-    private var recyclerCatchphrase: RecyclerView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerIngredients = findViewById(R.id.ingredients)
         recyclerIngredients?.layoutManager = linearLayoutManager
-        recyclerIngredients?.adapter = RecyclerAdapterMain(ingredientList)
+        recyclerIngredients?.adapter = RecyclerAdapter(ingredientList)
 
         val ingredientButton: FloatingActionButton = findViewById(R.id.ingredientButton)
         ingredientButton.setOnClickListener {
@@ -52,19 +51,10 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        val linearLayoutManagerCatch = LinearLayoutManager(this)
-        recyclerCatchphrase = findViewById(R.id.catchPhrases)
-        recyclerCatchphrase?.layoutManager = linearLayoutManagerCatch
-        recyclerCatchphrase?.adapter = RecyclerAdapterMain(catchPhraseList)
-
-        val catchPhraseButton: FloatingActionButton = findViewById(R.id.catchPhraseButton)
-        catchPhraseButton.setOnClickListener {
-            addCatchPhrase()
-        }
-        val inputCatch: EditText = findViewById(R.id.inputCatchPhrase)
-        inputCatch.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+        val inputSearch: EditText = findViewById(R.id.inputSearch)
+        inputSearch.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                addCatchPhrase()
+                search(view)
                 val focus = this.currentFocus
                 if (focus != null) {
                     val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -97,8 +87,16 @@ class MainActivity : AppCompatActivity() {
 
     /** Called when the user taps the Search button */
     fun search(view: View) {
-        val intent = Intent(this, ResultList::class.java)
-        startActivity(intent)
+        val inputSearch: EditText = findViewById(R.id.inputSearch)
+        val text = inputSearch.text.toString()
+        if(!(text == "" && ingredientList.size == 0)) {
+            val intent = Intent(this, ResultList::class.java)
+            if(text != "") {
+                intent.putExtra("searchString", text)
+            }
+            intent.putExtra("ingredients", ingredientList)
+            startActivity(intent)
+        }
     }
 
     private fun addIngredient() {
@@ -114,18 +112,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkDoubles(toAdd: String, list: ArrayList<Ingredient>): Boolean {
         return list.contains(Ingredient(toAdd))
-    }
-
-
-    private fun addCatchPhrase() {
-        val input: EditText = findViewById(R.id.inputCatchPhrase)
-        val text = input.text.toString()
-        if(text != "" && !checkDoubles(text, catchPhraseList)) {
-            catchPhraseList.add(Ingredient(text))
-            recyclerIngredients?.adapter?.notifyDataSetChanged()
-            recyclerCatchphrase?.scrollToPosition(catchPhraseList.size - 1)
-            input.text.clear()
-        }
     }
 
 }
