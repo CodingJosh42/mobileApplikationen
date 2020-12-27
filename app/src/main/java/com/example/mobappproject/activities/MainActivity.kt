@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
@@ -41,11 +42,6 @@ class MainActivity : AppCompatActivity() {
         inputIng.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 addIngredient()
-                val focus = this.currentFocus
-                if (focus != null) {
-                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(focus.windowToken, 0)
-                }
                 return@OnKeyListener true
             }
             false
@@ -65,6 +61,18 @@ class MainActivity : AppCompatActivity() {
             }
             false
         })
+
+        // load ingredientlist from user
+        getIngredientList()
+
+        val useList = findViewById<SwitchCompat>(R.id.useList)
+        useList.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                addUserList()
+            } else {
+                removeUserList()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -110,9 +118,14 @@ class MainActivity : AppCompatActivity() {
         val text = input.text.toString()
         if(text != "" && !checkDoubles(text, ingredientList)) {
             ingredientList.add(Ingredient(text))
-            recyclerIngredients?.adapter?.notifyDataSetChanged()
-            recyclerIngredients?.scrollToPosition(ingredientList.size - 1)
             input.text.clear()
+            recyclerIngredients?.adapter?.notifyDataSetChanged()
+            recyclerIngredients?.scrollToPosition(ingredientList.size -1)
+            val focus = this.currentFocus
+            if (focus != null) {
+                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(focus.windowToken, 0)
+            }
         }
     }
 
@@ -128,6 +141,26 @@ class MainActivity : AppCompatActivity() {
                 Ingredient("Milch"),
                 Ingredient("Schinken"),
         ))
+    }
+
+    private fun addUserList() {
+        if(userIngredientList.size > 0) {
+            for(ing in userIngredientList){
+                if(!checkDoubles(ing.name, ingredientList)) {
+                    ingredientList.add(ing)
+                }
+            }
+            recyclerIngredients?.adapter?.notifyDataSetChanged()
+            recyclerIngredients?.scrollToPosition(ingredientList.size - 1)
+        }
+    }
+
+    private fun removeUserList() {
+        if(userIngredientList.size > 0){
+            ingredientList.removeAll(userIngredientList)
+            recyclerIngredients?.adapter?.notifyDataSetChanged()
+            recyclerIngredients?.scrollToPosition(0)
+        }
     }
 
 
