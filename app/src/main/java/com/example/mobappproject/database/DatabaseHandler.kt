@@ -14,13 +14,10 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
     companion object{
         private const val DB_NAME = "Recipe_Database"
         private const val DB_Version = 1
-        private const val TABLE_USER = "UserTable"
         private const val TABLE_INGREDIENT = "IngredientTable"
         private const val TABLE_QUANTITY = "QuantityTable"
         private const val TABLE_RECIPE = "RecipeTable"
 
-        //TABLE_USER Content
-        private const val USER_KEY_ID = "_id"
         //TABLE_INGREDIENT Content
         private const val INGREDIENT_KEY_ID = "_id"
         private const val INGREDIENT_KEY_NAME = "name"
@@ -39,25 +36,26 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_INGREDIENT_TABLE = ("CREATE TABLE " + TABLE_INGREDIENT + "("
-                + INGREDIENT_KEY_ID + "INTEGER PRIMARY KEY,"
-                + INGREDIENT_KEY_NAME + "TEXT,"
-                + INGREDIENT_KEY_SPICE + "INTEGER DEFAULT 0,"
-                + INGREDIENT_KEY_STORED + "INTEGER DEFAULT 0" + ")")
+                + INGREDIENT_KEY_ID + " INTEGER PRIMARY KEY,"
+                + INGREDIENT_KEY_NAME + " TEXT,"
+                + INGREDIENT_KEY_SPICE + " INTEGER DEFAULT 0,"
+                + INGREDIENT_KEY_STORED + " INTEGER DEFAULT 0" + ")")
 
         val CREATE_RECIPE_TABLE = ("CREATE TABLE " + TABLE_RECIPE + "("
-                + RECIPE_KEY_ID + "INTEGER PRIMARY KEY,"
-                + RECIPE_KEY_NAME + "TEXT,"
-                + RECIPE_KEY_DESCRIPTION + "TEXT,"
-                + RECIPE_KEY_PICTURE + "TEXT" + ")")
+                + RECIPE_KEY_ID + " INTEGER PRIMARY KEY,"
+                + RECIPE_KEY_NAME + " TEXT,"
+                + RECIPE_KEY_DESCRIPTION + " TEXT,"
+                + RECIPE_KEY_PICTURE + " TEXT" + ")")
 
         val CREATE_QUANTITY_TABLE = ("CREATE TABLE " + TABLE_QUANTITY + "("
-                + QUANTITY_KEY_INGREDIENTID + "INTEGER NOT NULL,"
-                + QUANTITY_KEY_RECIPEID + "INTEGER NOT NULL,"
-                + QUANTITY_KEY_QUANTITY + "TEXT" + ")")
+                + QUANTITY_KEY_INGREDIENTID + " INTEGER NOT NULL,"
+                + QUANTITY_KEY_RECIPEID + " INTEGER NOT NULL,"
+                + QUANTITY_KEY_QUANTITY + " TEXT" + ")")
 
         db?.execSQL(CREATE_INGREDIENT_TABLE)
         db?.execSQL(CREATE_RECIPE_TABLE)
         db?.execSQL(CREATE_QUANTITY_TABLE)
+        createIngredientList(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVerison: Int, newVersion: Int) {
@@ -67,12 +65,23 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         onCreate(db)
     }
 
-    fun addIngredient(ing: DBIngredient): Long {
+    fun addIngredient(name: String): Long {
         val db = this.writableDatabase
 
         val contentValues = ContentValues()
-        contentValues.put(INGREDIENT_KEY_NAME, ing.name)
-        contentValues.put(INGREDIENT_KEY_SPICE, ing.spice)
+        contentValues.put(INGREDIENT_KEY_NAME, name)
+
+        val writeDB = db.insert(TABLE_INGREDIENT, null,contentValues )
+        db.close()
+        return writeDB
+    }
+
+    fun addSpice(name: String): Long {
+        val db = this.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(INGREDIENT_KEY_NAME, name)
+        contentValues.put(INGREDIENT_KEY_SPICE, 1)
 
         val writeDB = db.insert(TABLE_INGREDIENT, null,contentValues )
         db.close()
@@ -109,25 +118,30 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
     }
 
     /**
-     * Not finished
+     * Adds all Ingredients into the Database
      *
      */
-    fun createIngredientList():Long{
-        val db = this.writableDatabase
-
-
-
-        db.execSQL("INSERT INTO " + TABLE_INGREDIENT + "(" + INGREDIENT_KEY_NAME + ")"
-                )
-        return 0
-
+    fun createIngredientList(db: SQLiteDatabase?){
+        val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl")
+        val spice = arrayListOf<String>("Salz",  "Pfeffer")
+        var name:String
+        for(i in ing.indices){
+            name = ing[i]
+            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME) " +
+                    "VALUES(\"" +name +"\");")
+        }
+        for(i in spice.indices){
+            name = ing[i]
+            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME,$INGREDIENT_KEY_SPICE) " +
+                    "VALUES(\"" +name +"\",1);")
+        }
     }
 
     /**
-     * Get all Ingredients from Database 
+     * Get all Ingredients from Database
      * return List with all Ingredients
      */
-    fun getIngredients():List<DBIngredient>{
+    fun getIngredients():ArrayList<DBIngredient>{
         val list: ArrayList<DBIngredient> = ArrayList()
         val select = "SELECT * FROM $TABLE_INGREDIENT"
         val db = this.readableDatabase
@@ -156,6 +170,14 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
             }while (cursor.moveToNext())
         }
         return list
+    }
+
+    fun addStoreIngredient(){
+
+    }
+
+    fun removeStoreIngredient(){
+
     }
 
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Ingredient
+import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Setup Database
+        val db = DatabaseHandler(this)
 
         // Set RecyclerView
         setRecyclerView()
