@@ -14,11 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Ingredient
+import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
+import com.example.mobappproject.recycleViewIngredients.RecyclerAdapterTest
 
 class IngredientList : AppCompatActivity() {
     private var linearLayoutManager: LinearLayoutManager? = null
     var recyclerView: RecyclerView? = null
+    val db = DatabaseHandler(this)
+
     private val mIngredients = arrayListOf(
         Ingredient("Gurke"),
         Ingredient("Tomate"),
@@ -31,18 +35,22 @@ class IngredientList : AppCompatActivity() {
         Ingredient("Schinken"),
     )
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredient_list)
-
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
-        recyclerView?.adapter = RecyclerAdapter(mIngredients)
+        recyclerView?.adapter = RecyclerAdapterTest(db.getIngredients()) //mIngredients
+
+
 
         val addInput = findViewById<Button>(R.id.addInput)
         addInput.setOnClickListener {
-            addIngredient()
+            newAddIng()
+           // addIngredient()
         }
 
         val input = findViewById<EditText>(R.id.input)
@@ -81,6 +89,24 @@ class IngredientList : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun newAddIng(){
+        val input = findViewById<EditText>(R.id.input)
+        val text = input.text.toString()
+        if(text != "") {
+            if(!checkDoubles(text)) {
+                db.addIngredient(text)
+                recyclerView?.adapter?.notifyDataSetChanged()
+                recyclerView?.scrollToPosition(mIngredients.size - 1)
+                val msg = Toast.makeText(this, text + " hinzugefügt", Toast.LENGTH_SHORT)
+                msg.show()
+                input.text.clear()
+            } else {
+                val msg = Toast.makeText(this, text + " ist bereits in der Liste", Toast.LENGTH_SHORT)
+                msg.show()
+            }
+        }
     }
 
     private fun checkDoubles(toAdd: String): Boolean {
