@@ -2,7 +2,10 @@ package com.example.mobappproject.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
+import android.database.sqlite.SQLiteAbortException
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.mobappproject.dataClasses.Ingredient
 
@@ -69,6 +72,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
 
         val contentValues = ContentValues()
         contentValues.put(INGREDIENT_KEY_NAME, ing.name)
+        contentValues.put(INGREDIENT_KEY_SPICE, ing.spice)
 
         val writeDB = db.insert(TABLE_INGREDIENT, null,contentValues )
         db.close()
@@ -102,6 +106,56 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         db.close()
 
         return writeDB
+    }
+
+    /**
+     * Not finished
+     *
+     */
+    fun createIngredientList():Long{
+        val db = this.writableDatabase
+
+
+
+        db.execSQL("INSERT INTO " + TABLE_INGREDIENT + "(" + INGREDIENT_KEY_NAME + ")"
+                )
+        return 0
+
+    }
+
+    /**
+     * Get all Ingredients from Database 
+     * return List with all Ingredients
+     */
+    fun getIngredients():List<DBIngredient>{
+        val list: ArrayList<DBIngredient> = ArrayList()
+        val select = "SELECT * FROM $TABLE_INGREDIENT"
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        //Values for each Element of the Table
+        var id: Int
+        var name: String
+        var stored: Int
+        var spice: Int
+
+        try{
+            cursor = db.rawQuery(select,null)
+        }catch (e: SQLiteException){
+            db.execSQL(select)
+            return ArrayList()
+        }
+
+        if(cursor.moveToFirst()){
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_ID))
+                name = cursor.getString(cursor.getColumnIndex(INGREDIENT_KEY_NAME))
+                stored = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_STORED))
+                spice = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_SPICE))
+                val newIngredient = DBIngredient(id = id, name = name, stored = stored, spice = spice)
+                list.add(newIngredient)
+            }while (cursor.moveToNext())
+        }
+        return list
     }
 
 
