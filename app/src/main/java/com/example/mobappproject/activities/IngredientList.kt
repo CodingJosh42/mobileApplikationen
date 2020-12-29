@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Ingredient
 import com.example.mobappproject.database.DatabaseHandler
-import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapterTest
 
 class IngredientList : AppCompatActivity() {
@@ -44,8 +43,6 @@ class IngredientList : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
         recyclerView?.adapter = RecyclerAdapterTest(db.getIngredients()) //mIngredients
-
-
 
         val addInput = findViewById<Button>(R.id.addInput)
         addInput.setOnClickListener {
