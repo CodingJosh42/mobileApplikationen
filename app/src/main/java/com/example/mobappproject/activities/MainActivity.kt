@@ -11,12 +11,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Ingredient
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
+import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -109,7 +111,10 @@ class MainActivity : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerIngredients = findViewById(R.id.ingredients)
         recyclerIngredients?.layoutManager = linearLayoutManager
-        recyclerIngredients?.adapter = RecyclerAdapter(ingredientList)
+        val adapter = RecyclerAdapter(ingredientList)
+        recyclerIngredients?.adapter = adapter
+        val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
+        itemTouch.attachToRecyclerView(recyclerIngredients)
     }
 
     /**
