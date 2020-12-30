@@ -26,14 +26,13 @@ class MainActivity : AppCompatActivity() {
     private var ingredientList = ArrayList<Ingredient>()
     private var recyclerIngredients: RecyclerView? = null
     private var userIngredientList = ArrayList<Ingredient>()
-
+    private val db = DatabaseHandler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Setup Database
-        val db = DatabaseHandler(this)
+        loadIngredients()
 
         // Set RecyclerView
         setRecyclerView()
@@ -43,9 +42,6 @@ class MainActivity : AppCompatActivity() {
 
         // Set eventlistener (ENTER) for search input
         setUpSearch()
-
-        // load ingredientlist from user
-        getIngredientList()
 
         // Set onCheckedChangedListener to add and remove userIngredientList from ingredientList
         setUpSwitchButton()
@@ -186,18 +182,14 @@ class MainActivity : AppCompatActivity() {
     /**
      * Loads ingredientList from user
      */
-    private fun getIngredientList() {
-        userIngredientList.addAll(arrayListOf(
-                Ingredient("Gurke"),
-                Ingredient("Tomate"),
-                Ingredient("Käse"),
-                Ingredient("Hefe"),
-                Ingredient("Mehl"),
-                Ingredient("Butter"),
-                Ingredient("Öl"),
-                Ingredient("Milch"),
-                Ingredient("Schinken"),
-        ))
+    private fun loadIngredients() {
+        val dbIngs = db.getIngredients()
+        for (item in dbIngs){
+            val ingredient = Ingredient(item.name)
+            if(!userIngredientList.contains(ingredient)) {
+                userIngredientList.add(ingredient)
+            }
+        }
     }
 
     /**
