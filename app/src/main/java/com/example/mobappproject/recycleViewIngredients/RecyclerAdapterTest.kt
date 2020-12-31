@@ -25,7 +25,7 @@ class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>, private val
         }
     }
 
-    private fun remove(position: Int) {
+    fun remove(position: Int) {
         val ing = list[position]
         list.removeAt(position)
         if(position != 0)

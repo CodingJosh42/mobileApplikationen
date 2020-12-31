@@ -92,7 +92,7 @@
             android:gravity="start"
             android:orientation="horizontal">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/inputIngredient"
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
