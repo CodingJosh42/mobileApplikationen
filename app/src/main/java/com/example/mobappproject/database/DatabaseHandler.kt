@@ -172,8 +172,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return list
     }
 
-    fun addStoreIngredient(){
-
+    fun addStoreIngredient(ingredient: DBIngredient): Boolean {
+        return true
     }
 
     fun removeStoreIngredient(){

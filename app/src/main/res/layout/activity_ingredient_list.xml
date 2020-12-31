@@ -27,19 +27,18 @@
         android:layout_marginTop="36dp"
         />
 
-    <EditText
-        android:id="@+id/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Zutat hinzufügen"
-        android:textSize="30sp"
-        android:inputType="text"
-        android:imeOptions="actionDone"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        />
+        <AutoCompleteTextView
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Zutat hinzufügen"
+            android:textSize="30sp"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
     <Button
         android:id="@+id/addInput"
         android:layout_width="wrap_content"
