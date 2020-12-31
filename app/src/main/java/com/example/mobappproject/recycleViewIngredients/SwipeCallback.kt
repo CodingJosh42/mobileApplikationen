@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class SwipeCallback : ItemTouchHelper.SimpleCallback{
 
-    private var adapter: RecyclerAdapter? = null
+    private var adapter: RecyclerAdapterTest? = null
 
-   constructor(adapter: RecyclerAdapter): super(0, ItemTouchHelper.RIGHT)  {
+   constructor(adapter: RecyclerAdapterTest): super(0, ItemTouchHelper.RIGHT)  {
        this.adapter = adapter
    }
 
@@ -17,7 +17,7 @@ class SwipeCallback : ItemTouchHelper.SimpleCallback{
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val pos = viewHolder.adapterPosition
-        adapter?.removeItem(pos)
+        adapter?.remove(pos)
     }
 
 }

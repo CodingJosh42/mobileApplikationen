@@ -31,5 +31,16 @@ class ArrayListAdapter(context: Context, resource: Int, objects: ArrayList<DBIng
         }
     }
 
+    override fun addAll(collection: MutableCollection<out DBIngredient>) {
+        super.addAll(collection)
+        ingredients.addAll(collection)
+    }
+
+    fun removeAll(collection: MutableCollection<out DBIngredient>) {
+        ingredients.removeAll(collection)
+        for(item in collection) {
+            super.remove(item)
+        }
+    }
 
 }

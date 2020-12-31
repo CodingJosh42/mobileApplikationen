@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
@@ -13,6 +14,7 @@ import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapterTest
+import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 
 
 class IngredientList : AppCompatActivity() {
@@ -81,8 +83,8 @@ class IngredientList : AppCompatActivity() {
         recyclerView?.layoutManager = linearLayoutManager
         val adapter = RecyclerAdapterTest(mIngredients, arrayListAdapter!!)
         recyclerView?.adapter = adapter
-        /*val itemTouch = ItemTouchHelper(SwipeCallback(adapter)
-        itemTouch.attachToRecyclerView(recyclerView)*/
+        val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
+        itemTouch.attachToRecyclerView(recyclerView)
     }
 
     /**

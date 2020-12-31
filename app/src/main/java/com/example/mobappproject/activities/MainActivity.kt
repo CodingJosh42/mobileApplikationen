@@ -16,17 +16,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Ingredient
+import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
+import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
+import com.example.mobappproject.recycleViewIngredients.RecyclerAdapterTest
 import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
-    private var ingredientList = ArrayList<Ingredient>()
+    private var ingredientList = ArrayList<DBIngredient>()
     private var recyclerIngredients: RecyclerView? = null
-    private var userIngredientList = ArrayList<Ingredient>()
+    private var userIngredientList = ArrayList<DBIngredient>()
     private val db = DatabaseHandler(this)
+    private val availableIngredients = ArrayList<DBIngredient>()
+    private var arrayListAdapter: ArrayListAdapter ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +39,11 @@ class MainActivity : AppCompatActivity() {
 
         loadIngredients()
 
-        // Set RecyclerView
-        setRecyclerView()
-
         // Set onClick Listener for adding Ingredients and eventListener for enter
         setUpAddIngredient()
+
+        // Set RecyclerView
+        setRecyclerView()
 
         // Set eventlistener (ENTER) for search input
         setUpSearch()
@@ -90,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             addIngredient()
         }
 
-        val inputIng: EditText = findViewById(R.id.inputIngredient)
+        val inputIng: AutoCompleteTextView = findViewById(R.id.inputIngredient)
         inputIng.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 addIngredient()
@@ -98,16 +103,21 @@ class MainActivity : AppCompatActivity() {
             }
             false
         })
+
+        this.arrayListAdapter = ArrayListAdapter(this,
+                android.R.layout.simple_dropdown_item_1line, availableIngredients)
+        inputIng.threshold = 1
+        inputIng.setAdapter(arrayListAdapter)
     }
 
     /**
-     * Sets up the RecylcerView of ingredients
+     * Sets up the RecylcerView of ingredients. setUpAddIngredient must be called before this
      */
     private fun setRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerIngredients = findViewById(R.id.ingredients)
         recyclerIngredients?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapter(ingredientList)
+        val adapter = RecyclerAdapterTest(ingredientList, arrayListAdapter!!)
         recyclerIngredients?.adapter = adapter
         val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
         itemTouch.attachToRecyclerView(recyclerIngredients)
@@ -164,10 +174,16 @@ class MainActivity : AppCompatActivity() {
      * Adds an ingredient to the list
      */
     private fun addIngredient() {
-        val input: EditText = findViewById(R.id.inputIngredient)
+        val input: AutoCompleteTextView = findViewById(R.id.inputIngredient)
         val text = input.text.toString()
-        if(text != "" && !checkDoubles(text, ingredientList)) {
-            ingredientList.add(Ingredient(text))
+        val fakeIng = DBIngredient(0, text, 0, 0)
+        if(text != "" && arrayListAdapter?.contains(fakeIng) == true) {
+            val index = arrayListAdapter?.indexOf(fakeIng) as Int
+            val ing = arrayListAdapter?.get(index) as DBIngredient
+            ingredientList.add(ing)
+            arrayListAdapter?.remove(ing)
+            arrayListAdapter?.notifyDataSetChanged()
+
             input.text.clear()
             recyclerIngredients?.adapter?.notifyDataSetChanged()
             recyclerIngredients?.scrollToPosition(ingredientList.size -1)
@@ -180,26 +196,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Loads ingredientList from user
+     * Loads all ingredients. Saves ingredients either in userList or availabeList
      */
     private fun loadIngredients() {
         val dbIngs = db.getIngredients()
         for (item in dbIngs){
-            val ingredient = Ingredient(item.name)
-            if(!userIngredientList.contains(ingredient)) {
-                userIngredientList.add(ingredient)
+            if(item.stored == 1 && !userIngredientList.contains(item)) {
+                userIngredientList.add(item)
+            } else if(!availableIngredients.contains(item)) {
+                availableIngredients.add(item)
             }
         }
     }
 
     /**
-     * Adds ingredients from userlist to ingredientList
+     * Adds ingredients of userlist to ingredientList
      */
     private fun addUserList() {
         if(userIngredientList.size > 0) {
             for(ing in userIngredientList){
-                if(!checkDoubles(ing.name, ingredientList)) {
+                if(arrayListAdapter?.contains(ing) == true) {
                     ingredientList.add(ing)
+                    arrayListAdapter?.remove(ing)
+                    arrayListAdapter?.notifyDataSetChanged()
                 }
             }
             recyclerIngredients?.adapter?.notifyDataSetChanged()
@@ -208,21 +227,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Removes ingredients from userList to ingredientList
+     * Removes ingredients of userList from ingredientList
      */
     private fun removeUserList() {
         if(userIngredientList.size > 0){
             ingredientList.removeAll(userIngredientList)
+            arrayListAdapter?.addAll(userIngredientList)
+            arrayListAdapter?.notifyDataSetChanged()
+
             recyclerIngredients?.adapter?.notifyDataSetChanged()
             recyclerIngredients?.scrollToPosition(0)
         }
     }
 
-    /**
-     * Checks if given list contains ingredient with given String
-     */
-    private fun checkDoubles(toAdd: String, list: ArrayList<Ingredient>): Boolean {
-        return list.contains(Ingredient(toAdd))
-    }
 
 }
