@@ -13,6 +13,7 @@ import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Ingredient
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
+import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapterTest
 
 
@@ -23,6 +24,7 @@ class IngredientList : AppCompatActivity() {
     val db = DatabaseHandler(this)
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
+    private var adapter: ArrayListAdapter ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +32,9 @@ class IngredientList : AppCompatActivity() {
 
         loadIngredients()
 
-        setRecycler()
-
         setUpInput()
 
+        setRecycler()
 
     }
 
@@ -63,7 +64,7 @@ class IngredientList : AppCompatActivity() {
             return@OnEditorActionListener handled
         })
 
-        val adapter: ArrayAdapter<DBIngredient> = ArrayAdapter<DBIngredient>(this,
+        this.adapter = ArrayListAdapter(this,
                 android.R.layout.simple_dropdown_item_1line, availableIngredients)
         input.threshold = 1
         input.setAdapter(adapter)
@@ -73,7 +74,7 @@ class IngredientList : AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapterTest(mIngredients, availableIngredients)
+        val adapter = RecyclerAdapterTest(mIngredients, adapter!!)
         recyclerView?.adapter = adapter
         /*val itemTouch = ItemTouchHelper(SwipeCallback(adapter)
         itemTouch.attachToRecyclerView(recyclerView)*/
@@ -84,11 +85,12 @@ class IngredientList : AppCompatActivity() {
         val text = input.text.toString()
         if(text != "") {
             val fakeIng = DBIngredient(0,text,0,0)
-            if(availableIngredients.contains(fakeIng) ) {
+            if(adapter?.contains(fakeIng) == true) {
                 val index = availableIngredients.indexOf(fakeIng)
                 val ing = availableIngredients[index]
                 if (db.addStoreIngredient(ing)) {
-                    availableIngredients.remove(ing)
+                    adapter?.remove(ing)
+                    adapter?.notifyDataSetChanged()
                     ing.stored = 1
                     mIngredients.add(ing)
 

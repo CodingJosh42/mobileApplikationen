@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.dataClasses.Ingredient
 import com.example.mobappproject.database.DBIngredient
 
-class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>, private val availableList: ArrayList<DBIngredient>) : RecyclerView.Adapter<IngredientHolderTest>() {
+class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>, private val adapter: ArrayListAdapter) : RecyclerView.Adapter<IngredientHolderTest>() {
 
     private var ingredient: DBIngredient? = null
 
@@ -32,7 +32,8 @@ class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>, private val
             notifyItemRangeChanged(position, list.size)
         else
             notifyDataSetChanged()
-        availableList.add(ing)
+        adapter.add(ing)
+        adapter.notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
