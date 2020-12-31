@@ -2,7 +2,6 @@ package com.example.mobappproject.activities
 
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
-import com.example.mobappproject.dataClasses.Ingredient
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
@@ -24,7 +22,7 @@ class IngredientList : AppCompatActivity() {
     val db = DatabaseHandler(this)
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
-    private var adapter: ArrayListAdapter ?= null
+    private var arrayListAdapter: ArrayListAdapter ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +36,10 @@ class IngredientList : AppCompatActivity() {
 
     }
 
+    /**
+     * Sets up the AutoCompleteTextView. Adds onClickListener, setOnEditorActionListener to input.
+     * Initializes the arrayListAdapter and adds it to input
+     */
     private fun setUpInput() {
         val addInput = findViewById<Button>(R.id.addInput)
         addInput.setOnClickListener {
@@ -64,33 +66,40 @@ class IngredientList : AppCompatActivity() {
             return@OnEditorActionListener handled
         })
 
-        this.adapter = ArrayListAdapter(this,
+        this.arrayListAdapter = ArrayListAdapter(this,
                 android.R.layout.simple_dropdown_item_1line, availableIngredients)
         input.threshold = 1
-        input.setAdapter(adapter)
+        input.setAdapter(arrayListAdapter)
     }
 
+    /**
+     * Sets up the Recycler. setUpInput must be called before this to initialize the arrayListAdapter
+     */
     private fun setRecycler() {
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapterTest(mIngredients, adapter!!)
+        val adapter = RecyclerAdapterTest(mIngredients, arrayListAdapter!!)
         recyclerView?.adapter = adapter
         /*val itemTouch = ItemTouchHelper(SwipeCallback(adapter)
         itemTouch.attachToRecyclerView(recyclerView)*/
     }
 
+    /**
+     * Called when the user wants to add an Ingredient to his List
+     * Adds the ingredient to the user list and removes it from the availableList
+     */
     private fun addIngredient(){
         val input = findViewById<AutoCompleteTextView>(R.id.input)
         val text = input.text.toString()
         if(text != "") {
             val fakeIng = DBIngredient(0,text,0,0)
-            if(adapter?.contains(fakeIng) == true) {
-                val index = adapter?.indexOf(fakeIng) as Int
-                val ing = adapter?.get(index) as DBIngredient
+            if(arrayListAdapter?.contains(fakeIng) == true) {
+                val index = arrayListAdapter?.indexOf(fakeIng) as Int
+                val ing = arrayListAdapter?.get(index) as DBIngredient
                 if (db.addStoreIngredient(ing)) {
-                    adapter?.remove(ing)
-                    adapter?.notifyDataSetChanged()
+                    arrayListAdapter?.remove(ing)
+                    arrayListAdapter?.notifyDataSetChanged()
                     ing.stored = 1
                     mIngredients.add(ing)
 
@@ -110,7 +119,10 @@ class IngredientList : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Loads all Ingredients from the database. Adds ingredients either to the users ingredientList
+     * or to the available IngredientList
+     */
     private fun loadIngredients() {
         val dbIngs = db.getIngredients()
         for (item in dbIngs){
