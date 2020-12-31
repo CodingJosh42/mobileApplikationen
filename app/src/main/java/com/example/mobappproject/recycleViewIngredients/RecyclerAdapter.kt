@@ -35,9 +35,4 @@ class RecyclerAdapter(private val list: ArrayList<Ingredient>) : RecyclerView.Ad
         return  list.size
     }
 
-    fun getList(): ArrayList<Ingredient>  {
-        return list
-    }
-
-
 }

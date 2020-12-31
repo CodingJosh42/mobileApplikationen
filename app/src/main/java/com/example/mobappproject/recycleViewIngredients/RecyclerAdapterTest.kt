@@ -8,14 +8,16 @@ import com.example.mobappproject.database.DBIngredient
 
 class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>) : RecyclerView.Adapter<IngredientHolderTest>() {
 
+    private var ingredient: DBIngredient? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientHolderTest {
         val inflater = LayoutInflater.from(parent.context)
         return IngredientHolderTest(inflater, parent)
     }
 
     override fun onBindViewHolder(holder: IngredientHolderTest, position: Int) {
-        val ingredient: DBIngredient = list[position]
-        holder.bind(ingredient)
+        this.ingredient = list[position]
+        holder.bind(ingredient!!)
 
         val button = holder.getButton()
         button?.setOnClickListener {
