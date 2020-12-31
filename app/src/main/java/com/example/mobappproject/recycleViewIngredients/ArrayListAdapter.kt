@@ -11,5 +11,12 @@ class ArrayListAdapter(context: Context, resource: Int, objects: ArrayList<DBIng
         return ingredients.contains(ingredient)
     }
 
+    fun indexOf(ingredient: DBIngredient): Int {
+        return ingredients.indexOf(ingredient)
+    }
+
+    fun get(position: Int): DBIngredient{
+        return ingredients[position]
+    }
 
 }

@@ -86,8 +86,8 @@ class IngredientList : AppCompatActivity() {
         if(text != "") {
             val fakeIng = DBIngredient(0,text,0,0)
             if(adapter?.contains(fakeIng) == true) {
-                val index = availableIngredients.indexOf(fakeIng)
-                val ing = availableIngredients[index]
+                val index = adapter?.indexOf(fakeIng) as Int
+                val ing = adapter?.get(index) as DBIngredient
                 if (db.addStoreIngredient(ing)) {
                     adapter?.remove(ing)
                     adapter?.notifyDataSetChanged()
@@ -103,10 +103,7 @@ class IngredientList : AppCompatActivity() {
                     val msg = Toast.makeText(this, text + " konnte nicht abgespeichert werden", Toast.LENGTH_SHORT)
                     msg.show()
                 }
-            } else if(mIngredients.contains(fakeIng)) {
-                val msg = Toast.makeText(this, text + " ist bereits in deiner Liste", Toast.LENGTH_SHORT)
-                msg.show()
-            } else {
+            }  else {
                 val msg = Toast.makeText(this, text + " ist keine valide Zutat", Toast.LENGTH_SHORT)
                 msg.show()
             }
