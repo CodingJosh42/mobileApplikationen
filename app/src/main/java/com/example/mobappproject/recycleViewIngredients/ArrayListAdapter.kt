@@ -19,4 +19,17 @@ class ArrayListAdapter(context: Context, resource: Int, objects: ArrayList<DBIng
         return ingredients[position]
     }
 
+    override fun remove(`object`: DBIngredient?) {
+        super.remove(`object`)
+        ingredients.remove(`object`)
+    }
+
+    override fun add(`object`: DBIngredient?) {
+        super.add(`object`)
+        if (`object` != null) {
+            ingredients.add(`object`)
+        }
+    }
+
+
 }
