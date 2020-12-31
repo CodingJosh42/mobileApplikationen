@@ -101,6 +101,9 @@ class IngredientList : AppCompatActivity() {
                     val msg = Toast.makeText(this, text + " konnte nicht abgespeichert werden", Toast.LENGTH_SHORT)
                     msg.show()
                 }
+            } else {
+                val msg = Toast.makeText(this, text + " ist keine valide Zutat", Toast.LENGTH_SHORT)
+                msg.show()
             }
         }
     }
