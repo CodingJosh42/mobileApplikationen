@@ -23,7 +23,6 @@ class IngredientList : AppCompatActivity() {
     val db = DatabaseHandler(this)
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
-    private var selection: DBIngredient?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,9 +67,6 @@ class IngredientList : AppCompatActivity() {
                 android.R.layout.simple_dropdown_item_1line, availableIngredients)
         input.threshold = 1
         input.setAdapter(adapter)
-        input.setOnItemClickListener { parent, view, position, id ->
-            selection = parent.getItemAtPosition(position) as DBIngredient
-        }
     }
 
     private fun setRecycler() {
@@ -87,8 +83,10 @@ class IngredientList : AppCompatActivity() {
         val input = findViewById<AutoCompleteTextView>(R.id.input)
         val text = input.text.toString()
         if(text != "") {
-            if(selection != null) {
-                val ing: DBIngredient =  selection as DBIngredient
+            val fakeIng = DBIngredient(0,text,0,0)
+            if(availableIngredients.contains(fakeIng) ) {
+                val index = availableIngredients.indexOf(fakeIng)
+                val ing = availableIngredients[index]
                 if (db.addStoreIngredient(ing)) {
                     availableIngredients.remove(ing)
                     ing.stored = 1
@@ -99,13 +97,10 @@ class IngredientList : AppCompatActivity() {
                     val msg = Toast.makeText(this, text + " hinzugefügt", Toast.LENGTH_SHORT)
                     msg.show()
                     input.text.clear()
-                    selection = null
                 } else {
                     val msg = Toast.makeText(this, text + " konnte nicht abgespeichert werden", Toast.LENGTH_SHORT)
                     msg.show()
                 }
-            } else {
-                System.out.println("Nichts selected")
             }
         }
     }
