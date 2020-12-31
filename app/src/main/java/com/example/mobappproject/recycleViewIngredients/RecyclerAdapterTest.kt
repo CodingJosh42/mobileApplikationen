@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.dataClasses.Ingredient
 import com.example.mobappproject.database.DBIngredient
 
-class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>) : RecyclerView.Adapter<IngredientHolderTest>() {
+class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>, private val availableList: ArrayList<DBIngredient>) : RecyclerView.Adapter<IngredientHolderTest>() {
 
     private var ingredient: DBIngredient? = null
 
@@ -21,12 +21,18 @@ class RecyclerAdapterTest(private val list: ArrayList<DBIngredient>) : RecyclerV
 
         val button = holder.getButton()
         button?.setOnClickListener {
-            list.removeAt(position)
-            if(position != 0)
-                notifyItemRangeChanged(position, list.size)
-            else
-                notifyDataSetChanged()
+            remove(position)
         }
+    }
+
+    private fun remove(position: Int) {
+        val ing = list[position]
+        list.removeAt(position)
+        if(position != 0)
+            notifyItemRangeChanged(position, list.size)
+        else
+            notifyDataSetChanged()
+        availableList.add(ing)
     }
 
     override fun getItemCount(): Int {

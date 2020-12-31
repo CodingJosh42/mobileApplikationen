@@ -73,7 +73,7 @@ class IngredientList : AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapterTest(mIngredients)
+        val adapter = RecyclerAdapterTest(mIngredients, availableIngredients)
         recyclerView?.adapter = adapter
         /*val itemTouch = ItemTouchHelper(SwipeCallback(adapter)
         itemTouch.attachToRecyclerView(recyclerView)*/
@@ -101,6 +101,9 @@ class IngredientList : AppCompatActivity() {
                     val msg = Toast.makeText(this, text + " konnte nicht abgespeichert werden", Toast.LENGTH_SHORT)
                     msg.show()
                 }
+            } else if(mIngredients.contains(fakeIng)) {
+                val msg = Toast.makeText(this, text + " ist bereits in deiner Liste", Toast.LENGTH_SHORT)
+                msg.show()
             } else {
                 val msg = Toast.makeText(this, text + " ist keine valide Zutat", Toast.LENGTH_SHORT)
                 msg.show()
