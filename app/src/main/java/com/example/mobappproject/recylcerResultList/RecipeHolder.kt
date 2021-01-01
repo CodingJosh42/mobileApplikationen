@@ -15,7 +15,7 @@ import com.example.mobappproject.dataClasses.Recipe
 
 
 class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_ist_item, parent, false)) {
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_ist_item, parent, false)){
     private var title: TextView? = null
     private var img: ImageView? = null
     private var ingredients: TextView? = null
@@ -30,12 +30,14 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     }
 
     fun bind(recipe: Recipe, context: Context) {
-        title?.text = recipe.title
-        title?.setOnClickListener {
+        itemView.setOnClickListener {
             val intent = Intent(context, ShowRecipe::class.java)
             intent.putExtra("Id", recipe.id)
             context.startActivity(intent)
         }
+
+        title?.text = recipe.title
+
         var ings = "Zutaten: "
         for(i in 0 until recipe.ingredients.size){
             ings += recipe.ingredients[i]
@@ -56,5 +58,6 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
 
         img?.setImageResource(recipe.imgId)
     }
+
 
 }
