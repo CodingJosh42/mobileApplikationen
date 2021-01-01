@@ -5,16 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.IngredientList">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
 
     <TextView
         android:id="@+id/title"
@@ -25,40 +15,17 @@
         android:textSize="40sp"
         android:textColor="@color/black"
         android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
-        <AutoCompleteTextView
-            android:id="@+id/input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Zutat hinzufügen"
-            android:textSize="30sp"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            android:layout_below="@+id/title"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
-    <Button
-        android:id="@+id/addInput"
-        android:layout_width="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
         android:layout_height="wrap_content"
-        android:text="Hinzugügen"
-        android:layout_below="@+id/input"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        />
-    </RelativeLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/relativeLayout"
-         />
-
-    </RelativeLayout>
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

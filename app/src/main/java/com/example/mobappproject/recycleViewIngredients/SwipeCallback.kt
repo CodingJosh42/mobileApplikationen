@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class SwipeCallback : ItemTouchHelper.SimpleCallback{
 
-    private var adapter: RecyclerAdapterTest? = null
+    private var adapter: RecyclerAdapter? = null
 
-   constructor(adapter: RecyclerAdapterTest): super(0, ItemTouchHelper.RIGHT)  {
+   constructor(adapter: RecyclerAdapter): super(0, ItemTouchHelper.RIGHT)  {
        this.adapter = adapter
    }
 
