@@ -21,7 +21,7 @@ import com.example.mobappproject.R
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
-import com.example.mobappproject.recycleViewIngredients.RecyclerAdapterTest
+import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 
 class ListFragment : Fragment() {
@@ -108,7 +108,7 @@ class ListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity)
         recyclerView = v.findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapterTest(mIngredients, arrayListAdapter!!)
+        val adapter = RecyclerAdapter(mIngredients, arrayListAdapter!!)
         recyclerView?.adapter = adapter
         val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
         itemTouch.attachToRecyclerView(recyclerView)
