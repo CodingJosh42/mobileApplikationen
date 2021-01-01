@@ -199,9 +199,9 @@ class MainActivity : AppCompatActivity() {
     private fun loadIngredients() {
         val dbIngs = db.getIngredients()
         for (item in dbIngs){
-            if(item.stored == 1 && !userIngredientList.contains(item)) {
+            if(item.stored == 1 && item.spice==0 && !userIngredientList.contains(item)) {
                 userIngredientList.add(item)
-            } else if(!availableIngredients.contains(item)) {
+            } else if(!availableIngredients.contains(item) && item.stored == 0) {
                 availableIngredients.add(item)
             }
         }
