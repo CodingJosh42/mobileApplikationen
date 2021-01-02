@@ -76,6 +76,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return writeDB
     }
 
+
+
     fun addSpice(name: String): Long {
         val db = this.writableDatabase
 
@@ -172,13 +174,29 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return list
     }
 
-    fun addStoreIngredient(ingredient: DBIngredient): Boolean {
-        return true
+    /**
+     *
+     */
+    fun addStoreIngredient(ingredient: DBIngredient): Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(INGREDIENT_KEY_STORED, 1)
+        val writeDB = db.update(TABLE_INGREDIENT,contentValues, INGREDIENT_KEY_ID +"="+ ingredient.id,null)
+        db.close()
+        return writeDB
     }
 
-    fun removeStoreIngredient(){
+    fun removeStoreIngredient(ingredient: DBIngredient): Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(INGREDIENT_KEY_STORED, 0)
+        val writeDB = db.update(TABLE_INGREDIENT,contentValues, INGREDIENT_KEY_ID +"="+ ingredient.id,null)
+        db.close()
+        return writeDB
 
     }
+
+
 
 
 
