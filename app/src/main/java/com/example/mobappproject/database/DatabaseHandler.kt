@@ -121,8 +121,6 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return writeDB
     }
 
-
-
     /**
      * Get all Ingredients from Database
      * return List with all Ingredients
@@ -188,7 +186,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
      * Adds all Ingredients into the Database
      *
      */
-    fun createIngredientList(db: SQLiteDatabase?){
+    private fun createIngredientList(db: SQLiteDatabase?){
         val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl", "Mozzarella", "Salat", "Zitrone", "Olivenöl", "Essig")
         val spice = arrayListOf<String>("Salz",  "Pfeffer")
         var name:String
