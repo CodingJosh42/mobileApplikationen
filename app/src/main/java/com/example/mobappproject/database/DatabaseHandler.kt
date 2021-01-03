@@ -196,7 +196,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
                     "VALUES(\"" +name +"\");")
         }
         for(i in spice.indices){
-            name = ing[i]
+            name = spice[i]
             db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME,$INGREDIENT_KEY_SPICE) " +
                     "VALUES(\"" +name +"\",1);")
         }
