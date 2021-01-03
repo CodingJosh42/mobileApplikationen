@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerIngredients = findViewById(R.id.ingredients)
         recyclerIngredients?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapter(ingredientList, arrayListAdapter!!, db)
+        val adapter = RecyclerAdapter(ingredientList, arrayListAdapter!!, null)
         recyclerIngredients?.adapter = adapter
         val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
         itemTouch.attachToRecyclerView(recyclerIngredients)
@@ -198,11 +198,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadIngredients() {
         val dbIngs = db.getIngredients()
+        availableIngredients.addAll(dbIngs)
         for (item in dbIngs){
             if(item.stored == 1 && item.spice==0 && !userIngredientList.contains(item)) {
                 userIngredientList.add(item)
-            } else if(!availableIngredients.contains(item) && item.stored == 0) {
-                availableIngredients.add(item)
             }
         }
     }

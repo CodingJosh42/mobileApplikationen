@@ -127,7 +127,7 @@ class ListFragment : Fragment() {
                 val index = arrayListAdapter?.indexOf(fakeIng) as Int
                 val ing = arrayListAdapter?.get(index) as DBIngredient
 
-                if (db?.addStoreIngredient(ing)!! > -1 ) {
+                if (db.addStoreIngredient(ing) > -1 ) {
                     arrayListAdapter?.remove(ing)
                     arrayListAdapter?.notifyDataSetChanged()
                     ing.stored = 1
@@ -155,23 +155,18 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun removeIngredient(){
-
-    }
 
     /**
      * Loads all Ingredients from the database. Adds ingredients either to the users ingredientList
      * or to the available IngredientList
      */
     private fun loadIngredients() {
-        val dbIngs = db?.getIngredients()
-        if (dbIngs != null) {
-            for (item in dbIngs){
-                if(item.stored == 1 && item.spice == isSpice && !mIngredients.contains(item)) {
-                    mIngredients.add(item)
-                } else if(!availableIngredients.contains(item) && item.spice == isSpice){
-                    availableIngredients.add(item)
-                }
+        val dbIngs = db.getIngredients()
+        for (item in dbIngs){
+            if(item.stored == 1 && item.spice == isSpice && !mIngredients.contains(item)) {
+                mIngredients.add(item)
+            } else if(!availableIngredients.contains(item) && item.spice == isSpice){
+                availableIngredients.add(item)
             }
         }
     }
