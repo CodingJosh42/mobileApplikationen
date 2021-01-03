@@ -28,7 +28,7 @@ class ListFragment : Fragment() {
 
     private var linearLayoutManager: LinearLayoutManager? = null
     var recyclerView: RecyclerView? = null
-    private var db: DatabaseHandler ?= null
+    private lateinit var db: DatabaseHandler
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
     private var arrayListAdapter: ArrayListAdapter ?= null
@@ -108,7 +108,7 @@ class ListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity)
         recyclerView = v.findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapter(mIngredients, arrayListAdapter!!)
+        val adapter = RecyclerAdapter(mIngredients, arrayListAdapter!!, db)
         recyclerView?.adapter = adapter
         val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
         itemTouch.attachToRecyclerView(recyclerView)
@@ -153,6 +153,10 @@ class ListFragment : Fragment() {
                 msg.show()
             }
         }
+    }
+
+    private fun removeIngredient(){
+
     }
 
     /**

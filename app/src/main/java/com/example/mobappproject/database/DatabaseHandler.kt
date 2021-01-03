@@ -119,25 +119,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return writeDB
     }
 
-    /**
-     * Adds all Ingredients into the Database
-     *
-     */
-    fun createIngredientList(db: SQLiteDatabase?){
-        val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl")
-        val spice = arrayListOf<String>("Salz",  "Pfeffer")
-        var name:String
-        for(i in ing.indices){
-            name = ing[i]
-            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME) " +
-                    "VALUES(\"" +name +"\");")
-        }
-        for(i in spice.indices){
-            name = ing[i]
-            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME,$INGREDIENT_KEY_SPICE) " +
-                    "VALUES(\"" +name +"\",1);")
-        }
-    }
+
 
     /**
      * Get all Ingredients from Database
@@ -200,6 +182,30 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
 
     }
 
+    /**
+     * Adds all Ingredients into the Database
+     *
+     */
+    fun createIngredientList(db: SQLiteDatabase?){
+        val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl", "Mozzarella", "Salat", "Zitrone", "Olivenöl", "Essig")
+        val spice = arrayListOf<String>("Salz",  "Pfeffer")
+        var name:String
+        for(i in ing.indices){
+            name = ing[i]
+            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME) " +
+                    "VALUES(\"" +name +"\");")
+        }
+        for(i in spice.indices){
+            name = ing[i]
+            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME,$INGREDIENT_KEY_SPICE) " +
+                    "VALUES(\"" +name +"\",1);")
+        }
+    }
+
+    private fun createRecipeList(db: SQLiteDatabase?){
+        val recipes = arrayListOf<DBRecipe>()
+        recipes.add(DBRecipe(0,"Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", "", null))
+    }
 
 
 
