@@ -76,6 +76,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return writeDB
     }
 
+
+
     fun addSpice(name: String): Long {
         val db = this.writableDatabase
 
@@ -118,26 +120,6 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
     }
 
     /**
-     * Adds all Ingredients into the Database
-     *
-     */
-    fun createIngredientList(db: SQLiteDatabase?){
-        val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl")
-        val spice = arrayListOf<String>("Salz",  "Pfeffer")
-        var name:String
-        for(i in ing.indices){
-            name = ing[i]
-            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME) " +
-                    "VALUES(\"" +name +"\");")
-        }
-        for(i in spice.indices){
-            name = spice[i]
-            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME,$INGREDIENT_KEY_SPICE) " +
-                    "VALUES(\"" +name +"\",1);")
-        }
-    }
-
-    /**
      * Get all Ingredients from Database
      * return List with all Ingredients
      */
@@ -172,13 +154,57 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return list
     }
 
-    fun addStoreIngredient(ingredient: DBIngredient): Boolean {
-        return true
-    }
-
-    fun removeStoreIngredient(){
+    fun getStoredIngredients(){
 
     }
+
+    /**
+     *
+     */
+    fun addStoreIngredient(ingredient: DBIngredient): Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(INGREDIENT_KEY_STORED, 1)
+        val writeDB = db.update(TABLE_INGREDIENT,contentValues, INGREDIENT_KEY_ID +"="+ ingredient.id,null)
+        db.close()
+        return writeDB
+    }
+
+    fun removeStoreIngredient(ingredient: DBIngredient): Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(INGREDIENT_KEY_STORED, 0)
+        val writeDB = db.update(TABLE_INGREDIENT,contentValues, INGREDIENT_KEY_ID +"="+ ingredient.id,null)
+        db.close()
+        return writeDB
+
+    }
+
+    /**
+     * Adds all Ingredients into the Database
+     *
+     */
+    private fun createIngredientList(db: SQLiteDatabase?){
+        val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl", "Mozzarella", "Salat", "Zitrone", "Olivenöl", "Essig")
+        val spice = arrayListOf<String>("Salz",  "Pfeffer")
+        var name:String
+        for(i in ing.indices){
+            name = ing[i]
+            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME) " +
+                    "VALUES(\"" +name +"\");")
+        }
+        for(i in spice.indices){
+            name = ing[i]
+            db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME,$INGREDIENT_KEY_SPICE) " +
+                    "VALUES(\"" +name +"\",1);")
+        }
+    }
+
+    private fun createRecipeList(db: SQLiteDatabase?){
+        val recipes = arrayListOf<DBRecipe>()
+        recipes.add(DBRecipe(0,"Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", "", null))
+    }
+
 
 
 

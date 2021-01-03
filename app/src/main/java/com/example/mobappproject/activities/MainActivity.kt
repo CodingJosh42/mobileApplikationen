@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerIngredients = findViewById(R.id.ingredients)
         recyclerIngredients?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapter(ingredientList, arrayListAdapter!!)
+        val adapter = RecyclerAdapter(ingredientList, arrayListAdapter!!, db)
         recyclerIngredients?.adapter = adapter
         val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
         itemTouch.attachToRecyclerView(recyclerIngredients)

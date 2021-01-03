@@ -28,7 +28,7 @@ class ListFragment : Fragment() {
 
     private var linearLayoutManager: LinearLayoutManager? = null
     var recyclerView: RecyclerView? = null
-    private var db: DatabaseHandler ?= null
+    private lateinit var db: DatabaseHandler
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
     private var arrayListAdapter: ArrayListAdapter ?= null
@@ -108,7 +108,7 @@ class ListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity)
         recyclerView = v.findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapter(mIngredients, arrayListAdapter!!)
+        val adapter = RecyclerAdapter(mIngredients, arrayListAdapter!!, db)
         recyclerView?.adapter = adapter
         val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
         itemTouch.attachToRecyclerView(recyclerView)
@@ -126,7 +126,8 @@ class ListFragment : Fragment() {
             if(arrayListAdapter?.contains(fakeIng) == true) {
                 val index = arrayListAdapter?.indexOf(fakeIng) as Int
                 val ing = arrayListAdapter?.get(index) as DBIngredient
-                if (db?.addStoreIngredient(ing) == true) {
+
+                if (db?.addStoreIngredient(ing)!! > -1 ) {
                     arrayListAdapter?.remove(ing)
                     arrayListAdapter?.notifyDataSetChanged()
                     ing.stored = 1
@@ -154,6 +155,10 @@ class ListFragment : Fragment() {
         }
     }
 
+    private fun removeIngredient(){
+
+    }
+
     /**
      * Loads all Ingredients from the database. Adds ingredients either to the users ingredientList
      * or to the available IngredientList
@@ -170,6 +175,8 @@ class ListFragment : Fragment() {
             }
         }
     }
+
+
 
     companion object {
         @JvmStatic
