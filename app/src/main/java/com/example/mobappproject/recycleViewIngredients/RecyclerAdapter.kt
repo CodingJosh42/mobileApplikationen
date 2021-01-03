@@ -34,16 +34,19 @@ class RecyclerAdapter(private val list: ArrayList<DBIngredient>, private val ada
 
     fun remove(position: Int) {
         val ing = list[position]
+        var succes = 1
         if(db != null) {
-            db.removeStoreIngredient(ing)
+            succes = db.removeStoreIngredient(ing)
         }
-        list.removeAt(position)
-        if(position != 0)
-            notifyItemRangeChanged(position, list.size)
-        else
-            notifyDataSetChanged()
-        adapter.add(ing)
-        adapter.notifyDataSetChanged()
+        if(succes > -1) {
+            list.removeAt(position)
+            if (position != 0)
+                notifyItemRangeChanged(position, list.size)
+            else
+                notifyDataSetChanged()
+            adapter.add(ing)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int {
