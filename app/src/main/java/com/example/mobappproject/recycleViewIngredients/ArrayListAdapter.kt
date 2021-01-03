@@ -33,8 +33,12 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     }
 
     override fun addAll(collection: MutableCollection<out DBIngredient>) {
-        super.addAll(collection)
-        ingredients.addAll(collection)
+        for(item in collection) {
+            if(!ingredients.contains(item)) {
+                super.add(item)
+                ingredients.add(item)
+            }
+        }
     }
 
     fun removeAll(collection: MutableCollection<out DBIngredient>) {
