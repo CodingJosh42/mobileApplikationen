@@ -174,6 +174,10 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return list
     }
 
+    fun getStoredIngredients(){
+
+    }
+
     /**
      *
      */

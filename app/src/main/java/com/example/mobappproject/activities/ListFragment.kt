@@ -126,7 +126,8 @@ class ListFragment : Fragment() {
             if(arrayListAdapter?.contains(fakeIng) == true) {
                 val index = arrayListAdapter?.indexOf(fakeIng) as Int
                 val ing = arrayListAdapter?.get(index) as DBIngredient
-                if (db?.addStoreIngredient(ing) == true) {
+
+                if (db?.addStoreIngredient(ing)!! > -1 ) {
                     arrayListAdapter?.remove(ing)
                     arrayListAdapter?.notifyDataSetChanged()
                     ing.stored = 1
@@ -170,6 +171,8 @@ class ListFragment : Fragment() {
             }
         }
     }
+
+
 
     companion object {
         @JvmStatic
