@@ -177,6 +177,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         when (mode) {
             0-> select="SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0"
             1-> select="SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1"
+            2-> select="SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0 AND $INGREDIENT_KEY_STORED = 1"
+            3-> select="SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1 AND $INGREDIENT_KEY_STORED = 1"
             else-> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 2"
         }
 
@@ -239,6 +241,45 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
     }
 
     /**
+     * Get all quantitys for a specific recipe
+     * @param recipeID ID of the recipe
+     * @return Arraylist of quantitys
+     */
+    fun getRecipeQuantitys(recipeID: Int): ArrayList<DBQuantity>{
+        val list: ArrayList<DBQuantity> = ArrayList()
+        val select = "SELECT * FROM $TABLE_INGREDIENT JOIN $TABLE_QUANTITY" +
+                "ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
+                "JOIN $TABLE_RECIPE" +
+                "ON $TABLE_QUANTITY.$QUANTITY_KEY_RECIPEID = $TABLE_RECIPE.$RECIPE_KEY_ID " +
+                "WHERE $TABLE_RECIPE.$RECIPE_KEY_ID = $recipeID"
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        //Values for each Element of the Table
+        var recipe_id: Int
+        var ingredient_id :Int
+        var quantity: String
+        var ingredient_name: String
+
+        try{
+            cursor = db.rawQuery(select,null)
+        }catch (e: SQLiteException){
+            db.execSQL(select)
+            return ArrayList()
+        }
+
+        if(cursor.moveToFirst()){
+            do {
+                recipe_id = cursor.getInt(cursor.getColumnIndex(QUANTITY_KEY_RECIPEID))
+                ingredient_id = cursor.getInt(cursor.getColumnIndex(QUANTITY_KEY_INGREDIENTID))
+                quantity = cursor.getString(cursor.getColumnIndex(QUANTITY_KEY_QUANTITY))
+                ingredient_name = cursor.getString(cursor.getColumnIndex(INGREDIENT_KEY_NAME))
+                val newQuantity = DBQuantity(recipe_id = recipe_id, ingredient_id = ingredient_id, quantity = quantity, ingredientName = ingredient_name)
+                list.add(newQuantity)
+            }while (cursor.moveToNext())
+        }
+        return list
+    }
+    /**
      * Creating Sample Ingredients into the Database
      * @param db CreatedDatabase
      */
@@ -268,14 +309,14 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         recipes.add(DBRecipe(0,"Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", "", null))
         val contentValues = ContentValues()
         val quantitys = arrayListOf<DBQuantity>()
-        quantitys.add(DBQuantity(1,5, "3 große"))
-        quantitys.add(DBQuantity(1,6,"1"))
-        quantitys.add(DBQuantity(1,10,"nach Belieben"))
-        quantitys.add(DBQuantity(1,11,"1/2"))
-        quantitys.add(DBQuantity(1,12,""))
-        quantitys.add(DBQuantity(1,13,""))
-        quantitys.add(DBQuantity(2,14, "1kg"))
-        quantitys.add(DBQuantity(2,15,"nach Belieben"))
+        quantitys.add(DBQuantity(1,5, "3 große",""))
+        quantitys.add(DBQuantity(1,6,"1",""))
+        quantitys.add(DBQuantity(1,10,"nach Belieben",""))
+        quantitys.add(DBQuantity(1,11,"1/2",""))
+        quantitys.add(DBQuantity(1,12,"",""))
+        quantitys.add(DBQuantity(1,13,"",""))
+        quantitys.add(DBQuantity(2,14, "1kg",""))
+        quantitys.add(DBQuantity(2,15,"nach Belieben",""))
         for (i in recipes.indices){
             contentValues.clear()
             db?.execSQL("INSERT INTO $TABLE_RECIPE ($RECIPE_KEY_NAME,$RECIPE_KEY_DESCRIPTION,$RECIPE_KEY_PICTURE) " +
