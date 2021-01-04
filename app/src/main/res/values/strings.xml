@@ -6,4 +6,12 @@
     <string name="addSchlagwort">Schlagwort hinzufügen</string>
     <string name="search">Suchen</string>
     <string name="resultList">Rezeptvorschläge</string>
+    <string name="preparationTitle">Zubereitung:</string>
+    <string name="ingredientTitle">Zutaten:</string>
+    <string name="recipe_image">recipe image</string>
+    <string name="delete">Entfernen</string>
+    <string name="add">Hinzugügen</string>
+    <string name="meine_zutaten">Meine Zutaten</string>
+    <string name="use_ingredient_list">Zuatenliste verwenden</string>
+    <string name="meine_gewuerze">Meine Gewürze</string>
 </resources>

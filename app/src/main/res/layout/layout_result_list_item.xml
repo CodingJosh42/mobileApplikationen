@@ -48,7 +48,8 @@
                     android:layout_alignParentTop="true"
                     tools:layout_editor_absoluteX="117dp"
                     tools:layout_editor_absoluteY="265dp"
-                    android:src="@drawable/placeholder" />
+                    android:src="@drawable/placeholder"
+                    android:contentDescription="@string/recipe_image" />
 
                     <TextView
                         android:id="@+id/ingredients"

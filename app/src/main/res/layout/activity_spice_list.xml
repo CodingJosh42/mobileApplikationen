@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:text="Meine Gewürze"
+        android:text="@string/meine_gewuerze"
         android:textSize="40sp"
         android:textColor="@color/black"
         android:layout_marginTop="36dp"
