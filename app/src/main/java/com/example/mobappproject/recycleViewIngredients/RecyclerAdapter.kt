@@ -1,14 +1,13 @@
 package com.example.mobappproject.recycleViewIngredients
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
 
 /**
+ * Displays ingredients of list in a recyclerView
  * @param list Contains ArrayList that should be displayed
  * @param adapter ArrayListAdapter that contains the available ingredients for the AutoCompleteTextView
  * @param db DatabseHanlder to remove the ingredients from the Userlist. Does noting if null
@@ -32,6 +31,10 @@ class RecyclerAdapter(private val list: ArrayList<DBIngredient>, private val ada
         }
     }
 
+    /**
+     * Removes the ingredient from the recylcerView at the given position. Removes it also from the
+     * userlist if db is not null
+     */
     fun remove(position: Int) {
         val ing = list[position]
         var success = 1

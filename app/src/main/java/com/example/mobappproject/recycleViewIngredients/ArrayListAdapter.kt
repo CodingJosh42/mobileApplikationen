@@ -1,21 +1,35 @@
 package com.example.mobappproject.recycleViewIngredients
 
-import android.content.Context
 import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentActivity
 import com.example.mobappproject.database.DBIngredient
 
+/**
+ * Contains and displays the available ingredients
+ * @param context Fragment that uses this adapter
+ * @param resource Resource id to display ingredients
+ * @param objects List of ingredients
+ */
 class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayList<DBIngredient>) : ArrayAdapter<DBIngredient>(context, resource, objects) {
     private var ingredients = objects
 
+    /**
+     * Checks if the list of ingredients already contains the given ingredient. Returns true if yes
+     */
     fun contains(ingredient: DBIngredient): Boolean {
         return ingredients.contains(ingredient)
     }
 
+    /**
+     * Returns index of the given ingredient
+     */
     fun indexOf(ingredient: DBIngredient): Int {
         return ingredients.indexOf(ingredient)
     }
 
+    /**
+     * Returns the ingredient on the given position
+     */
     fun get(position: Int): DBIngredient{
         return ingredients[position]
     }
@@ -41,6 +55,9 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
         }
     }
 
+    /**
+     * Removes all ingredients of the given list from the ingredientlist
+     */
     fun removeAll(collection: MutableCollection<out DBIngredient>) {
         ingredients.removeAll(collection)
         for(item in collection) {

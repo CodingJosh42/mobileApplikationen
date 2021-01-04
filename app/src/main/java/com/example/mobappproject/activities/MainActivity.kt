@@ -134,7 +134,6 @@ class MainActivity : AppCompatActivity() {
      * Handles selected menu Item
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
             R.id.ingredientList -> {
                 val intent = Intent(this, IngredientList::class.java)

@@ -6,8 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.dataClasses.Recipe
 
-
-class RecylcerAdapterResult(private val context: Context, private val list: ArrayList<Recipe>) : RecyclerView.Adapter<RecipeHolder>() {
+/**
+ * Displays Recipes from the list in a recyclerView
+ * @param context Activity that uses this adapter
+ * @param list List of recipes that should be displayed
+ */
+class RecyclerAdapterResult(private val context: Context, private val list: ArrayList<Recipe>) : RecyclerView.Adapter<RecipeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         val inflater = LayoutInflater.from(parent.context)
