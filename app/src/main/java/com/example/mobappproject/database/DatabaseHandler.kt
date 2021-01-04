@@ -34,6 +34,9 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         private const val RECIPE_KEY_PICTURE = "picture"
     }
 
+    /**
+     * Creates the database
+     */
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_INGREDIENT_TABLE = ("CREATE TABLE " + TABLE_INGREDIENT + "("
                 + INGREDIENT_KEY_ID + " INTEGER PRIMARY KEY,"
@@ -59,6 +62,12 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         createRecipeList(db)
     }
 
+    /**
+     * Drops the actual Database and creates a new one
+     * @param db oldDatabase
+     * @param oldVerison old version if the database
+     * @param newVersion new version of the database
+     */
     override fun onUpgrade(db: SQLiteDatabase?, oldVerison: Int, newVersion: Int) {
         if (db != null) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUANTITY)
@@ -124,7 +133,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
 
     /**
      * Get all Ingredients from Database
-     * return List with all Ingredients
+     * @return List with all Ingredients
      */
     fun getIngredients():ArrayList<DBIngredient>{
         val list: ArrayList<DBIngredient> = ArrayList()
@@ -157,12 +166,53 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return list
     }
 
-    fun getStoredIngredients(){
+    /**
+     * Get filtered Ingredients from Database
+     * @param mode select the searchmode
+     * @return List with chosen Ingredients
+     */
+    fun getIngredients(mode: Int):ArrayList<DBIngredient>{
+        val list: ArrayList<DBIngredient> = ArrayList()
+        val select:String
+        when (mode) {
+            0-> select="SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0"
+            1-> select="SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1"
+            else-> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 2"
+        }
 
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        //Values for each Element of the Table
+        var id: Int
+        var name: String
+        var stored: Int
+        var spice: Int
+
+        try{
+            cursor = db.rawQuery(select,null)
+        }catch (e: SQLiteException){
+            db.execSQL(select)
+            return ArrayList()
+        }
+
+        if(cursor.moveToFirst()){
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_ID))
+                name = cursor.getString(cursor.getColumnIndex(INGREDIENT_KEY_NAME))
+                stored = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_STORED))
+                spice = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_SPICE))
+                val newIngredient = DBIngredient(id = id, name = name, stored = stored, spice = spice)
+                list.add(newIngredient)
+            }while (cursor.moveToNext())
+        }
+        return list
     }
 
+
     /**
-     *
+     *  Stores a selected Ingredient
+     *  @param ingredient the Ingredient, that will be stored
+     *  @return status of the update
      */
     fun addStoreIngredient(ingredient: DBIngredient): Int{
         val db = this.writableDatabase
@@ -173,6 +223,11 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return writeDB
     }
 
+    /**
+     * Removes a selected Ingredient from storage
+     * @param ingredient the Ingredient, that will be removed
+     * @return status of the update
+     */
     fun removeStoreIngredient(ingredient: DBIngredient): Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -185,7 +240,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
 
     /**
      * Creating Sample Ingredients into the Database
-     *
+     * @param db CreatedDatabase
      */
     private fun createIngredientList(db: SQLiteDatabase?){
         val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl", "Mozzarella", "Salat", "Zitrone", "Olivenöl", "Essig", "Kartoffel")
@@ -205,6 +260,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
 
     /**
      * Creating Recipe samples into the Database
+     * @param db CreatedDatabase
      */
     private fun createRecipeList(db: SQLiteDatabase?){
         val recipes = arrayListOf<DBRecipe>()
