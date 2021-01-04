@@ -155,10 +155,6 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun removeIngredient(){
-
-    }
-
     /**
      * Loads all Ingredients from the database. Adds ingredients either to the users ingredientList
      * or to the available IngredientList
