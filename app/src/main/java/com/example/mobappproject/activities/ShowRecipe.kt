@@ -12,6 +12,9 @@ import com.example.mobappproject.database.DBQuantity
 import com.example.mobappproject.recyclerShowRecipe.RecyclerAdapterShowResult
 import com.example.mobappproject.rest.RestDummy
 
+/**
+ * Displays a single recipe more detailed
+ */
 class ShowRecipe : AppCompatActivity() {
 
     private var recycler: RecyclerView? = null
@@ -22,7 +25,7 @@ class ShowRecipe : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_recipe)
 
-        val bundle = getIntent().getExtras()
+        val bundle = intent.extras
         var id = -1
         if(bundle != null) {
             id = bundle.get("Id") as Int
@@ -35,18 +38,25 @@ class ShowRecipe : AppCompatActivity() {
         }
     }
 
+    /**
+     * Loads recipe with given id
+     * @param id Id of recipe
+     */
     private fun loadRecipe(id: Int): Recipe {
         val dummy = RestDummy()
         return dummy.getRecipe(id)
     }
 
+    /**
+     * Fills title, img and preparation with values of recipe
+     */
     private fun setContent() {
 
         val title = findViewById<TextView>(R.id.title)
         title.text = recipe?.title
 
         val img = findViewById<ImageView>(R.id.imageView)
-        val imgId = this.getResources().getIdentifier(recipe?.img, "drawable", this.getPackageName())
+        val imgId = this.resources.getIdentifier(recipe?.img, "drawable", this.packageName)
         img.setImageResource(imgId)
 
         val preparation = findViewById<TextView>(R.id.preparation)
@@ -64,6 +74,9 @@ class ShowRecipe : AppCompatActivity() {
         recycler?.adapter = adapter
     }
 
+    /**
+     * Loads all quantitys of the recipe
+     */
     private fun loadQuantitys() {
         this.quantityList.addAll(arrayListOf(
                 DBQuantity(0,0,"3kg","Mehl"),

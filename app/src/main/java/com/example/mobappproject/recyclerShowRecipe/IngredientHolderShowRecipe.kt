@@ -1,17 +1,10 @@
 package com.example.mobappproject.recyclerShowRecipe
 
-
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
-import com.example.mobappproject.activities.ShowRecipe
-import com.example.mobappproject.dataClasses.Recipe
-import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DBQuantity
 
 /**
