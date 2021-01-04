@@ -23,7 +23,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/results"
             android:layout_width="match_parent"
@@ -32,8 +31,6 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:paddingBottom="20dp"
-            android:layout_below="@+id/title"
-            />
+            android:layout_below="@+id/title" />
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
