@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">MobAppProject</string>
+    <string name="app_name">What to cook?</string>
     <string name="mainTitle">Starten Sie eine Suche!</string>
     <string name="appDescription">Geben Sie  Zutaten ein auf deren Grundlage Ihnen Rezepte vorgeschlafen werden. Spezifizieren Sie Ihre Suche weiter mit Schlagwörtern wie z.B. "Nachtisch".</string>
     <string name="addZutat">Zutat hinzufügen</string>
     <string name="addSchlagwort">Schlagwort hinzufügen</string>
     <string name="search">Suchen</string>
     <string name="resultList">Rezeptvorschläge</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
