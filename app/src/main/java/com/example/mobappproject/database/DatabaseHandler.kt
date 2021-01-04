@@ -56,6 +56,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         db?.execSQL(CREATE_RECIPE_TABLE)
         db?.execSQL(CREATE_QUANTITY_TABLE)
         createIngredientList(db)
+        createRecipeList(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVerison: Int, newVersion: Int) {
@@ -183,11 +184,11 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
     }
 
     /**
-     * Adds all Ingredients into the Database
+     * Creating Sample Ingredients into the Database
      *
      */
     private fun createIngredientList(db: SQLiteDatabase?){
-        val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl", "Mozzarella", "Salat", "Zitrone", "Olivenöl", "Essig")
+        val ing = arrayListOf<String>("Apfel", "Käse","Knoblauch","Milch","Gurke","Tomate","Schinken", "Mehl", "Mozzarella", "Salat", "Zitrone", "Olivenöl", "Essig", "Kartoffel")
         val spice = arrayListOf<String>("Salz",  "Pfeffer")
         var name:String
         for(i in ing.indices){
@@ -202,9 +203,35 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         }
     }
 
+    /**
+     * Creating Recipe samples into the Database
+     */
     private fun createRecipeList(db: SQLiteDatabase?){
         val recipes = arrayListOf<DBRecipe>()
         recipes.add(DBRecipe(0,"Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", "", null))
+        recipes.add(DBRecipe(0,"Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", "", null))
+        val contentValues = ContentValues()
+        val quantitys = arrayListOf<DBQuantity>()
+        quantitys.add(DBQuantity(1,5, "3 große"))
+        quantitys.add(DBQuantity(1,6,"1"))
+        quantitys.add(DBQuantity(1,10,"nach Belieben"))
+        quantitys.add(DBQuantity(1,11,"1/2"))
+        quantitys.add(DBQuantity(1,12,""))
+        quantitys.add(DBQuantity(1,13,""))
+        quantitys.add(DBQuantity(2,14, "1kg"))
+        quantitys.add(DBQuantity(2,15,"nach Belieben"))
+        for (i in recipes.indices){
+            contentValues.clear()
+            db?.execSQL("INSERT INTO $TABLE_RECIPE ($RECIPE_KEY_NAME,$RECIPE_KEY_DESCRIPTION,$RECIPE_KEY_PICTURE) " +
+                    "VALUES(\"" + recipes[i].name +"\", \" "+ recipes[i].description +"\", \" "+ recipes[i].picture + "\" );")
+        }
+        for (i in quantitys.indices){
+            contentValues.clear()
+            contentValues.put(QUANTITY_KEY_RECIPEID,quantitys[i].recipe_id)
+            contentValues.put(QUANTITY_KEY_INGREDIENTID,quantitys[i].ingredient_id)
+            contentValues.put(QUANTITY_KEY_QUANTITY,quantitys[i].quantity)
+            db?.insert(TABLE_QUANTITY,null,contentValues)
+        }
     }
 
 
