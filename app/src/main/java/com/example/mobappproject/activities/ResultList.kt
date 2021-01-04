@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Recipe
+import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recylcerResultList.RecylcerAdapterResult
 import com.example.mobappproject.rest.RestDummy
 
@@ -14,6 +15,7 @@ class ResultList : AppCompatActivity() {
 
     private var recyclerView: RecyclerView? = null
     private var recipes = ArrayList<Recipe>()
+    private lateinit var db: DatabaseHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,13 +25,17 @@ class ResultList : AppCompatActivity() {
         recyclerView = findViewById(R.id.results)
         recyclerView?.layoutManager = linearLayoutManager
         recyclerView?.adapter = RecylcerAdapterResult(this, recipes)
-
+        db = DatabaseHandler(this)
         addViews(loadRecipes())
     }
 
     private fun loadRecipes(): List<Recipe> {
+
+
+
         val dummy = RestDummy()
         return dummy.getRecipes()
+
     }
 
 
