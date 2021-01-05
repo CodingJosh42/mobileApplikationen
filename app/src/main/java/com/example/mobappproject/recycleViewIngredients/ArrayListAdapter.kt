@@ -50,7 +50,6 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
         for(item in collection) {
             if(!ingredients.contains(item)) {
                 super.add(item)
-                ingredients.add(item)
             }
         }
     }
@@ -59,7 +58,6 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
      * Removes all ingredients of the given list from the ingredientlist
      */
     fun removeAll(collection: MutableCollection<out DBIngredient>) {
-        ingredients.removeAll(collection)
         for(item in collection) {
             super.remove(item)
         }
