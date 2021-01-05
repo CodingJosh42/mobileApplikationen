@@ -161,11 +161,11 @@ class ListFragment : Fragment() {
      * or to the available IngredientList
      */
     private fun loadIngredients() {
-        val dbIngs = db.getIngredients()
+        val dbIngs = db.getIngredients(isSpice as Int)
         for (item in dbIngs){
-            if(item.stored == 1 && item.spice == isSpice && !mIngredients.contains(item)) {
+            if(item.stored == 1 && !mIngredients.contains(item)) {
                 mIngredients.add(item)
-            } else if(!availableIngredients.contains(item) && item.spice == isSpice){
+            } else if(!availableIngredients.contains(item)){
                 availableIngredients.add(item)
             }
         }

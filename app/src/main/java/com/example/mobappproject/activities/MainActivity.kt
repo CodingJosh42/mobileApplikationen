@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() {
         val input: AutoCompleteTextView = findViewById(R.id.inputIngredient)
         val text = input.text.toString()
         val fakeIng = DBIngredient(0, text, 0, 0)
-        if(text != "" && arrayListAdapter?.contains(fakeIng) == true) {
+        if(text != "" && arrayListAdapter?.contains(fakeIng) == true && !ingredientList.contains(fakeIng)) {
             val index = arrayListAdapter?.indexOf(fakeIng) as Int
             val ing = arrayListAdapter?.get(index) as DBIngredient
             ingredientList.add(ing)
@@ -198,11 +198,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadIngredients() {
         val dbIngs = db.getIngredients()
         availableIngredients.addAll(dbIngs)
-        for (item in dbIngs){
-            if(item.stored == 1 && item.spice==0 && !userIngredientList.contains(item)) {
-                userIngredientList.add(item)
-            }
-        }
+        val userList = db.getIngredients(2)
+        userIngredientList.addAll(userList)
     }
 
     /**
