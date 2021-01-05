@@ -279,6 +279,42 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         }
         return list
     }
+
+    /**
+     * Get all Recipes
+     * @return Arraylist of recipes
+     */
+    fun getRecipes(): ArrayList<DBRecipe>{
+        val list: ArrayList<DBRecipe> = ArrayList()
+        val select = "SELECT * FROM $TABLE_RECIPE"
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        //Values for each Element of the Table
+        var id: Int
+        var name :String
+        var description: String
+        var picture: String
+
+        try{
+            cursor = db.rawQuery(select,null)
+        }catch (e: SQLiteException){
+            db.execSQL(select)
+            return ArrayList()
+        }
+
+        if(cursor.moveToFirst()){
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(RECIPE_KEY_ID))
+                name = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
+                description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
+                picture = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
+                val newRecipe = DBRecipe(id = id, name = name,description = description, picture = picture)
+                list.add(newRecipe)
+            }while (cursor.moveToNext())
+        }
+        return list
+    }
+
     /**
      * Creating Sample Ingredients into the Database
      * @param db CreatedDatabase
@@ -305,8 +341,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
      */
     private fun createRecipeList(db: SQLiteDatabase?){
         val recipes = arrayListOf<DBRecipe>()
-        recipes.add(DBRecipe(0,"Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", "", null))
-        recipes.add(DBRecipe(0,"Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", "", null))
+        recipes.add(DBRecipe(0,"Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", ""))
+        recipes.add(DBRecipe(0,"Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", ""))
         val contentValues = ContentValues()
         val quantitys = arrayListOf<DBQuantity>()
         quantitys.add(DBQuantity(1,5, "3 große",""))
