@@ -31,15 +31,19 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     }
 
     override fun add(`object`: DBIngredient?) {
-        if (`object` != null) {
+        if (`object` != null && !ingredients.contains(`object`)) {
             ingredients.add(`object`)
             filteredIngredients.add(`object`)
         }
     }
 
     override fun addAll(collection: MutableCollection<out DBIngredient>) {
-        ingredients.addAll(collection)
-        filteredIngredients.addAll(collection)
+        for(item in collection){
+            if(!ingredients.contains(item)){
+                ingredients.add(item)
+                filteredIngredients.add(item)
+            }
+        }
     }
 
     override fun getCount(): Int {
