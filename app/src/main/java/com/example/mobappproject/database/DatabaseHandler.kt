@@ -29,7 +29,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         private const val QUANTITY_KEY_QUANTITY = "quantity"
         //TABLE_RECIPE Content
         private const val RECIPE_KEY_ID = "_id"
-        private const val RECIPE_KEY_NAME = "name"
+        private const val RECIPE_KEY_NAME = "title"
         private const val RECIPE_KEY_DESCRIPTION = "description"
         private const val RECIPE_KEY_PICTURE = "picture"
     }
@@ -248,10 +248,10 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
     fun getRecipeQuantitys(recipeID: Int): ArrayList<DBQuantity>{
         val list: ArrayList<DBQuantity> = ArrayList()
         val select = "SELECT * FROM $TABLE_INGREDIENT JOIN $TABLE_QUANTITY" +
-                "ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
-                "JOIN $TABLE_RECIPE" +
-                "ON $TABLE_QUANTITY.$QUANTITY_KEY_RECIPEID = $TABLE_RECIPE.$RECIPE_KEY_ID " +
-                "WHERE $TABLE_RECIPE.$RECIPE_KEY_ID = $recipeID"
+                " ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
+                " JOIN $TABLE_RECIPE" +
+                " ON $TABLE_QUANTITY.$QUANTITY_KEY_RECIPEID = $TABLE_RECIPE.$RECIPE_KEY_ID " +
+                " WHERE $TABLE_RECIPE.$RECIPE_KEY_ID = $recipeID"
         val db = this.readableDatabase
         val cursor: Cursor?
         //Values for each Element of the Table
@@ -272,12 +272,40 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
                 recipe_id = cursor.getInt(cursor.getColumnIndex(QUANTITY_KEY_RECIPEID))
                 ingredient_id = cursor.getInt(cursor.getColumnIndex(QUANTITY_KEY_INGREDIENTID))
                 quantity = cursor.getString(cursor.getColumnIndex(QUANTITY_KEY_QUANTITY))
-                ingredient_name = cursor.getString(cursor.getColumnIndex(INGREDIENT_KEY_NAME))
+                ingredient_name = cursor.getString(cursor.getColumnIndex("$INGREDIENT_KEY_NAME"))
                 val newQuantity = DBQuantity(recipe_id = recipe_id, ingredient_id = ingredient_id, quantity = quantity, ingredientName = ingredient_name)
                 list.add(newQuantity)
             }while (cursor.moveToNext())
         }
         return list
+    }
+
+    fun getRecipeByID(recipeID: Int): DBRecipe?{
+        val db = this.readableDatabase
+        val select = "SELECT * FROM $TABLE_RECIPE WHERE $RECIPE_KEY_ID = $recipeID"
+        val cursor: Cursor?
+        var recipe: DBRecipe
+        //Values for the Recipe
+        var id: Int
+        var name :String
+        var description: String
+        var picture: String
+
+        try{
+            cursor = db.rawQuery(select,null)
+        }catch (e: SQLiteException){
+            db.execSQL(select)
+            return null
+        }
+        if(cursor.moveToFirst()){
+            id = cursor.getInt(cursor.getColumnIndex(RECIPE_KEY_ID))
+            name = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
+            description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
+            picture = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
+            val newRecipe = DBRecipe(id = id, name = name,description = description, picture = picture)
+            return newRecipe
+        }
+        return null
     }
 
     /**
@@ -341,11 +369,11 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
      */
     private fun createRecipeList(db: SQLiteDatabase?){
         val recipes = arrayListOf<DBRecipe>()
-        recipes.add(DBRecipe(0,"Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", ""))
-        recipes.add(DBRecipe(0,"Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", ""))
+        recipes.add(DBRecipe(0,"Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", "placeholder"))
+        recipes.add(DBRecipe(0,"Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", "placeholder"))
         val contentValues = ContentValues()
         val quantitys = arrayListOf<DBQuantity>()
-        quantitys.add(DBQuantity(1,5, "3 große",""))
+        quantitys.add(DBQuantity(1,5, "3 ",""))
         quantitys.add(DBQuantity(1,6,"1",""))
         quantitys.add(DBQuantity(1,10,"nach Belieben",""))
         quantitys.add(DBQuantity(1,11,"1/2",""))
