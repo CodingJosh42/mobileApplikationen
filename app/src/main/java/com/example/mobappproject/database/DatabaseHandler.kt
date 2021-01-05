@@ -384,7 +384,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         for (i in recipes.indices){
             contentValues.clear()
             db?.execSQL("INSERT INTO $TABLE_RECIPE ($RECIPE_KEY_NAME,$RECIPE_KEY_DESCRIPTION,$RECIPE_KEY_PICTURE) " +
-                    "VALUES(\"" + recipes[i].name +"\", \" "+ recipes[i].description +"\", \" "+ recipes[i].picture + "\" );")
+                    "VALUES(\"" + recipes[i].name +"\", \" "+ recipes[i].description +"\", \""+ recipes[i].picture + "\" );")
         }
         for (i in quantitys.indices){
             contentValues.clear()

@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.activities.ShowRecipe
 import com.example.mobappproject.database.DBRecipe
-import com.example.mobappproject.database.DatabaseHandler
-import kotlin.coroutines.coroutineContext
 
 /**
  * Holder Class for Recipes
@@ -48,27 +46,15 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
 
         title?.text = recipe.name
 
-        var ings = "Zutaten: test"
-        /*
-        for(i in 0 until recipe.ingredients.size){
-            ings += recipe.ingredients[i]
-            if(i != recipe.ingredients.size-1) {
-                ings += ", "
-            }
-        }*/
+        val ings = "Zutaten: test"
+
         ingredients?.text = ings
 
-        var matchingIngs = "Matches: "
-        /*
-        for(i in 0 until recipe.matches.size){
-            matchingIngs += recipe.matches[i]
-            if(i != recipe.matches.size-1) {
-                matchingIngs += ", "
-            }
-        }*/
+        val matchingIngs = "Matches: "
+
         matches?.text = matchingIngs
 
-        //img?.setImageResource(recipe.imgId)
+        img?.setImageResource(recipe.imgId as Int)
     }
 
 

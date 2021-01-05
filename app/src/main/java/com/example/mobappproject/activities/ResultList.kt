@@ -38,19 +38,12 @@ class ResultList : AppCompatActivity() {
 
     private fun addViews(recipeList: ArrayList<DBRecipe>) {
         for (recipe in recipeList){
-            recipes.add(recipe)
-            recyclerView?.adapter?.notifyDataSetChanged()
-        }
-        /*
-        for (recipe in recipeList) {
-
-            val imgId = this.getResources().getIdentifier(recipe.img, "drawable", this.getPackageName())
+            val imgId = this.resources.getIdentifier(recipe.picture, "drawable", this.packageName)
             recipe.imgId = imgId
 
             recipes.add(recipe)
             recyclerView?.adapter?.notifyDataSetChanged()
-
-        }*/
+        }
     }
 
     private fun filterRecipes(){
