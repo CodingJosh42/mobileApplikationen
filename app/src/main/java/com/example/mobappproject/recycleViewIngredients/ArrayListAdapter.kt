@@ -1,8 +1,18 @@
 package com.example.mobappproject.recycleViewIngredients
 
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Filter
+import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import android.R.id
 import com.example.mobappproject.database.DBIngredient
+
+
 
 /**
  * Contains and displays the available ingredients
@@ -11,56 +21,77 @@ import com.example.mobappproject.database.DBIngredient
  * @param objects List of ingredients
  */
 class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayList<DBIngredient>) : ArrayAdapter<DBIngredient>(context, resource, objects) {
-    private var ingredients = objects
+    var ingredients = objects
+    var filteredIngredients = ingredients.clone() as ArrayList<DBIngredient>
+    private var resId = resource
+    private var filter = IngredientFilter(ingredients, this)
+
+    override fun getPosition(item: DBIngredient?): Int {
+        return filteredIngredients.indexOf(item)
+    }
+
+    override fun add(`object`: DBIngredient?) {
+        if (`object` != null) {
+            ingredients.add(`object`)
+            filteredIngredients.add(`object`)
+        }
+    }
+
+    override fun addAll(collection: MutableCollection<out DBIngredient>) {
+        ingredients.addAll(collection)
+        filteredIngredients.addAll(collection)
+    }
+
+    override fun getCount(): Int {
+        return filteredIngredients.size
+    }
+
+    override fun getItem(position: Int): DBIngredient? {
+        return filteredIngredients[position]
+    }
+
+    override fun remove(`object`: DBIngredient?) {
+        ingredients.remove(`object`)
+        filteredIngredients.remove(`object`)
+    }
 
     /**
-     * Checks if the list of ingredients already contains the given ingredient. Returns true if yes
+     * Checks if ingredientlist contains an ingredient
      */
     fun contains(ingredient: DBIngredient): Boolean {
         return ingredients.contains(ingredient)
     }
 
     /**
-     * Returns index of the given ingredient
+     * Returns index of an ingredient
      */
     fun indexOf(ingredient: DBIngredient): Int {
         return ingredients.indexOf(ingredient)
     }
 
     /**
-     * Returns the ingredient on the given position
+     * Returns an ingredient at a specific position
      */
-    fun get(position: Int): DBIngredient{
+    fun get(position: Int): DBIngredient {
         return ingredients[position]
     }
 
-    override fun remove(`object`: DBIngredient?) {
-        super.remove(`object`)
-        ingredients.remove(`object`)
-    }
 
-    override fun add(`object`: DBIngredient?) {
-        super.add(`object`)
-        if (`object` != null) {
-            ingredients.add(`object`)
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var view = convertView
+        if (view == null) {
+            val infalter = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            view = infalter.inflate(resId, null)
         }
+
+        val ingredient = filteredIngredients[position]
+        val text = view?.findViewById<TextView>(id.text1)
+        text?.text = ingredient.name
+
+        return view as View
     }
 
-    override fun addAll(collection: MutableCollection<out DBIngredient>) {
-        for(item in collection) {
-            if(!ingredients.contains(item)) {
-                add(item)
-            }
-        }
+    override fun getFilter(): Filter {
+        return filter
     }
-
-    /**
-     * Removes all ingredients of the given list from the ingredientlist
-     */
-    fun removeAll(collection: MutableCollection<out DBIngredient>) {
-        for(item in collection) {
-            remove(item)
-        }
-    }
-
 }
