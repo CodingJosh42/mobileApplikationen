@@ -6,9 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Recipe
+import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.rest.RestDummy
 
 class ShowRecipe : AppCompatActivity() {
+
+    private val db = DatabaseHandler(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_recipe)
@@ -24,12 +27,15 @@ class ShowRecipe : AppCompatActivity() {
     }
 
     private fun loadRecipe(id: Int): Recipe {
+
         val dummy = RestDummy()
         return dummy.getRecipe(id)
     }
 
+
+
     private fun setContent(id: Int) {
-        val recipe = loadRecipe(id)
+        val recipe = get
 
         val title = findViewById<TextView>(R.id.title)
         title.text = recipe.title
