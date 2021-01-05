@@ -375,12 +375,12 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         val quantitys = arrayListOf<DBQuantity>()
         quantitys.add(DBQuantity(1,5, "3 ",""))
         quantitys.add(DBQuantity(1,6,"1",""))
-        quantitys.add(DBQuantity(1,10,"nach Belieben",""))
+        quantitys.add(DBQuantity(1,10,"",""))
         quantitys.add(DBQuantity(1,11,"1/2",""))
         quantitys.add(DBQuantity(1,12,"",""))
         quantitys.add(DBQuantity(1,13,"",""))
         quantitys.add(DBQuantity(2,14, "1kg",""))
-        quantitys.add(DBQuantity(2,15,"nach Belieben",""))
+        quantitys.add(DBQuantity(2,15,"",""))
         for (i in recipes.indices){
             contentValues.clear()
             db?.execSQL("INSERT INTO $TABLE_RECIPE ($RECIPE_KEY_NAME,$RECIPE_KEY_DESCRIPTION,$RECIPE_KEY_PICTURE) " +
