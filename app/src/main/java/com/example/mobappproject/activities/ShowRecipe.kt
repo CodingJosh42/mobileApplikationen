@@ -10,6 +10,7 @@ import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Recipe
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.database.DBQuantity
+import com.example.mobappproject.database.DBRecipe
 import com.example.mobappproject.recyclerShowRecipe.RecyclerAdapterShowResult
 import com.example.mobappproject.rest.RestDummy
 
@@ -22,7 +23,7 @@ class ShowRecipe : AppCompatActivity() {
     private val db = DatabaseHandler(this)
     private var recycler: RecyclerView? = null
     private var quantityList = ArrayList<DBQuantity>()
-    private var recipe: Recipe ?= null
+    private var recipe: DBRecipe?= null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,21 +36,12 @@ class ShowRecipe : AppCompatActivity() {
             id = bundle.get("Id") as Int
         }
         if(id != -1){
-            recipe = loadRecipe(id)
-            loadQuantitys()
+            recipe = db.getRecipeByID(id)
+            quantityList = db.getRecipeQuantitys(id)
+            ///loadQuantitys()
             setRecyclerView()
             setContent()
         }
-    }
-
-    /**
-     * Loads recipe with given id
-     * @param id Id of recipe
-     */
-    private fun loadRecipe(id: Int): Recipe {
-
-        val dummy = RestDummy()
-        return dummy.getRecipe(id)
     }
 
 
@@ -60,14 +52,14 @@ class ShowRecipe : AppCompatActivity() {
     private fun setContent() {
 
         val title = findViewById<TextView>(R.id.title)
-        title.text = recipe?.title
+        title.text = recipe?.name
 
         val img = findViewById<ImageView>(R.id.imageView)
-        val imgId = this.resources.getIdentifier(recipe?.img, "drawable", this.packageName)
+        val imgId = this.resources.getIdentifier(recipe?.picture, "drawable", this.packageName)
         img.setImageResource(imgId)
 
         val preparation = findViewById<TextView>(R.id.preparation)
-        preparation.text = recipe?.preparation
+        preparation.text = recipe?.description
     }
 
     /**
@@ -77,7 +69,7 @@ class ShowRecipe : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         recycler = findViewById(R.id.ingredients)
         recycler?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapterShowResult(quantityList)
+        val adapter = RecyclerAdapterShowResult(quantityList)//quantityList
         recycler?.adapter = adapter
     }
 
