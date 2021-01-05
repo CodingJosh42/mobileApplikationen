@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         this.arrayListAdapter = ArrayListAdapter(this,
-                android.R.layout.simple_dropdown_item_1line, availableIngredients)
+                R.layout.simple_dropdown_item_1line, availableIngredients)
         inputIng.threshold = 1
         inputIng.setAdapter(arrayListAdapter)
     }

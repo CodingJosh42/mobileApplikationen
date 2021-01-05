@@ -90,7 +90,7 @@ class ListFragment : Fragment() {
         })
 
         this.arrayListAdapter = ArrayListAdapter(requireActivity(),
-            android.R.layout.simple_dropdown_item_1line, availableIngredients)
+            R.layout.simple_dropdown_item_1line, availableIngredients)
         input.threshold = 1
         input.setAdapter(arrayListAdapter)
 
