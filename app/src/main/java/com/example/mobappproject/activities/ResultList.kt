@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.dataClasses.Recipe
+import com.example.mobappproject.recylcerResultList.RecyclerAdapterResult
 import com.example.mobappproject.database.DBRecipe
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recylcerResultList.RecylcerAdapterResult
@@ -25,6 +26,7 @@ class ResultList : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.results)
         recyclerView?.layoutManager = linearLayoutManager
+
         recyclerView?.adapter = RecylcerAdapterResult(this, recipes)
         db = DatabaseHandler(this)
         addViews(loadRecipes())

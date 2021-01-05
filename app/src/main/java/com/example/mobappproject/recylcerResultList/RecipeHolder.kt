@@ -14,16 +14,20 @@ import com.example.mobappproject.database.DBRecipe
 import com.example.mobappproject.database.DatabaseHandler
 import kotlin.coroutines.coroutineContext
 
-
+/**
+ * Holder Class for Recipes
+ */
 class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_ist_item, parent, false)){
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_list_item, parent, false)){
     private var title: TextView? = null
     private var img: ImageView? = null
     private var ingredients: TextView? = null
     private var matches: TextView? = null
     
 
-
+    /**
+     * Initializes title, img, ingredients, matches
+     */
     init {
         title = itemView.findViewById(R.id.title)
         img = itemView.findViewById(R.id.imageView)
@@ -31,6 +35,10 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
         matches = itemView.findViewById(R.id.matches)
     }
 
+
+    /**
+     * Binds recipe on result_list_item
+     */
     fun bind(recipe: DBRecipe, context: Context) {
         itemView.setOnClickListener {
             val intent = Intent(context, ShowRecipe::class.java)

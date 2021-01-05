@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp">
-
     <androidx.cardview.widget.CardView
         android:layout_width="360dp"
         android:layout_height="wrap_content"
@@ -16,7 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <RelativeLayout
             android:padding="12dp"
             android:layout_width="match_parent"
@@ -29,16 +27,12 @@
                 android:gravity="center"
                 android:text="Pizza"
                 android:textColor="@color/black"
-                android:textSize="36sp"
-                tools:layout_editor_absoluteX="147dp"
-                tools:layout_editor_absoluteY="217dp" />
-
+                android:textSize="36sp" />
             <RelativeLayout
                 android:id="@+id/relativeLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title">
-
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="120dp"
@@ -48,8 +42,8 @@
                     android:layout_alignParentTop="true"
                     tools:layout_editor_absoluteX="117dp"
                     tools:layout_editor_absoluteY="265dp"
-                    android:src="@drawable/placeholder" />
-
+                    android:src="@drawable/placeholder"
+                    android:contentDescription="@string/recipe_image" />
                     <TextView
                         android:id="@+id/ingredients"
                         android:layout_width="match_parent"
@@ -60,11 +54,8 @@
                         android:layout_marginLeft="7dp"
                         android:layout_marginStart="7dp"
                         android:text="Zutaten: bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"
-                        android:textSize="20sp"
-                        tools:layout_editor_absoluteX="147dp"
-                        tools:layout_editor_absoluteY="217dp" />
+                        android:textSize="20sp" />
             </RelativeLayout>
-
             <TextView
                 android:id="@+id/matches"
                 android:layout_width="match_parent"
@@ -76,10 +67,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:text="Matches: bla, bla, bla, bla"
-                android:textSize="18sp"
-                tools:layout_editor_absoluteX="147dp"
-                tools:layout_editor_absoluteY="217dp" />
+                android:textSize="18sp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.database.DBRecipe
 
+/**
+ * Displays Recipes from the list in a recyclerView
+ * @param context Activity that uses this adapter
+ * @param list List of recipes that should be displayed
+ */
 
 class RecylcerAdapterResult(private val context: Context, private val list: ArrayList<DBRecipe>) : RecyclerView.Adapter<RecipeHolder>() {
 
