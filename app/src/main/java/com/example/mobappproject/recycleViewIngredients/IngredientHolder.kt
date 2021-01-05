@@ -20,7 +20,7 @@ class IngredientHolder (inflater: LayoutInflater, parent: ViewGroup) :
      * Initializes name and button
      */
     init {
-        name = itemView.findViewById<TextView>(R.id.name)
+        name = itemView.findViewById<TextView>(R.id.quantity_ing)
         button = itemView.findViewById<Button>(R.id.delete)
     }
 

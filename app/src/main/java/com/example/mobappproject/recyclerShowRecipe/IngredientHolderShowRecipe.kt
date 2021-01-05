@@ -11,16 +11,18 @@ import com.example.mobappproject.database.DBQuantity
  * Holder Class for Recipes
  */
 class IngredientHolderShowRecipe(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_ingredient_show_recipe, parent, false)){
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_show_recipe_ingredients, parent, false)){
 
     private var ingredient: TextView? = null
+    private var quantity: TextView? = null
 
 
     /**
      * Initializes ingredient
      */
     init {
-        ingredient = itemView.findViewById(R.id.ingredient)
+        ingredient = itemView.findViewById(R.id.quantity_ing)
+        quantity = itemView.findViewById(R.id.quantity)
     }
 
     /**
@@ -28,7 +30,8 @@ class IngredientHolderShowRecipe(inflater: LayoutInflater, parent: ViewGroup) :
      */
     fun bind(quantity: DBQuantity) {
         val text = quantity.quantity + " " + quantity.ingredientName
-        this.ingredient?.text = text
+        this.ingredient?.text = quantity.ingredientName
+        this.quantity?.text = quantity.quantity
 
     }
 

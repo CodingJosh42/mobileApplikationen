@@ -11,8 +11,7 @@ import com.example.mobappproject.database.DBRecipe
  * @param context Activity that uses this adapter
  * @param list List of recipes that should be displayed
  */
-
-class RecylcerAdapterResult(private val context: Context, private val list: ArrayList<DBRecipe>) : RecyclerView.Adapter<RecipeHolder>() {
+class RecyclerAdapterResult(private val context: Context, private val list: ArrayList<DBRecipe>) : RecyclerView.Adapter<RecipeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,3 +27,5 @@ class RecylcerAdapterResult(private val context: Context, private val list: Arra
         return list.size
     }
 }
+
+
