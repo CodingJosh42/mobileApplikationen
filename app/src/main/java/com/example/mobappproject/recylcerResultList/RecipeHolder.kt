@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.activities.ShowRecipe
+import com.example.mobappproject.database.DBIngredient
+import com.example.mobappproject.database.DBQuantity
 import com.example.mobappproject.database.DBRecipe
 
 /**
@@ -21,7 +23,8 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var img: ImageView? = null
     private var ingredients: TextView? = null
     private var matches: TextView? = null
-    
+    private var quantitys: ArrayList<DBQuantity> ?= null
+    private var matchingString = ""
 
     /**
      * Initializes title, img, ingredients, matches
@@ -46,16 +49,50 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
 
         title?.text = recipe.name
 
-        val ings = "Zutaten: test"
-
+        var ings = "Zutaten: "
+        quantitys = recipe.quantitys
+        for (i in 0 until quantitys!!.size) {
+            if (i != quantitys!!.size - 1) {
+                ings += quantitys!![i].ingredientName + ", "
+            } else {
+                ings += quantitys!![i].ingredientName
+            }
+        }
         ingredients?.text = ings
-
-        val matchingIngs = "Matches: "
-
-        matches?.text = matchingIngs
 
         img?.setImageResource(recipe.imgId as Int)
     }
 
+    /**
+     * Binds matching ingredients to textView
+     */
+    fun getMatches(searchIngredients: ArrayList<DBIngredient>?) {
+        if(searchIngredients != null) {
+            for (item in searchIngredients) {
+                if (contains(item)) {
+                    matchingString += item.name + ", "
+                }
+            }
+            if(matchingString.isNotEmpty()) {
+                var matchingIngs = "Matches: $matchingString"
+                matchingIngs = matchingIngs.removeSuffix(", ")
+                matches?.text = matchingIngs
+            } else {
+                matches?.text = "Keine Matches"
+            }
+        }
+    }
+
+    /**
+     * Checks if quantitys contain an ingredient
+     */
+    private fun contains(searchItem: DBIngredient): Boolean {
+        for(item in quantitys!!) {
+            if(item.ingredientName == searchItem.name) {
+                return true
+            }
+        }
+        return false
+    }
 
 }
