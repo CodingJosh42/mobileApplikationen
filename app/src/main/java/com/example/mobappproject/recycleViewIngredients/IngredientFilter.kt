@@ -16,7 +16,7 @@ class IngredientFilter(ingredients: ArrayList<DBIngredient>, adapter: ArrayListA
         if (constraint != null) {
             val suggestions: ArrayList<DBIngredient> = ArrayList()
             for (ingredient in ingredients) {
-                if (ingredient.name.toLowerCase(Locale.ROOT).startsWith(constraint.toString().toLowerCase(Locale.ROOT))) {
+                if (ingredient.name.startsWith(constraint.toString(), ignoreCase = true)) {
                     suggestions.add(ingredient)
                 }
             }
