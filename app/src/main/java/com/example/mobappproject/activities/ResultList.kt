@@ -41,6 +41,8 @@ class ResultList : AppCompatActivity() {
             val imgId = this.resources.getIdentifier(recipe.picture, "drawable", this.packageName)
             recipe.imgId = imgId
 
+            recipe.quantitys = db.getRecipeQuantitys(recipe.id)
+
             recipes.add(recipe)
             recyclerView?.adapter?.notifyDataSetChanged()
         }
