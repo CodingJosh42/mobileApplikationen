@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private val db = DatabaseHandler(this)
     private val availableIngredients = ArrayList<DBIngredient>()
     private var arrayListAdapter: ArrayListAdapter ?= null
+    private val spiceList= ArrayList<DBIngredient>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,8 +163,15 @@ class MainActivity : AppCompatActivity() {
             if(text != "") {
                 intent.putExtra("searchString", text)
             }
+            for(item in spiceList) {
+                if(!ingredientList.contains(item)) {
+                    ingredientList.add(item)
+                }
+            }
             intent.putExtra("ingredients", ingredientList)
             startActivity(intent)
+        } else {
+            Toast.makeText(this,"Schlagwort oder Zutat eingeben", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -196,10 +204,14 @@ class MainActivity : AppCompatActivity() {
      * Loads all ingredients. Saves ingredients either in userList or availabeList
      */
     private fun loadIngredients() {
+        // All ingredients
         val dbIngs = db.getIngredients()
         availableIngredients.addAll(dbIngs)
+        // Stored ingredients
         val userList = db.getIngredients(2)
         userIngredientList.addAll(userList)
+        // Stored spices
+        spiceList.addAll(db.getIngredients(3))
     }
 
     /**
