@@ -11,6 +11,7 @@ import com.example.mobappproject.database.DBRecipe
  * Displays Recipes from the list in a recyclerView
  * @param context Activity that uses this adapter
  * @param list List of recipes that should be displayed
+ * @param ingredients List of ingredients from the user
  */
 class RecyclerAdapterResult(private val context: Context, private val list: ArrayList<DBRecipe>, private val ingredients: ArrayList<DBIngredient>?) : RecyclerView.Adapter<RecipeHolder>() {
 
