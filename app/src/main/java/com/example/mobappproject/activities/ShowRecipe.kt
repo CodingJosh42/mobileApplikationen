@@ -2,6 +2,7 @@ package com.example.mobappproject.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,6 +72,16 @@ class ShowRecipe : AppCompatActivity() {
         recycler?.layoutManager = linearLayoutManager
         val adapter = RecyclerAdapterShowResult(quantityList)//quantityList
         recycler?.adapter = adapter
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     /**
