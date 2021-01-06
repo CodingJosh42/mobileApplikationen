@@ -28,40 +28,34 @@
                 android:text="Pizza"
                 android:textColor="@color/black"
                 android:textSize="36sp" />
-            <RelativeLayout
-                android:id="@+id/relativeLayout1"
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/title">
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    tools:layout_editor_absoluteX="117dp"
-                    tools:layout_editor_absoluteY="265dp"
-                    android:src="@drawable/placeholder"
-                    android:contentDescription="@string/recipe_image" />
-                    <TextView
-                        android:id="@+id/ingredients"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/imageView"
-                        android:layout_toEndOf="@+id/imageView"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginStart="7dp"
-                        android:text="Zutaten: bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"
-                        android:textSize="20sp" />
-            </RelativeLayout>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/title"
+                android:src="@drawable/placeholder"
+                android:contentDescription="@string/recipe_image" />
+            <TextView
+                android:id="@+id/ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginStart="7dp"
+                android:text="Zutaten: bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"
+                android:textSize="20sp" />
             <TextView
                 android:id="@+id/matches"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/relativeLayout1"
+                android:layout_below="@+id/ingredients"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="5dp"
