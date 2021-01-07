@@ -61,6 +61,8 @@ class ResultList : AppCompatActivity() {
             recipes.add(recipe)
             recyclerView?.adapter?.notifyDataSetChanged()
         }
+        recipes.sortDescending()
+        recyclerView?.adapter?.notifyDataSetChanged()
     }
 
     private fun filterRecipes(){

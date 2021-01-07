@@ -352,6 +352,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         var title :String
         var description: String
         var picture: String
+        var matches: Int
         //Build SELECT String
         var select: String = "SELECT *, COUNT (*) as Matches FROM $TABLE_INGREDIENT JOIN $TABLE_QUANTITY" +
                 " ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
@@ -384,7 +385,9 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
                 title = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
                 description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
                 picture = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
+                matches = cursor.getInt(cursor.getColumnIndex("Matches"))
                 val newRecipe = DBRecipe(id = id, name = title,description = description, picture = picture)
+                newRecipe.matches = matches
                 recipeList.add(newRecipe)
             }while (cursor.moveToNext())
         }
