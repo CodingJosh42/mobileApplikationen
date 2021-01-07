@@ -160,14 +160,17 @@ class MainActivity : AppCompatActivity() {
         val text = inputSearch.text.toString()
         if(!(text == "" && ingredientList.size == 0)) {
             val intent = Intent(this, ResultList::class.java)
-            if(text != "") {
-                intent.putExtra("searchString", text)
-            }
-            for(item in spiceList) {
-                if(!ingredientList.contains(item)) {
-                    ingredientList.add(item)
+            //if(text != "") {
+            intent.putExtra("searchString", text)
+            //}
+            if (ingredientList.isNotEmpty()){
+                for(item in spiceList) {
+                    if(!ingredientList.contains(item)) {
+                        ingredientList.add(item)
+                    }
                 }
             }
+
             intent.putExtra("ingredients", ingredientList)
             startActivity(intent)
         } else {

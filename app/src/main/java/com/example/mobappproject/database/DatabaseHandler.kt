@@ -343,6 +343,55 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME,null
         return list
     }
 
+    fun searchRecipes(storage: ArrayList<DBIngredient>, search: String): ArrayList<DBRecipe>{
+        var recipeList: ArrayList<DBRecipe> = ArrayList()
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        //Values for each Element of the Table
+        var id: Int
+        var title :String
+        var description: String
+        var picture: String
+        //Build SELECT String
+        var select: String = "SELECT *, COUNT (*) as Matches FROM $TABLE_INGREDIENT JOIN $TABLE_QUANTITY" +
+                " ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
+                " JOIN $TABLE_RECIPE" +
+                " ON $TABLE_QUANTITY.$QUANTITY_KEY_RECIPEID = $TABLE_RECIPE.$RECIPE_KEY_ID "
+        if (storage.isNotEmpty()){
+            select += "WHERE ("
+            for (i in storage.indices){
+                if (i == 0){
+                    select += "$TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + storage[i].id
+                }else{
+                    select += " OR $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + storage[i].id
+                }
+            }
+            select += ") AND $RECIPE_KEY_NAME LIKE \"%$search%\""
+        }else {
+            select += "WHERE $RECIPE_KEY_NAME LIKE \"%$search%\""
+        }
+        select += " GROUP BY $TABLE_RECIPE.$RECIPE_KEY_ID" +
+                " ORDER BY Matches DESC"
+        try{
+            cursor = db.rawQuery(select,null)
+        }catch (e: SQLiteException){
+            db.execSQL(select)
+            return ArrayList()
+        }
+        if(cursor.moveToFirst()){
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(RECIPE_KEY_ID))
+                title = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
+                description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
+                picture = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
+                val newRecipe = DBRecipe(id = id, name = title,description = description, picture = picture)
+                recipeList.add(newRecipe)
+            }while (cursor.moveToNext())
+        }
+        return recipeList
+
+    }
+
     /**
      * Creating Sample Ingredients into the Database
      * @param db CreatedDatabase

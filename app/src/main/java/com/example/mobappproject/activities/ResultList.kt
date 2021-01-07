@@ -17,7 +17,8 @@ class ResultList : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private var recipes = ArrayList<DBRecipe>()
     private lateinit var db: DatabaseHandler
-    private var ingredients: ArrayList<DBIngredient> ?= null
+    private var ingredients: ArrayList<DBIngredient> = ArrayList()
+    private var searchString: String = ""
     private var bundle: Bundle ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +28,9 @@ class ResultList : AppCompatActivity() {
         bundle = intent.extras
         if (bundle != null) {
             ingredients = bundle!!.get("ingredients") as ArrayList<DBIngredient>
+            searchString = bundle!!.get("searchString") as String
         }
+
 
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerView = findViewById(R.id.results)
@@ -35,7 +38,7 @@ class ResultList : AppCompatActivity() {
 
         recyclerView?.adapter = RecyclerAdapterResult(this, recipes, ingredients)
         db = DatabaseHandler(this)
-        addViews(loadRecipes())
+        addViews(db.searchRecipes(ingredients, searchString))
     }
 
     /**
