@@ -2,6 +2,7 @@ package com.example.mobappproject.activities
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,14 +32,20 @@ class ResultList : AppCompatActivity() {
             searchString = bundle!!.get("searchString") as String
         }
 
-
-        val linearLayoutManager = LinearLayoutManager(this)
-        recyclerView = findViewById(R.id.results)
-        recyclerView?.layoutManager = linearLayoutManager
-
-        recyclerView?.adapter = RecyclerAdapterResult(this, recipes, ingredients)
         db = DatabaseHandler(this)
-        addViews(db.searchRecipes(ingredients, searchString))
+        val recipes = db.searchRecipes(ingredients, searchString)
+        if(recipes.size == 0) {
+            val noResults = findViewById<TextView>(R.id.noResults)
+            noResults.text = "Keine Ergebnisse gefunden"
+        } else {
+            val linearLayoutManager = LinearLayoutManager(this)
+            recyclerView = findViewById(R.id.results)
+            recyclerView?.layoutManager = linearLayoutManager
+
+            recyclerView?.adapter = RecyclerAdapterResult(this, recipes, ingredients)
+            addViews(recipes)
+        }
+
     }
 
     /**
@@ -57,7 +64,6 @@ class ResultList : AppCompatActivity() {
             recipe.quantitys = db.getRecipeQuantitys(recipe.id)
 
             recipes.add(recipe)
-            recyclerView?.adapter?.notifyDataSetChanged()
         }
         recipes.sortDescending()
         recyclerView?.adapter?.notifyDataSetChanged()
