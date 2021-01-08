@@ -60,7 +60,7 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
         }
         ingredients?.text = ings
 
-        img?.setImageResource(recipe.imgId as Int)
+        img?.setImageBitmap(recipe.picture)
     }
 
     /**

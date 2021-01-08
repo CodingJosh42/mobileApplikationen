@@ -56,8 +56,7 @@ class ShowRecipe : AppCompatActivity() {
         title.text = recipe?.name
 
         val img = findViewById<ImageView>(R.id.imageView)
-        val imgId = this.resources.getIdentifier(recipe?.picture, "drawable", this.packageName)
-        img.setImageResource(imgId)
+        img.setImageBitmap(recipe?.picture)
 
         val preparation = findViewById<TextView>(R.id.preparation)
         preparation.text = recipe?.description
