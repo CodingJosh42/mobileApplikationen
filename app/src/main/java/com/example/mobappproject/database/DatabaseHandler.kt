@@ -376,24 +376,24 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param Ressource Id
      */
     private fun getImage(resId: Int): Bitmap {
-        val bmpFactoryOptions = BitmapFactory.Options()
-        bmpFactoryOptions.inJustDecodeBounds = true
-        BitmapFactory.decodeResource(context.resources, resId, bmpFactoryOptions)
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeResource(context.resources, resId, options)
         val height = 300
         val width = 300
-        val heightRatio = ceil(((bmpFactoryOptions.outHeight / height.toFloat()).toDouble())).toInt()
-        val widthRatio = ceil((bmpFactoryOptions.outWidth / width.toFloat()).toDouble()).toInt()
+        val heightRatio = ceil(((options.outHeight / height.toFloat()).toDouble()))
+        val widthRatio = ceil((options.outWidth / width.toFloat()).toDouble())
 
         if (heightRatio > 1 || widthRatio > 1) {
             if (heightRatio > widthRatio) {
-                bmpFactoryOptions.inSampleSize = heightRatio
+                options.inSampleSize = heightRatio.toInt()
             } else {
-                bmpFactoryOptions.inSampleSize = widthRatio
+                options.inSampleSize = widthRatio.toInt()
             }
         }
 
-        bmpFactoryOptions.inJustDecodeBounds = false
-        return BitmapFactory.decodeResource(context.resources, resId, bmpFactoryOptions)
+        options.inJustDecodeBounds = false
+        return BitmapFactory.decodeResource(context.resources, resId, options)
     }
 
     /**
