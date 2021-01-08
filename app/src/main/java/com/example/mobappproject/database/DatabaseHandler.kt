@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory
 import androidx.core.database.getBlobOrNull
 import com.example.mobappproject.R
 import java.io.ByteArrayOutputStream
+import kotlin.math.ceil
 
 
 class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_Version){
@@ -371,11 +372,28 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
     }
 
     /**
-     * Loads image as Bitmap
+     * Loads image as Bitmap. Compresses Image so its not too big for the Database
      * @param Ressource Id
      */
     private fun getImage(resId: Int): Bitmap {
-        return BitmapFactory.decodeResource(context.resources, resId)
+        val bmpFactoryOptions = BitmapFactory.Options()
+        bmpFactoryOptions.inJustDecodeBounds = true
+        BitmapFactory.decodeResource(context.resources, resId, bmpFactoryOptions)
+        val height = 300
+        val width = 300
+        val heightRatio = ceil(((bmpFactoryOptions.outHeight / height.toFloat()).toDouble())).toInt()
+        val widthRatio = ceil((bmpFactoryOptions.outWidth / width.toFloat()).toDouble()).toInt()
+
+        if (heightRatio > 1 || widthRatio > 1) {
+            if (heightRatio > widthRatio) {
+                bmpFactoryOptions.inSampleSize = heightRatio
+            } else {
+                bmpFactoryOptions.inSampleSize = widthRatio
+            }
+        }
+
+        bmpFactoryOptions.inJustDecodeBounds = false
+        return BitmapFactory.decodeResource(context.resources, resId, bmpFactoryOptions)
     }
 
     /**
@@ -471,9 +489,13 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      */
     private fun createRecipeList(db: SQLiteDatabase?){
         val placeholder = getImage(R.drawable.placeholder)
-        val recipes = arrayListOf<DBRecipe>()
-        recipes.add(DBRecipe(0, "Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", placeholder))
-        recipes.add(DBRecipe(0, "Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", placeholder))
+        val sommersalat = getImage(R.drawable.sommersalat)
+        val recipes = ArrayList<DBRecipe>()
+        recipes.add(DBRecipe(0, "Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", sommersalat))
+        recipes.add(DBRecipe(0, "Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", getImage(R.drawable.pommes)))
+        recipes.add(DBRecipe(0, "ooo", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", placeholder))
+        recipes.add(DBRecipe(0, "lool", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", placeholder))
+        recipes.add(DBRecipe(0, "kek", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", placeholder))
         val contentValues = ContentValues()
         val quantitys = arrayListOf<DBQuantity>()
         quantitys.add(DBQuantity(1, 5, "3 ", ""))
@@ -484,7 +506,10 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         quantitys.add(DBQuantity(1, 13, "", ""))
         quantitys.add(DBQuantity(2, 14, "1kg", ""))
         quantitys.add(DBQuantity(2, 15, "", ""))
-        for (i in recipes.indices){
+        quantitys.add(DBQuantity(3, 5, "3 ", ""))
+        quantitys.add(DBQuantity(4, 5, "3 ", ""))
+        quantitys.add(DBQuantity(5, 5, "3 ", ""))
+        for (i in 0 until recipes.size){
             contentValues.clear()
             contentValues.put(RECIPE_KEY_NAME, recipes[i].name)
             contentValues.put(RECIPE_KEY_DESCRIPTION, recipes[i].description)
@@ -493,6 +518,8 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
                 contentValues.put(RECIPE_KEY_PICTURE, byteArray)
             }
             db?.insert(TABLE_RECIPE, null, contentValues)
+
+
 
         }
         for (i in quantitys.indices){
