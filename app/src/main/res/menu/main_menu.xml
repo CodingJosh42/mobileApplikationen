@@ -11,6 +11,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/addRecipe"
+        android:icon="@android:drawable/ic_input_add"
         android:title="Rezept hochladen"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>

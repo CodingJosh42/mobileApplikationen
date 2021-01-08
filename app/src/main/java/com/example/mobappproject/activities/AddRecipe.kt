@@ -95,7 +95,7 @@ class AddRecipe : AppCompatActivity() {
         if (requestCode == ADD_RECIPE_IMAGE && resultCode == RESULT_OK && null != data) {
             val selectedImage = data.data as Uri;
             imgButton?.setImageURI(selectedImage)
-            imageBitmap = getImage(selectedImage)
+            imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
         }
     }
 
@@ -219,7 +219,7 @@ class AddRecipe : AppCompatActivity() {
             description.text.clear()
             ingredients.clear()
             recyclerIngredients?.adapter?.notifyDataSetChanged()
-            imageBitmap = placeholder
+            imgButton?.setImageBitmap(placeholder)
         } else {
             Toast.makeText(this,"Es muss mindestens der Titel, die Zubereitung und eine Zutat eingetragen sein", Toast.LENGTH_SHORT).show()
         }

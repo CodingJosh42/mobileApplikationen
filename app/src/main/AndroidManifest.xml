@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobAppProject">
-        <activity android:name=".activities.AddRecipe"></activity>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +44,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mobappproject.activities.ResultList" />
+        </activity>
+        <activity
+            android:name=".activities.AddRecipe"
+            android:label="Rezept hochladen"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mobappproject.activities.MainActivity" />
         </activity>
     </application>
 
