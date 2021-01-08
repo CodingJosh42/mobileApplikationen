@@ -363,14 +363,24 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         return list
     }
 
+    /**
+     * Converts ByteArray to Bitmap
+     */
     private fun getBitmap(bytes: ByteArray): Bitmap {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size);
     }
 
+    /**
+     * Loads image as Bitmap
+     * @param Ressource Id
+     */
     private fun getImage(resId: Int): Bitmap {
         return BitmapFactory.decodeResource(context.resources, resId)
     }
 
+    /**
+     * Converts a Bitmap to a ByteArray
+     */
     private fun getByteArray(bitmap: Bitmap): ByteArray {
         val stream = ByteArrayOutputStream()
         bitmap.compress(CompressFormat.PNG, 0, stream)
