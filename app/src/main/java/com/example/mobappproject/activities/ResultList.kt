@@ -53,8 +53,6 @@ class ResultList : AppCompatActivity() {
      */
     private fun addViews(recipeList: ArrayList<DBRecipe>) {
         for (recipe in recipeList){
-            val imgId = this.resources.getIdentifier(recipe.picture, "drawable", this.packageName)
-            recipe.imgId = imgId
 
             recipe.quantitys = db.getRecipeQuantitys(recipe.id)
 
