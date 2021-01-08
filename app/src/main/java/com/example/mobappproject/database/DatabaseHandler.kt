@@ -1,6 +1,5 @@
 package com.example.mobappproject.database
 
-import android.R.attr
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -368,8 +367,8 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size);
     }
 
-    private fun getPlaceholder(): Bitmap {
-        return BitmapFactory.decodeResource(context.resources, R.drawable.placeholder)
+    private fun getImage(resId: Int): Bitmap {
+        return BitmapFactory.decodeResource(context.resources, resId)
     }
 
     private fun getByteArray(bitmap: Bitmap): ByteArray {
@@ -461,7 +460,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param db CreatedDatabase
      */
     private fun createRecipeList(db: SQLiteDatabase?){
-        val placeholder = getPlaceholder()
+        val placeholder = getImage(R.drawable.placeholder)
         val recipes = arrayListOf<DBRecipe>()
         recipes.add(DBRecipe(0, "Sommersalat", "Das Gemüse waschen und danach nach belieben klein schneiden. Mozzarella abtropfen lassen und alles in eine Schüssel geben. \n Je nach belieben Zitronen auspressen und mit Olivenöl und etwas Essig abschmecken. \n Schon ist der Salat fertig!", placeholder))
         recipes.add(DBRecipe(0, "Pommes", "Die Kartoffeln waschen und danach in Streifen schneiden. Die Dicke der Streifen, können Sie nach Belieben selbst bestimmen. Danach alles mit Öl benetzen. Jetzt können die Kartoffeln in den Ofen, bis sie goldbraun sind. \n Danach nur noch salzen und fertig sind die Selbstgemachten Pommes!", placeholder))
