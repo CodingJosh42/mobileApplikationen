@@ -4,11 +4,13 @@
     <item
         android:id="@+id/ingredientList"
         android:title="Zutatenliste"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
     <item
         android:id="@+id/spiceList"
         android:title="Gewürzliste"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/addRecipe"
+        android:title="Rezept hochladen"
+        app:showAsAction="never" />
 </menu>
