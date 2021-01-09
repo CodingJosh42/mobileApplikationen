@@ -36,22 +36,56 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recipeTitle"
                 android:contentDescription="Titelbild hinzufügen" />
-            <AutoCompleteTextView
-                android:id="@+id/inputIngredient"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ingredientContainer"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageInput">
+                <AutoCompleteTextView
+                    android:id="@+id/inputIngredient"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/addZutat"
+                    android:inputType="textPersonName"
+                    android:textSize="30sp"
+                    app:layout_constraintHorizontal_weight="0.7"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/quantity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <EditText
+                    android:id="@+id/quantity"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    app:layout_constraintHorizontal_weight="0.3"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:hint="Menge"
+                    android:inputType="textPersonName"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="12dp"
+                    app:layout_constraintStart_toEndOf="@+id/inputIngredient"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="12dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/addIngredient"
                 android:layout_height="wrap_content"
-                android:hint="@string/addZutat"
-                android:inputType="textPersonName"
-                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:text="Zutat hinzufügen"
+                android:textSize="20sp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageInput"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredientContainer"
+                />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/inputIngredient"
+                app:layout_constraintTop_toBottomOf="@+id/addIngredient"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
             <EditText

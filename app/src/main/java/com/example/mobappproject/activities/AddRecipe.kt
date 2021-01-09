@@ -95,7 +95,7 @@ class AddRecipe : AppCompatActivity() {
         if (requestCode == ADD_RECIPE_IMAGE && resultCode == RESULT_OK && null != data) {
             val selectedImage = data.data as Uri;
             imgButton?.setImageURI(selectedImage)
-            imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
+            imageBitmap = getImage(selectedImage)
         }
     }
 
@@ -124,6 +124,12 @@ class AddRecipe : AppCompatActivity() {
                 options.inSampleSize = heightRatio.toInt()
             } else {
                 options.inSampleSize = widthRatio.toInt()
+            }
+        } else {
+            if (heightRatio > widthRatio) {
+                options.inSampleSize = ceil(((height.toFloat() / options.outHeight).toDouble())).toInt()
+            } else {
+                options.inSampleSize = ceil((width.toFloat() / options.outWidth).toDouble()).toInt()
             }
         }
 
