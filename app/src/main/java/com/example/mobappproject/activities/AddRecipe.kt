@@ -107,8 +107,8 @@ class AddRecipe : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_RECIPE_IMAGE && resultCode == RESULT_OK && null != data) {
             val selectedImage = data.data as Uri;
-            imgButton?.setImageURI(selectedImage)
-            imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
+            imageBitmap = getImage(selectedImage)
+            imgButton?.setImageBitmap(imageBitmap)
         }
     }
 
@@ -127,8 +127,8 @@ class AddRecipe : AppCompatActivity() {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeByteArray(byteArray,0,byteArray.size, options)
-        val height = 400
-        val width = 350
+        val height = 500
+        val width = 500
         val heightRatio = ceil(((options.outHeight / height.toFloat()).toDouble()))
         val widthRatio = ceil((options.outWidth / width.toFloat()).toDouble())
 
