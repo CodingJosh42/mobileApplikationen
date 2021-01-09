@@ -39,6 +39,8 @@ class AddRecipe : AppCompatActivity() {
     private var imgButton: ImageButton ?= null
     private var inputIngredient: AutoCompleteTextView ?= null
     private var inputQuantity: EditText ?= null
+    private var title: EditText ?= null
+    private var description: EditText ?= null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +49,8 @@ class AddRecipe : AppCompatActivity() {
         imgButton = findViewById(R.id.imageInput)
         inputIngredient = findViewById(R.id.inputIngredient)
         inputQuantity = findViewById(R.id.quantity)
+        title = findViewById(R.id.recipeTitle)
+        description = findViewById(R.id.description)
 
         loadIngredients()
 
@@ -104,7 +108,7 @@ class AddRecipe : AppCompatActivity() {
         if (requestCode == ADD_RECIPE_IMAGE && resultCode == RESULT_OK && null != data) {
             val selectedImage = data.data as Uri;
             imgButton?.setImageURI(selectedImage)
-            imageBitmap = getImage(selectedImage)
+            imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
         }
     }
 
@@ -123,8 +127,8 @@ class AddRecipe : AppCompatActivity() {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeByteArray(byteArray,0,byteArray.size, options)
-        val height = 300
-        val width = 300
+        val height = 400
+        val width = 350
         val heightRatio = ceil(((options.outHeight / height.toFloat()).toDouble()))
         val widthRatio = ceil((options.outWidth / width.toFloat()).toDouble())
 
@@ -133,12 +137,6 @@ class AddRecipe : AppCompatActivity() {
                 options.inSampleSize = heightRatio.toInt()
             } else {
                 options.inSampleSize = widthRatio.toInt()
-            }
-        } else {
-            if (heightRatio > widthRatio) {
-                options.inSampleSize = ceil(((height.toFloat() / options.outHeight).toDouble())).toInt()
-            } else {
-                options.inSampleSize = ceil((width.toFloat() / options.outWidth).toDouble()).toInt()
             }
         }
 
@@ -153,7 +151,7 @@ class AddRecipe : AppCompatActivity() {
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerQuantitys = findViewById(R.id.ingredients)
         recyclerQuantitys?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapterQuantity(quantitys, arrayListAdapter!!, null)
+        val adapter = RecyclerAdapterQuantity(quantitys, arrayListAdapter!!)
         recyclerQuantitys?.adapter = adapter
         val itemTouch = ItemTouchHelper(SwipeCallbackQuantity(adapter))
         itemTouch.attachToRecyclerView(recyclerQuantitys)
@@ -211,10 +209,8 @@ class AddRecipe : AppCompatActivity() {
      * Creates new Recipe in Database
      */
     private fun submit() {
-        val title = findViewById<EditText>(R.id.recipeTitle)
-        val titleText = title.text.toString()
-        val description = findViewById<EditText>(R.id.description)
-        val descriptionText = description.text.toString()
+        val titleText = title?.text.toString()
+        val descriptionText = description?.text.toString()
 
         if(titleText != "" && descriptionText != "" && quantitys.size > 0) {
             val bitmap: Bitmap? = if(this.imageBitmap != null) {
@@ -231,19 +227,26 @@ class AddRecipe : AppCompatActivity() {
                 }
                 Toast.makeText(this,"Rezept hochgeladen!", Toast.LENGTH_SHORT).show()
 
-                // Clear Input fields
-                title.text.clear()
-                description.text.clear()
-                inputQuantity?.text?.clear()
-                inputIngredient?.text?.clear()
-                quantitys.clear()
-                recyclerQuantitys?.adapter?.notifyDataSetChanged()
-                imgButton?.setImageBitmap(placeholder)
+                clearInput()
             } else {
                 Toast.makeText(this,"Rezept konnte nicht hochgeladen werden", Toast.LENGTH_LONG).show()
             }
         } else {
             Toast.makeText(this,"Es muss mindestens der Titel, die Zubereitung und eine Zutat eingetragen sein", Toast.LENGTH_LONG).show()
         }
+    }
+
+    /**
+     * Clears Input fields
+     */
+    private fun clearInput() {
+        title?.text?.clear()
+        description?.text?.clear()
+        inputQuantity?.text?.clear()
+        inputIngredient?.text?.clear()
+        quantitys.clear()
+        recyclerQuantitys?.adapter?.notifyDataSetChanged()
+        imgButton?.setImageBitmap(placeholder)
+        imageBitmap = placeholder
     }
 }
