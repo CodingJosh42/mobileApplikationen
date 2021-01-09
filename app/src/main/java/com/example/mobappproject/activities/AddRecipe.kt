@@ -4,12 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -22,28 +19,34 @@ import com.example.mobappproject.database.DBQuantity
 import com.example.mobappproject.database.DBRecipe
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
-import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
-import com.example.mobappproject.recycleViewIngredients.SwipeCallback
+import com.example.mobappproject.recylcerQuantitys.RecyclerAdapterQuantity
+import com.example.mobappproject.recylcerQuantitys.SwipeCallbackQuantity
 import java.io.ByteArrayOutputStream
 import kotlin.math.ceil
 
 
 class AddRecipe : AppCompatActivity() {
 
-    private var ingredients = ArrayList<DBIngredient>()
+    private var quantitys = ArrayList<DBQuantity>()
     private var availableIngredients = ArrayList<DBIngredient>()
     private var db = DatabaseHandler(this)
-    private var recyclerIngredients: RecyclerView ?= null
+    private var recyclerQuantitys: RecyclerView ?= null
     private var arrayListAdapter: ArrayListAdapter ?= null
     private val ADD_RECIPE_IMAGE = 1
-    private var imgButton: ImageButton ?= null
     private var imageBitmap: Bitmap ?= null
     private var placeholder: Bitmap ?= null
+
+    private var imgButton: ImageButton ?= null
+    private var inputIngredient: AutoCompleteTextView ?= null
+    private var inputQuantity: EditText ?= null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_recipe)
         imgButton = findViewById(R.id.imageInput)
+        inputIngredient = findViewById(R.id.inputIngredient)
+        inputQuantity = findViewById(R.id.quantity)
 
         loadIngredients()
 
@@ -56,11 +59,17 @@ class AddRecipe : AppCompatActivity() {
         setUpSubmit()
     }
 
+    /**
+     * Loads all ingredients from the database
+     */
     private fun loadIngredients() {
         val dbIngs = db.getIngredients()
         availableIngredients.addAll(dbIngs)
     }
 
+    /**
+     * Sets up submit Button
+     */
     private fun setUpSubmit() {
         val submit = findViewById<Button>(R.id.submit)
         submit.setOnClickListener {
@@ -76,14 +85,14 @@ class AddRecipe : AppCompatActivity() {
         placeholder = imageBitmap
         imgButton?.setImageBitmap(imageBitmap)
         imgButton?.setOnClickListener {
-            startGallery()
+            pickPicture()
         }
     }
 
     /**
-     * Starts Gallery activity
+     * Starts new activity. User can pick an image and returns to this activity
      */
-    private fun startGallery() {
+    private fun pickPicture() {
         val intent = Intent()
         intent.type = "image/*";
         intent.action = Intent.ACTION_GET_CONTENT;
@@ -142,12 +151,12 @@ class AddRecipe : AppCompatActivity() {
      */
     private fun setRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this)
-        recyclerIngredients = findViewById(R.id.ingredients)
-        recyclerIngredients?.layoutManager = linearLayoutManager
-        val adapter = RecyclerAdapter(ingredients, arrayListAdapter!!, null)
-        recyclerIngredients?.adapter = adapter
-        val itemTouch = ItemTouchHelper(SwipeCallback(adapter))
-        itemTouch.attachToRecyclerView(recyclerIngredients)
+        recyclerQuantitys = findViewById(R.id.ingredients)
+        recyclerQuantitys?.layoutManager = linearLayoutManager
+        val adapter = RecyclerAdapterQuantity(quantitys, arrayListAdapter!!, null)
+        recyclerQuantitys?.adapter = adapter
+        val itemTouch = ItemTouchHelper(SwipeCallbackQuantity(adapter))
+        itemTouch.attachToRecyclerView(recyclerQuantitys)
     }
 
     /**
@@ -155,14 +164,11 @@ class AddRecipe : AppCompatActivity() {
      * from add Ingredient input
      */
     private fun setUpAddIngredient() {
+        val button = findViewById<Button>(R.id.addIngredient)
+        button.setOnClickListener {
+            addIngredient()
+        }
         val inputIng: AutoCompleteTextView = findViewById(R.id.inputIngredient)
-        inputIng.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                addIngredient()
-                return@OnKeyListener true
-            }
-            false
-        })
 
         this.arrayListAdapter = ArrayListAdapter(this,
             R.layout.simple_dropdown_item_1line, availableIngredients)
@@ -174,21 +180,25 @@ class AddRecipe : AppCompatActivity() {
      * Adds an ingredient to the list
      */
     private fun addIngredient() {
-        val input: AutoCompleteTextView = findViewById(R.id.inputIngredient)
-        val text = input.text.toString()
+        val text = inputIngredient?.text.toString()
         val fakeIng = DBIngredient(0, text, 0, 0)
-        if(text != "" && arrayListAdapter?.contains(fakeIng) == true && !ingredients.contains(
-                fakeIng
-            )) {
+        if(text != "" && arrayListAdapter?.contains(fakeIng) == true) {
             val index = arrayListAdapter?.indexOf(fakeIng) as Int
             val ing = arrayListAdapter?.get(index) as DBIngredient
-            ingredients.add(ing)
+            val quantityText = inputQuantity?.text.toString()
+            val quantity = DBQuantity(0,ing.id,quantityText,ing.name)
+            quantity.ingredient = ing
+            quantitys.add(quantity)
+
             arrayListAdapter?.remove(ing)
             arrayListAdapter?.notifyDataSetChanged()
 
-            input.text.clear()
-            recyclerIngredients?.adapter?.notifyDataSetChanged()
-            recyclerIngredients?.scrollToPosition(ingredients.size - 1)
+            inputIngredient?.text?.clear()
+            inputQuantity?.text?.clear()
+
+            recyclerQuantitys?.adapter?.notifyDataSetChanged()
+            recyclerQuantitys?.scrollToPosition(quantitys.size - 1)
+
             val focus = this.currentFocus
             if (focus != null) {
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -206,7 +216,7 @@ class AddRecipe : AppCompatActivity() {
         val description = findViewById<EditText>(R.id.description)
         val descriptionText = description.text.toString()
 
-        if(titleText != "" && descriptionText != "" && ingredients.size > 0) {
+        if(titleText != "" && descriptionText != "" && quantitys.size > 0) {
             val bitmap: Bitmap? = if(this.imageBitmap != null) {
                 imageBitmap as Bitmap
             } else {
@@ -215,19 +225,25 @@ class AddRecipe : AppCompatActivity() {
             val recipe = DBRecipe(0,titleText,descriptionText, bitmap)
             val id = db.addRecipe(recipe)
             if(id > -1) {
-                for(ingredient in ingredients) {
-                    db.addQuantity(DBQuantity(id.toInt(), ingredient.id, "1", ingredient.name))
+                for(quantity in quantitys) {
+                    quantity.recipe_id = id.toInt()
+                    db.addQuantity(quantity)
                 }
+                Toast.makeText(this,"Rezept hochgeladen!", Toast.LENGTH_SHORT).show()
+
+                // Clear Input fields
+                title.text.clear()
+                description.text.clear()
+                inputQuantity?.text?.clear()
+                inputIngredient?.text?.clear()
+                quantitys.clear()
+                recyclerQuantitys?.adapter?.notifyDataSetChanged()
+                imgButton?.setImageBitmap(placeholder)
+            } else {
+                Toast.makeText(this,"Rezept konnte nicht hochgeladen werden", Toast.LENGTH_LONG).show()
             }
-            Toast.makeText(this,"Rezept hochgeladen!", Toast.LENGTH_SHORT).show()
-            // Clear Input fields
-            title.text.clear()
-            description.text.clear()
-            ingredients.clear()
-            recyclerIngredients?.adapter?.notifyDataSetChanged()
-            imgButton?.setImageBitmap(placeholder)
         } else {
-            Toast.makeText(this,"Es muss mindestens der Titel, die Zubereitung und eine Zutat eingetragen sein", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Es muss mindestens der Titel, die Zubereitung und eine Zutat eingetragen sein", Toast.LENGTH_LONG).show()
         }
     }
 }
