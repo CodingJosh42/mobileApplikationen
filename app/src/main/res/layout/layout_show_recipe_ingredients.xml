@@ -12,7 +12,6 @@
             android:id="@+id/quantity"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="1kg"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -21,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/quantity"
+            android:layout_toEndOf="@+id/quantity"
             android:layout_centerVertical="true"
-            android:text="Zutat"
             android:textColor="@color/black"
             android:textSize="30sp" />
     </RelativeLayout>
