@@ -2,8 +2,14 @@ package com.example.mobappproject.database
 
 import android.graphics.Bitmap
 
+/**
+ * Recipe class
+ * @param id Id of recipe
+ * @param name Name of recipe
+ * @param description Preparation of recipe
+ * @param picture Bitmap of recipe picture
+ */
 class DBRecipe(val id: Int, val name: String, val description: String, val picture: Bitmap?): Comparable<DBRecipe> {
-    var imgId: Int ?= null
     var quantitys: ArrayList<DBQuantity> ?= null
     var matches: Int ?= null
 

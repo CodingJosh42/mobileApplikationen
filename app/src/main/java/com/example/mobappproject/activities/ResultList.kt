@@ -1,7 +1,6 @@
 package com.example.mobappproject.activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +11,9 @@ import com.example.mobappproject.database.DBRecipe
 import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.recylcerResultList.RecyclerAdapterResult
 
-
+/**
+ * ResultList activity. Displays a list of recipes
+ */
 class ResultList : AppCompatActivity() {
 
     private var recyclerView: RecyclerView? = null
@@ -36,7 +37,8 @@ class ResultList : AppCompatActivity() {
         val recipes = db.searchRecipes(ingredients, searchString)
         if(recipes.size == 0) {
             val noResults = findViewById<TextView>(R.id.noResults)
-            noResults.text = "Keine Ergebnisse gefunden"
+            val text = "Keine Ergebnisse gefunden"
+            noResults.text = text
         } else {
             val linearLayoutManager = LinearLayoutManager(this)
             recyclerView = findViewById(R.id.results)
@@ -50,6 +52,7 @@ class ResultList : AppCompatActivity() {
 
     /**
      * Loads ingredients of all recipes and adds them to recipeList
+     * @param recipeList List of recipes that should load their ingredients and be added to recipes
      */
     private fun addViews(recipeList: ArrayList<DBRecipe>) {
         for (recipe in recipeList){

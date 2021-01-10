@@ -121,6 +121,7 @@ class AddRecipe : AppCompatActivity() {
     /**
      * Loads image as Bitmap. Compresses Image so its not too big for the Database
      * @param uri Path of file
+     * @return Returns Bitmap of image
      */
     private fun getImage(uri: Uri): Bitmap {
         // Get Bitmap
@@ -189,6 +190,9 @@ class AddRecipe : AppCompatActivity() {
 
     /**
      * Closes Keyboard on Enter
+     * @param keyCode key code (EditorInfo)
+     * @param event event
+     * @return Returns true if user pressed Enter, else false
      */
     private fun closeKeyboardOnEnter(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == EditorInfo.IME_ACTION_DONE) {

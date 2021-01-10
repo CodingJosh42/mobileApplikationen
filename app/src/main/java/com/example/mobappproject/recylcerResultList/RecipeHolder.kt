@@ -24,6 +24,7 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var ingredients: TextView? = null
     private var matches: TextView? = null
     private var quantitys: ArrayList<DBQuantity> ?= null
+    private var ingredientList: ArrayList<DBIngredient> ?= null
     private var matchingString = ""
 
     /**
@@ -40,7 +41,7 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     /**
      * Binds recipe on result_list_item
      */
-    fun bind(recipe: DBRecipe, context: Context) {
+    fun bind(recipe: DBRecipe, context: Context, ingredients: ArrayList<DBIngredient>?) {
         itemView.setOnClickListener {
             val intent = Intent(context, ShowRecipe::class.java)
             intent.putExtra("Id", recipe.id)
@@ -52,13 +53,16 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
         var ings = "Zutaten: "
         quantitys = recipe.quantitys
         for (i in 0 until quantitys!!.size) {
-            if (i != quantitys!!.size - 1) {
-                ings += quantitys!![i].ingredientName + ", "
+            ings += if (i != quantitys!!.size - 1) {
+                quantitys!![i].ingredientName + ", "
             } else {
-                ings += quantitys!![i].ingredientName
+                quantitys!![i].ingredientName
             }
         }
-        ingredients?.text = ings
+        this.ingredients?.text = ings
+
+        this.ingredientList = ingredients
+        getMatches()
 
         img?.setImageBitmap(recipe.picture)
     }
@@ -66,9 +70,10 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     /**
      * Binds matching ingredients to textView
      */
-    fun getMatches(searchIngredients: ArrayList<DBIngredient>?) {
-        if(searchIngredients != null) {
-            for (item in searchIngredients) {
+    private fun getMatches() {
+        matchingString = ""
+        if(ingredientList != null) {
+            for (item in ingredientList!!) {
                 if (contains(item)) {
                     matchingString += item.name + ", "
                 }
@@ -78,13 +83,14 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
                 matchingIngs = matchingIngs.removeSuffix(", ")
                 matches?.text = matchingIngs
             } else {
-                matches?.text = "Keine Matches"
+                val text = "Keine Matches"
+                matches?.text = text
             }
         }
     }
 
     /**
-     * Checks if quantitys contain an ingredient
+     * Checks if quantity's contain an ingredient
      */
     private fun contains(searchItem: DBIngredient): Boolean {
         for(item in quantitys!!) {

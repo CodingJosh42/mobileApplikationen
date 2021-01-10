@@ -6,7 +6,7 @@ import androidx.fragment.app.commit
 import com.example.mobappproject.R
 
 /**
- * IngredientList activity. User can create his own list of ingredients
+ * IngredientList activity. User can see and edit his list of ingredients
  */
 class IngredientList : AppCompatActivity() {
 

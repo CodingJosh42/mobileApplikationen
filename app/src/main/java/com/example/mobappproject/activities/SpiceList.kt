@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.fragment.app.commit
 import com.example.mobappproject.R
 
-
+/**
+ * SpiceList. User can see and edit his list of spices
+ */
 class SpiceList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

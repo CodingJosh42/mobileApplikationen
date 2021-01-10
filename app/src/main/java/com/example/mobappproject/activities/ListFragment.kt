@@ -67,21 +67,22 @@ class ListFragment : Fragment() {
     /**
      * Sets up the AutoCompleteTextView. Adds onClickListener, setOnEditorActionListener to input.
      * Initializes the arrayListAdapter and adds it to input
+     * @param v view with input fields
      */
     private fun setUpInput(v: View) {
         val addInput = v.findViewById<Button>(R.id.addInput)
         addInput.setOnClickListener {
-            addIngredient(v)
+            addIngredient()
         }
 
         val input = v.findViewById<AutoCompleteTextView>(R.id.input)
         input.setOnEditorActionListener(TextView.OnEditorActionListener { view, keyCode, event ->
             var handled = false
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                addIngredient(v)
+                addIngredient()
                 handled = true
             } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
-                addIngredient(v)
+                addIngredient()
                 handled = true
             }
             if (handled) {
@@ -108,6 +109,7 @@ class ListFragment : Fragment() {
 
     /**
      * Sets up the Recycler. setUpInput must be called before this to initialize the arrayListAdapter
+     * @param v view with recycler
      */
     private fun setRecycler(v: View) {
         linearLayoutManager = LinearLayoutManager(activity)
@@ -123,7 +125,7 @@ class ListFragment : Fragment() {
      * Called when the user wants to add an Ingredient to his List
      * Adds the ingredient to the user list and removes it from the availableList
      */
-    private fun addIngredient(v: View){
+    private fun addIngredient(){
         val text = input?.text.toString()
         if(text != "") {
             val fakeIng = DBIngredient(0,text,0,0)
@@ -181,6 +183,7 @@ class ListFragment : Fragment() {
         /**
          * Creates a new Instance of ListFragment
          * @param spice 0 if IngredientList, 1 if SpiceList should be displayed
+         * @return Returns new ListFragment
          */
         @JvmStatic
         fun newInstance(spice: Int) =

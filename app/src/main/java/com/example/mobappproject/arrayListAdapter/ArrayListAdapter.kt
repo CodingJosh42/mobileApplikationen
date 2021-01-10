@@ -57,7 +57,8 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     }
 
     /**
-     * Checks if ingredientlist contains an ingredient
+     * Checks if ingredientList contains an ingredient
+     * @param ingredient Ingredient to be checked
      */
     fun contains(ingredient: DBIngredient): Boolean {
         return ingredients.contains(ingredient)
@@ -65,6 +66,7 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
 
     /**
      * Returns index of an ingredient
+     * @param ingredient ingredient to be checked
      */
     fun indexOf(ingredient: DBIngredient): Int {
         return ingredients.indexOf(ingredient)
@@ -72,6 +74,7 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
 
     /**
      * Returns an ingredient at a specific position
+     * @param position position of ingredient
      */
     fun get(position: Int): DBIngredient {
         return ingredients[position]

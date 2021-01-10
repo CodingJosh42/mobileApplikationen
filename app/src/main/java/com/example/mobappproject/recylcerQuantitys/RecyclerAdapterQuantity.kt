@@ -32,6 +32,7 @@ class RecyclerAdapterQuantity(private val list: ArrayList<DBQuantity>, private v
     /**
      * Removes the quantity from the recyclerView at the given position. Adds ingredient to ArrayList
      * Adapter
+     * @param position position of quantity
      */
     fun remove(position: Int) {
         val quantity = list[position]
