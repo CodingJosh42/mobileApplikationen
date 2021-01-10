@@ -172,30 +172,44 @@ class AddRecipe : AppCompatActivity() {
         button.setOnClickListener {
             addIngredient()
         }
+        title?.setOnEditorActionListener(TextView.OnEditorActionListener { view, keyCode, event ->
+            return@OnEditorActionListener closeKeyboardOnEnter(keyCode, event)
+        })
         inputIngredient?.setOnEditorActionListener(TextView.OnEditorActionListener { view, keyCode, event ->
-            if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                hideKeyboard()
-                return@OnEditorActionListener true
-            } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
-                hideKeyboard()
-                return@OnEditorActionListener true
-            }
-            return@OnEditorActionListener false
+            return@OnEditorActionListener closeKeyboardOnEnter(keyCode, event)
         })
         inputQuantity?.setOnEditorActionListener(TextView.OnEditorActionListener { view, keyCode, event ->
-            if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                hideKeyboard()
-                return@OnEditorActionListener true
-            } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
-                hideKeyboard()
-                return@OnEditorActionListener true
-            }
-            return@OnEditorActionListener false
+            return@OnEditorActionListener closeKeyboardOnEnter(keyCode, event)
         })
         this.arrayListAdapter = ArrayListAdapter(this,
             R.layout.simple_dropdown_item_1line, availableIngredients)
         inputIngredient?.threshold = 1
         inputIngredient?.setAdapter(arrayListAdapter)
+    }
+
+    /**
+     * Closes Keyboard on Enter
+     */
+    private fun closeKeyboardOnEnter(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == EditorInfo.IME_ACTION_DONE) {
+            hideKeyboard()
+            return true
+        } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
+            hideKeyboard()
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Hides Keyboard
+     */
+    private fun hideKeyboard() {
+        val focus = this.currentFocus
+        if (focus != null) {
+            val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(focus.windowToken, 0)
+        }
     }
 
     /**
@@ -228,17 +242,6 @@ class AddRecipe : AppCompatActivity() {
     }
 
     /**
-     * Hides Keyboard
-     */
-    private fun hideKeyboard() {
-        val focus = this.currentFocus
-        if (focus != null) {
-            val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(focus.windowToken, 0)
-        }
-    }
-
-    /**
      * Creates new Recipe in Database
      */
     private fun submit() {
@@ -264,8 +267,7 @@ class AddRecipe : AppCompatActivity() {
                             val intent = Intent(this, ShowRecipe::class.java)
                             intent.putExtra("Id", id.toInt())
                             startActivity(intent)
-                        }
-                        .show()
+                        }.show()
 
                 clearInput()
             } else {
