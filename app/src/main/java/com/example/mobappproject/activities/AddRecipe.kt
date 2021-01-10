@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ import com.example.mobappproject.database.DatabaseHandler
 import com.example.mobappproject.arrayListAdapter.ArrayListAdapter
 import com.example.mobappproject.recylcerQuantitys.RecyclerAdapterQuantity
 import com.example.mobappproject.recylcerQuantitys.SwipeCallbackQuantity
+import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
 import kotlin.math.ceil
 
@@ -249,7 +251,14 @@ class AddRecipe : AppCompatActivity() {
                     quantity.recipe_id = id.toInt()
                     db.addQuantity(quantity)
                 }
-                Toast.makeText(this,"Rezept hochgeladen!", Toast.LENGTH_SHORT).show()
+                val layout = findViewById<ConstraintLayout>(R.id.constLayout)
+                Snackbar.make(layout, "Rezept hochgeladen", Snackbar.LENGTH_LONG)
+                        .setAction("Rezept anzeigen") {
+                            val intent = Intent(this, ShowRecipe::class.java)
+                            intent.putExtra("Id", id.toInt())
+                            startActivity(intent)
+                        }
+                        .show()
 
                 clearInput()
             } else {
