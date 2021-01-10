@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -171,19 +172,25 @@ class AddRecipe : AppCompatActivity() {
         button.setOnClickListener {
             addIngredient()
         }
-        inputIngredient?.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+        inputIngredient?.setOnEditorActionListener(TextView.OnEditorActionListener { view, keyCode, event ->
+            if (keyCode == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
-                return@OnKeyListener true
+                return@OnEditorActionListener true
+            } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
+                hideKeyboard()
+                return@OnEditorActionListener true
             }
-            false
+            return@OnEditorActionListener false
         })
-        inputQuantity?.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+        inputQuantity?.setOnEditorActionListener(TextView.OnEditorActionListener { view, keyCode, event ->
+            if (keyCode == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
-                return@OnKeyListener true
+                return@OnEditorActionListener true
+            } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
+                hideKeyboard()
+                return@OnEditorActionListener true
             }
-            false
+            return@OnEditorActionListener false
         })
         this.arrayListAdapter = ArrayListAdapter(this,
             R.layout.simple_dropdown_item_1line, availableIngredients)
