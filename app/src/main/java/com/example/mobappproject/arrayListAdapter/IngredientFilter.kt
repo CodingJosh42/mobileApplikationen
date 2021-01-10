@@ -1,7 +1,6 @@
-package com.example.mobappproject.recycleViewIngredients
+package com.example.mobappproject.arrayListAdapter
 import android.widget.Filter
 import com.example.mobappproject.database.DBIngredient
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**

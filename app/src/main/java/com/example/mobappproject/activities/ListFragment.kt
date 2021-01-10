@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
-import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
+import com.example.mobappproject.arrayListAdapter.ArrayListAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 
@@ -34,7 +34,7 @@ class ListFragment : Fragment() {
     private lateinit var db: DatabaseHandler
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
-    private var arrayListAdapter: ArrayListAdapter ?= null
+    private var arrayListAdapter: ArrayListAdapter?= null
     private var isSpice: Int? = null
     private var input: AutoCompleteTextView ?= null
 

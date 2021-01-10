@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
-import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
+import com.example.mobappproject.arrayListAdapter.ArrayListAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private var userIngredientList = ArrayList<DBIngredient>()
     private val db = DatabaseHandler(this)
     private val availableIngredients = ArrayList<DBIngredient>()
-    private var arrayListAdapter: ArrayListAdapter ?= null
+    private var arrayListAdapter: ArrayListAdapter?= null
     private val spiceList= ArrayList<DBIngredient>()
 
     private var inputIngredient: AutoCompleteTextView ?= null

@@ -3,6 +3,7 @@ package com.example.mobappproject.recycleViewIngredients
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobappproject.arrayListAdapter.ArrayListAdapter
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
 

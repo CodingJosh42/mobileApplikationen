@@ -1,6 +1,5 @@
 package com.example.mobappproject.activities
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -20,7 +19,7 @@ import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DBQuantity
 import com.example.mobappproject.database.DBRecipe
 import com.example.mobappproject.database.DatabaseHandler
-import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
+import com.example.mobappproject.arrayListAdapter.ArrayListAdapter
 import com.example.mobappproject.recylcerQuantitys.RecyclerAdapterQuantity
 import com.example.mobappproject.recylcerQuantitys.SwipeCallbackQuantity
 import java.io.ByteArrayOutputStream
@@ -35,7 +34,7 @@ class AddRecipe : AppCompatActivity() {
     private var availableIngredients = ArrayList<DBIngredient>()
     private var db = DatabaseHandler(this)
     private var recyclerQuantitys: RecyclerView ?= null
-    private var arrayListAdapter: ArrayListAdapter ?= null
+    private var arrayListAdapter: ArrayListAdapter?= null
     private val ADD_RECIPE_IMAGE = 1
     private var imageBitmap: Bitmap ?= null
     private var placeholder: Bitmap ?= null

@@ -1,4 +1,4 @@
-package com.example.mobappproject.recycleViewIngredients
+package com.example.mobappproject.arrayListAdapter
 
 import android.content.Context
 import android.view.LayoutInflater

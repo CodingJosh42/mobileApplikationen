@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.database.DBQuantity
-import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
+import com.example.mobappproject.arrayListAdapter.ArrayListAdapter
 
 /**
  * RecyclerAdapter to display quantitys
