@@ -71,6 +71,7 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
      * Binds matching ingredients to textView
      */
     private fun getMatches() {
+        matchingString = ""
         if(ingredientList != null) {
             for (item in ingredientList!!) {
                 if (contains(item)) {
