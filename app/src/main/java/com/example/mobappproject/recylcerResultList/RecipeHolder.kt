@@ -90,7 +90,7 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     }
 
     /**
-     * Checks if quantitys contain an ingredient
+     * Checks if quantity's contain an ingredient
      */
     private fun contains(searchItem: DBIngredient): Boolean {
         for(item in quantitys!!) {

@@ -56,7 +56,7 @@ class ShowRecipe : AppCompatActivity() {
     }
 
     /**
-     * Sets up the RecylcerView of quanitys.
+     * Sets up the RecyclerView of quantity's.
      */
     private fun setRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this)

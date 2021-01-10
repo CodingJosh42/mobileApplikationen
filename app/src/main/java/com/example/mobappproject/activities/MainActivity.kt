@@ -47,16 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         loadIngredients()
 
-        // Set onClick Listener for adding Ingredients and eventListener for enter
         setUpAddIngredient()
 
-        // Set RecyclerView
         setRecyclerView()
 
-        // Set eventlistener (ENTER) for search input
         setUpSearch()
 
-        // Set onCheckedChangedListener to add and remove userIngredientList from ingredientList
         setUpSwitchButton()
     }
 
@@ -126,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Sets up the RecylcerView of ingredients. setUpAddIngredient must be called before this
+     * Sets up the RecyclerView of ingredients. setUpAddIngredient must be called before this
      */
     private fun setRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this)
@@ -138,18 +134,12 @@ class MainActivity : AppCompatActivity() {
         itemTouch.attachToRecyclerView(recyclerIngredients)
     }
 
-    /**
-     * Creates OptionsMenu
-     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
-    /**
-     * Handles selected menu Item
-     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ingredientList -> {
@@ -175,6 +165,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Starts new Activity (ResultList) and gives ingredients and catchPhrase to it
      * ResultList performs search with given information
+     * @param view param for onClick attribute
      */
     fun search(view: View) {
         val text = inputSearch?.text.toString()
@@ -188,7 +179,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
             intent.putExtra("ingredients", ingredientList)
             startActivity(intent)
         } else {
@@ -220,7 +210,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Loads all ingredients. Saves ingredients either in userList or availabeList
+     * Loads all ingredients. Saves ingredients either in userList or availableList
      */
     private fun loadIngredients() {
         // All ingredients
@@ -234,7 +224,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Adds ingredients of userlist to ingredientList
+     * Adds ingredients of userList to ingredientList
      */
     private fun addUserList() {
         if(userIngredientList.size > 0) {

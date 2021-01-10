@@ -92,6 +92,10 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         onCreate(db)
     }
 
+    /**
+     * Adds ingredient to database (not used yet)
+     * @param name Name of ingredient
+     */
     fun addIngredient(name: String): Long {
         val db = this.writableDatabase
 
@@ -103,8 +107,10 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         return writeDB
     }
 
-
-
+    /**
+     * Adds spice to database (not used yet)
+     * @param name Name of spice
+     */
     fun addSpice(name: String): Long {
         val db = this.writableDatabase
 
@@ -345,7 +351,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
     }
 
     /**
-     * Get all Recipes
+     * Get all Recipes (deprecated)
      * @return Arraylist of recipes
      */
     fun getRecipes(): ArrayList<DBRecipe>{

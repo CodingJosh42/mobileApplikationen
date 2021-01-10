@@ -9,7 +9,9 @@ import com.example.mobappproject.R
 import com.example.mobappproject.database.DBQuantity
 
 /**
- * Holder class for quantitys
+ * Holder class for quantity's
+ * @param inflater Layout inflater
+ * @param parent parent view
  */
 class QuantityHolder (inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_ingredient_list_item, parent, false)) {
@@ -26,6 +28,7 @@ class QuantityHolder (inflater: LayoutInflater, parent: ViewGroup) :
 
     /**
      * Binds the quantity and ingredientName to the textView
+     * @param quantity quantity to bind to textView
      */
     fun bind(quantity: DBQuantity) {
         val text = quantity.quantity + " " + quantity.ingredientName

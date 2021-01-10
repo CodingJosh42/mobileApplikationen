@@ -52,6 +52,7 @@ class ResultList : AppCompatActivity() {
 
     /**
      * Loads ingredients of all recipes and adds them to recipeList
+     * @param recipeList List of recipes that should load their ingredients and be added to recipes
      */
     private fun addViews(recipeList: ArrayList<DBRecipe>) {
         for (recipe in recipeList){

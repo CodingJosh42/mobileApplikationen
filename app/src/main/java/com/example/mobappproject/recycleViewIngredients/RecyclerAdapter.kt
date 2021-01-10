@@ -11,7 +11,7 @@ import com.example.mobappproject.database.DatabaseHandler
  * Displays ingredients of list in a recyclerView
  * @param list Contains ArrayList that should be displayed
  * @param adapter ArrayListAdapter that contains the available ingredients for the AutoCompleteTextView
- * @param db DatabaseHandler to remove the ingredients from the Userlist. Does nothing if null
+ * @param db DatabaseHandler to remove the ingredients from the user list. Does nothing if null
  */
 class RecyclerAdapter(private val list: ArrayList<DBIngredient>, private val adapter: ArrayListAdapter, private val db: DatabaseHandler?) : RecyclerView.Adapter<IngredientHolder>() {
 
@@ -33,8 +33,9 @@ class RecyclerAdapter(private val list: ArrayList<DBIngredient>, private val ada
     }
 
     /**
-     * Removes the ingredient from the recylcerView at the given position. Removes it also from the
-     * userlist if db is not null
+     * Removes the ingredient from the recyclerView at the given position. Removes it also from the
+     * user list if db is not null
+     * @param position position of ingredient that should be removed
      */
     fun remove(position: Int) {
         val ing = list[position]
