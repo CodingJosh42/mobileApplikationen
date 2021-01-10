@@ -1,6 +1,5 @@
 package com.example.mobappproject.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
@@ -22,6 +21,10 @@ import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+/**
+ * Main Activity. User can add ingredients to a temporary list and enter a catchPhrase
+ * User can search for recipes with that data
+ */
 class MainActivity : AppCompatActivity() {
 
     private var ingredientList = ArrayList<DBIngredient>()
@@ -199,7 +202,7 @@ class MainActivity : AppCompatActivity() {
     private fun addIngredient() {
         val text = inputIngredient?.text.toString()
         val fakeIng = DBIngredient(0, text, 0, 0)
-        if(text != "" && arrayListAdapter?.contains(fakeIng) == true) {
+        if(text != "" && arrayListAdapter?.contains(fakeIng) == true && !ingredientList.contains((fakeIng))) {
             val index = arrayListAdapter?.indexOf(fakeIng) as Int
             val ing = arrayListAdapter?.get(index) as DBIngredient
             ingredientList.add(ing)

@@ -22,8 +22,7 @@ class RecyclerAdapterResult(private val context: Context, private val list: Arra
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
         val recipe: DBRecipe = list[position]
-        holder.bind(recipe, context)
-        holder.getMatches(ingredients)
+        holder.bind(recipe, context, ingredients)
     }
 
     override fun getItemCount(): Int {
