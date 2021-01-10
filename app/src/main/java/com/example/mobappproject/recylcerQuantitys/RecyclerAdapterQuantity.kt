@@ -6,6 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.database.DBQuantity
 import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
 
+/**
+ * RecyclerAdapter to display quantitys
+ * @param list List of quantitys that should be displayed
+ * @param adapter ArrayListAdapter of AutoCompleteTextView to add removed quantity to it
+ */
 class RecyclerAdapterQuantity(private val list: ArrayList<DBQuantity>, private val adapter: ArrayListAdapter) : RecyclerView.Adapter<QuantityHolder>() {
     private var quantity: DBQuantity? = null
 

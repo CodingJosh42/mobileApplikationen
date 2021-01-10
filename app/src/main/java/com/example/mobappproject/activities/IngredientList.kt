@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.example.mobappproject.R
 
-
+/**
+ * IngredientList activity. User can create his own list of ingredients
+ */
 class IngredientList : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

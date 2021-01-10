@@ -18,6 +18,12 @@ import kotlin.math.ceil
 class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_Version){
 
     companion object{
+        // Modes
+        const val ONLY_INGREDIENTS = 0
+        const val ONLY_SPICES = 1
+        const val STORED_INGREDIENTS = 2
+        const val STORED_SPICES = 3
+
         private const val DB_NAME = "Recipe_Database"
         private const val DB_Version = 1
         private const val TABLE_INGREDIENT = "IngredientTable"
@@ -184,10 +190,10 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         val list: ArrayList<DBIngredient> = ArrayList()
         val select:String
         when (mode) {
-            0 -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0"
-            1 -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1"
-            2 -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0 AND $INGREDIENT_KEY_STORED = 1"
-            3 -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1 AND $INGREDIENT_KEY_STORED = 1"
+            ONLY_INGREDIENTS -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0"
+            ONLY_SPICES -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1"
+            STORED_INGREDIENTS -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0 AND $INGREDIENT_KEY_STORED = 1"
+            STORED_SPICES -> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1 AND $INGREDIENT_KEY_STORED = 1"
             else-> select = "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 2"
         }
 

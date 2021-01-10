@@ -10,7 +10,7 @@ import com.example.mobappproject.database.DatabaseHandler
  * Displays ingredients of list in a recyclerView
  * @param list Contains ArrayList that should be displayed
  * @param adapter ArrayListAdapter that contains the available ingredients for the AutoCompleteTextView
- * @param db DatabseHanlder to remove the ingredients from the Userlist. Does noting if null
+ * @param db DatabaseHandler to remove the ingredients from the Userlist. Does nothing if null
  */
 class RecyclerAdapter(private val list: ArrayList<DBIngredient>, private val adapter: ArrayListAdapter, private val db: DatabaseHandler?) : RecyclerView.Adapter<IngredientHolder>() {
 

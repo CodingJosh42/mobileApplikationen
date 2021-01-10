@@ -29,7 +29,6 @@ class IngredientHolderShowRecipe(inflater: LayoutInflater, parent: ViewGroup) :
      * Binds DBQuantity to textView
      */
     fun bind(quantity: DBQuantity) {
-        val text = quantity.quantity + " " + quantity.ingredientName
         this.ingredient?.text = quantity.ingredientName
         this.quantity?.text = quantity.quantity
 

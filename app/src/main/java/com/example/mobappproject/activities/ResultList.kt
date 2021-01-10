@@ -49,28 +49,14 @@ class ResultList : AppCompatActivity() {
     }
 
     /**
-     * Loads all Recipes
-     */
-    private fun loadRecipes(): ArrayList<DBRecipe> {
-        return db.getRecipes()
-    }
-
-    /**
      * Loads ingredients of all recipes and adds them to recipeList
      */
     private fun addViews(recipeList: ArrayList<DBRecipe>) {
         for (recipe in recipeList){
-
             recipe.quantitys = db.getRecipeQuantitys(recipe.id)
-
             recipes.add(recipe)
         }
         recipes.sortDescending()
         recyclerView?.adapter?.notifyDataSetChanged()
     }
-
-    private fun filterRecipes(){
-        
-    }
-
 }

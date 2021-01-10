@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +26,9 @@ import com.example.mobappproject.recylcerQuantitys.SwipeCallbackQuantity
 import java.io.ByteArrayOutputStream
 import kotlin.math.ceil
 
-
+/**
+ * Add Recipe Activity
+ */
 class AddRecipe : AppCompatActivity() {
 
     private var quantitys = ArrayList<DBQuantity>()
@@ -166,12 +170,24 @@ class AddRecipe : AppCompatActivity() {
         button.setOnClickListener {
             addIngredient()
         }
-        val inputIng: AutoCompleteTextView = findViewById(R.id.inputIngredient)
-
+        inputIngredient?.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                hideKeyboard()
+                return@OnKeyListener true
+            }
+            false
+        })
+        inputQuantity?.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                hideKeyboard()
+                return@OnKeyListener true
+            }
+            false
+        })
         this.arrayListAdapter = ArrayListAdapter(this,
             R.layout.simple_dropdown_item_1line, availableIngredients)
-        inputIng.threshold = 1
-        inputIng.setAdapter(arrayListAdapter)
+        inputIngredient?.threshold = 1
+        inputIngredient?.setAdapter(arrayListAdapter)
     }
 
     /**
@@ -197,11 +213,20 @@ class AddRecipe : AppCompatActivity() {
             recyclerQuantitys?.adapter?.notifyDataSetChanged()
             recyclerQuantitys?.scrollToPosition(quantitys.size - 1)
 
-            val focus = this.currentFocus
-            if (focus != null) {
-                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(focus.windowToken, 0)
-            }
+            hideKeyboard()
+        } else if(text != ""){
+            Toast.makeText(this,"$text ist keine valide Zutat oder bereits in deiner Liste", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Hides Keyboard
+     */
+    private fun hideKeyboard() {
+        val focus = this.currentFocus
+        if (focus != null) {
+            val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(focus.windowToken, 0)
         }
     }
 

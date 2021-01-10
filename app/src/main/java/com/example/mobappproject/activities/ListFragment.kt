@@ -24,6 +24,9 @@ import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 
+/**
+ * ListFragment. Used for ingredient and SpiceList
+ */
 class ListFragment : Fragment() {
 
     private var linearLayoutManager: LinearLayoutManager? = null
@@ -33,6 +36,7 @@ class ListFragment : Fragment() {
     private val availableIngredients = ArrayList<DBIngredient>()
     private var arrayListAdapter: ArrayListAdapter ?= null
     private var isSpice: Int? = null
+    private var input: AutoCompleteTextView ?= null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +54,7 @@ class ListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_list, container, false)
+        input = v.findViewById(R.id.input)
 
         loadIngredients()
 
@@ -119,8 +124,7 @@ class ListFragment : Fragment() {
      * Adds the ingredient to the user list and removes it from the availableList
      */
     private fun addIngredient(v: View){
-        val input = v.findViewById<AutoCompleteTextView>(R.id.input)
-        val text = input.text.toString()
+        val text = input?.text.toString()
         if(text != "") {
             val fakeIng = DBIngredient(0,text,0,0)
             if(arrayListAdapter?.contains(fakeIng) == true) {
@@ -137,7 +141,7 @@ class ListFragment : Fragment() {
                     recyclerView?.scrollToPosition(mIngredients.size - 1)
                     val msg = Toast.makeText(activity, text + " hinzugefügt", Toast.LENGTH_SHORT)
                     msg.show()
-                    input.text.clear()
+                    input?.text?.clear()
                 } else {
                     val msg = Toast.makeText(activity, text + " konnte nicht abgespeichert werden", Toast.LENGTH_SHORT)
                     msg.show()
@@ -174,6 +178,10 @@ class ListFragment : Fragment() {
 
 
     companion object {
+        /**
+         * Creates a new Instance of ListFragment
+         * @param spice 0 if IngredientList, 1 if SpiceList should be displayed
+         */
         @JvmStatic
         fun newInstance(spice: Int) =
                 ListFragment().apply {

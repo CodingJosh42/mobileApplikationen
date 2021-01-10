@@ -1,6 +1,5 @@
 package com.example.mobappproject.recycleViewIngredients
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +11,11 @@ import androidx.fragment.app.FragmentActivity
 import android.R.id
 import com.example.mobappproject.database.DBIngredient
 
-
-
 /**
  * Contains and displays the available ingredients
- * @param context Fragment that uses this adapter
+ * @param context Fragment/Activity that uses this adapter
  * @param resource Resource id to display ingredients
- * @param objects List of ingredients
+ * @param objects List of available ingredients
  */
 class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayList<DBIngredient>) : ArrayAdapter<DBIngredient>(context, resource, objects) {
     var ingredients = objects
@@ -84,8 +81,8 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
         if (view == null) {
-            val infalter = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = infalter.inflate(resId, null)
+            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            view = inflater.inflate(resId, null)
         }
 
         val ingredient = filteredIngredients[position]

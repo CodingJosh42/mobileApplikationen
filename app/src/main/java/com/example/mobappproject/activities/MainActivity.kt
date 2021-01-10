@@ -32,9 +32,15 @@ class MainActivity : AppCompatActivity() {
     private var arrayListAdapter: ArrayListAdapter ?= null
     private val spiceList= ArrayList<DBIngredient>()
 
+    private var inputIngredient: AutoCompleteTextView ?= null
+    private var inputSearch: EditText ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        inputIngredient = findViewById(R.id.inputIngredient)
+        inputSearch = findViewById(R.id.inputSearch)
 
         loadIngredients()
 
@@ -161,13 +167,10 @@ class MainActivity : AppCompatActivity() {
      * ResultList performs search with given information
      */
     fun search(view: View) {
-        val inputSearch: EditText = findViewById(R.id.inputSearch)
-        val text = inputSearch.text.toString()
+        val text = inputSearch?.text.toString()
         if(!(text == "" && ingredientList.size == 0)) {
             val intent = Intent(this, ResultList::class.java)
-            //if(text != "") {
             intent.putExtra("searchString", text)
-            //}
             if (ingredientList.isNotEmpty()){
                 for(item in spiceList) {
                     if(!ingredientList.contains(item)) {
@@ -187,17 +190,16 @@ class MainActivity : AppCompatActivity() {
      * Adds an ingredient to the list
      */
     private fun addIngredient() {
-        val input: AutoCompleteTextView = findViewById(R.id.inputIngredient)
-        val text = input.text.toString()
+        val text = inputIngredient?.text.toString()
         val fakeIng = DBIngredient(0, text, 0, 0)
-        if(text != "" && arrayListAdapter?.contains(fakeIng) == true && !ingredientList.contains(fakeIng)) {
+        if(text != "" && arrayListAdapter?.contains(fakeIng) == true) {
             val index = arrayListAdapter?.indexOf(fakeIng) as Int
             val ing = arrayListAdapter?.get(index) as DBIngredient
             ingredientList.add(ing)
             arrayListAdapter?.remove(ing)
             arrayListAdapter?.notifyDataSetChanged()
 
-            input.text.clear()
+            inputIngredient?.text?.clear()
             recyclerIngredients?.adapter?.notifyDataSetChanged()
             recyclerIngredients?.scrollToPosition(ingredientList.size -1)
             val focus = this.currentFocus
@@ -205,6 +207,8 @@ class MainActivity : AppCompatActivity() {
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(focus.windowToken, 0)
             }
+        } else if(text != ""){
+            Toast.makeText(this, "$text ist keine valide Zutat oder bereits in deiner Liste",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -216,10 +220,10 @@ class MainActivity : AppCompatActivity() {
         val dbIngs = db.getIngredients()
         availableIngredients.addAll(dbIngs)
         // Stored ingredients
-        val userList = db.getIngredients(2)
+        val userList = db.getIngredients(DatabaseHandler.STORED_INGREDIENTS)
         userIngredientList.addAll(userList)
         // Stored spices
-        spiceList.addAll(db.getIngredients(3))
+        spiceList.addAll(db.getIngredients(DatabaseHandler.STORED_SPICES))
     }
 
     /**
@@ -236,6 +240,8 @@ class MainActivity : AppCompatActivity() {
             }
             recyclerIngredients?.adapter?.notifyDataSetChanged()
             recyclerIngredients?.scrollToPosition(ingredientList.size - 1)
+        } else {
+            Toast.makeText(this, "Zutatenliste ist leer", Toast.LENGTH_SHORT).show()
         }
     }
 
