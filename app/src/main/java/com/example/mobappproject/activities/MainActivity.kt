@@ -79,15 +79,22 @@ class MainActivity : AppCompatActivity() {
         inputSearch.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 search(view)
-                val focus = this.currentFocus
-                if (focus != null) {
-                    val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(focus.windowToken, 0)
-                }
+                hideKeyboard()
                 return@OnKeyListener true
             }
             false
         })
+    }
+
+    /**
+     * Hides Keyboard
+     */
+    private fun hideKeyboard() {
+        val focus = this.currentFocus
+        if (focus != null) {
+            val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(focus.windowToken, 0)
+        }
     }
 
     /**
@@ -202,11 +209,8 @@ class MainActivity : AppCompatActivity() {
             inputIngredient?.text?.clear()
             recyclerIngredients?.adapter?.notifyDataSetChanged()
             recyclerIngredients?.scrollToPosition(ingredientList.size -1)
-            val focus = this.currentFocus
-            if (focus != null) {
-                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(focus.windowToken, 0)
-            }
+
+            hideKeyboard()
         } else if(text != ""){
             Toast.makeText(this, "$text ist keine valide Zutat oder bereits in deiner Liste",Toast.LENGTH_SHORT).show()
         }
