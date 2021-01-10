@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/ingredientList"
-        android:title="Zutatenliste"
+        android:title="@string/ingredientList"
         app:showAsAction="never" />
     <item
         android:id="@+id/spiceList"
-        android:title="Gewürzliste"
+        android:title="@string/spiceList"
         app:showAsAction="never" />
     <item
         android:id="@+id/addRecipe"
         android:icon="@android:drawable/ic_input_add"
-        android:title="Rezept hochladen"
+        android:title="@string/upload_recipe"
         app:showAsAction="ifRoom" />
 </menu>
