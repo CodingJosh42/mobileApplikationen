@@ -44,7 +44,6 @@ class ResultList : AppCompatActivity() {
             recyclerView = findViewById(R.id.results)
             recyclerView?.layoutManager = linearLayoutManager
 
-            recyclerView?.adapter = RecyclerAdapterResult(this, recipes, ingredients)
             addViews(recipes)
         }
 
@@ -60,6 +59,9 @@ class ResultList : AppCompatActivity() {
             recipes.add(recipe)
         }
         recipes.sortDescending()
-        recyclerView?.adapter?.notifyDataSetChanged()
+       for(item in recipes) {
+           System.out.println(item.name)
+       }
+        recyclerView?.adapter = RecyclerAdapterResult(this, recipes, ingredients)
     }
 }

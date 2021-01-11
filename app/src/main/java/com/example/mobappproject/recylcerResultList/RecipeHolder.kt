@@ -26,6 +26,7 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var quantitys: ArrayList<DBQuantity> ?= null
     private var ingredientList: ArrayList<DBIngredient> ?= null
     private var matchingString = ""
+    private var ingredientString = ""
 
     /**
      * Initializes title, img, ingredients, matches
@@ -50,21 +51,31 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
 
         title?.text = recipe.name
 
-        var ings = "Zutaten: "
+
+        getIngredientText(recipe)
+
+
+        this.ingredientList = ingredients
+
+        getMatches()
+
+        img?.setImageBitmap(recipe.picture)
+    }
+
+    /**
+     * Binds ingredient names to ingredient textView
+     */
+    private fun getIngredientText(recipe: DBRecipe) {
+        ingredientString = "Zutaten: "
         quantitys = recipe.quantitys
         for (i in 0 until quantitys!!.size) {
-            ings += if (i != quantitys!!.size - 1) {
+            ingredientString += if (i != quantitys!!.size - 1) {
                 quantitys!![i].ingredientName + ", "
             } else {
                 quantitys!![i].ingredientName
             }
         }
-        this.ingredients?.text = ings
-
-        this.ingredientList = ingredients
-        getMatches()
-
-        img?.setImageBitmap(recipe.picture)
+        this.ingredients?.text = ingredientString
     }
 
     /**
@@ -79,9 +90,9 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
                 }
             }
             if(matchingString.isNotEmpty()) {
-                var matchingIngs = "Matches: $matchingString"
-                matchingIngs = matchingIngs.removeSuffix(", ")
-                matches?.text = matchingIngs
+                matchingString = "Matches: $matchingString"
+                matchingString = matchingString.removeSuffix(", ")
+                matches?.text = matchingString
             } else {
                 val text = "Keine Matches"
                 matches?.text = text
