@@ -441,6 +441,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * Get Recipe list that contain given ingredients and catch phrase
      * @param storage List of ingredients
      * @param search Catch phrase
+     * @param spices Spices from the userList 
      * @return Returns list of recipes
      */
     fun searchRecipes(storage: ArrayList<DBIngredient>, search: String, spices: ArrayList<DBIngredient>?): ArrayList<DBRecipe>{
@@ -479,7 +480,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         }
         select += " GROUP BY $TABLE_RECIPE.$RECIPE_KEY_ID"
         if(spices != null) {
-            select += " HAVING SUM(" 
+            select += " HAVING SUM("
             for (i in spices.indices){
                 select += if (i == spices.size -1){
                     "case when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + " then 0 else 1 end) > 0"
