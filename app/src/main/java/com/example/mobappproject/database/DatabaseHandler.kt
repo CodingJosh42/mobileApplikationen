@@ -274,11 +274,11 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
     }
 
     /**
-     * Get all quantitys for a specific recipe
+     * Get all quantities for a specific recipe
      * @param recipeID ID of the recipe
-     * @return Arraylist of quantitys
+     * @return ArrayList of quantities
      */
-    fun getRecipeQuantitys(recipeID: Int): ArrayList<DBQuantity>{
+    fun getRecipeQuantities(recipeID: Int): ArrayList<DBQuantity>{
         val list: ArrayList<DBQuantity> = ArrayList()
         val select = "SELECT * FROM $TABLE_INGREDIENT JOIN $TABLE_QUANTITY" +
                 " ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
@@ -352,7 +352,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
 
     /**
      * Get all Recipes (deprecated)
-     * @return Arraylist of recipes
+     * @return ArrayList of recipes
      */
     fun getRecipes(): ArrayList<DBRecipe>{
         val list: ArrayList<DBRecipe> = ArrayList()
@@ -441,9 +441,10 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * Get Recipe list that contain given ingredients and catch phrase
      * @param storage List of ingredients
      * @param search Catch phrase
+     * @param spices Spices from the userList 
      * @return Returns list of recipes
      */
-    fun searchRecipes(storage: ArrayList<DBIngredient>, search: String): ArrayList<DBRecipe>{
+    fun searchRecipes(storage: ArrayList<DBIngredient>, search: String, spices: ArrayList<DBIngredient>?): ArrayList<DBRecipe>{
         val recipeList: ArrayList<DBRecipe> = ArrayList()
         val db = this.readableDatabase
         val cursor: Cursor?
@@ -468,12 +469,27 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
                     " OR $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + storage[i].id
                 }
             }
+            if(spices != null) {
+                for (i in spices.indices){
+                    " OR $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id
+                }
+            }
             select += ") AND $RECIPE_KEY_NAME LIKE \"%$search%\""
         } else {
             select += "WHERE $RECIPE_KEY_NAME LIKE \"%$search%\""
         }
-        select += " GROUP BY $TABLE_RECIPE.$RECIPE_KEY_ID" +
-                " ORDER BY Matches DESC"
+        select += " GROUP BY $TABLE_RECIPE.$RECIPE_KEY_ID"
+        if(spices != null) {
+            select += " HAVING SUM("
+            for (i in spices.indices){
+                select += if (i == spices.size -1){
+                    "case when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + " then 0 else 1 end) > 0"
+                }else{
+                    "case when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + "then 0 "
+                }
+            }
+        }
+        select += " ORDER BY Matches DESC"
         try {
             cursor = db.rawQuery(select, null)
         } catch (e: SQLiteException){

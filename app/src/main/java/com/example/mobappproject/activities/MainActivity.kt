@@ -172,13 +172,15 @@ class MainActivity : AppCompatActivity() {
         if(!(text == "" && ingredientList.size == 0)) {
             val intent = Intent(this, ResultList::class.java)
             intent.putExtra("searchString", text)
+            val spices = ArrayList<DBIngredient>()
             if (ingredientList.isNotEmpty()){
                 for(item in spiceList) {
                     if(!ingredientList.contains(item)) {
-                        ingredientList.add(item)
+                        spices.add(item)
                     }
                 }
             }
+            intent.putExtra("spices", spices)
             intent.putExtra("ingredients", ingredientList)
             startActivity(intent)
         } else {
