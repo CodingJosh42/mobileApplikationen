@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
+import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -59,8 +61,29 @@ class AddRecipe : AppCompatActivity() {
         setRecyclerView()
 
         setUpImageInput()
+    }
 
-        setUpSubmit()
+    /**
+     * Creates OptionsMenu
+     */
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.add_recipe, menu)
+        return true
+    }
+
+    /**
+     * Handles selected menu Item
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.uploadRecipe -> {
+                submit()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     /**
@@ -71,15 +94,7 @@ class AddRecipe : AppCompatActivity() {
         availableIngredients.addAll(dbIngs)
     }
 
-    /**
-     * Sets up submit Button
-     */
-    private fun setUpSubmit() {
-        val submit = findViewById<Button>(R.id.submit)
-        submit.setOnClickListener {
-            submit()
-        }
-    }
+
 
     /**
      * Sets up ImageInputButton

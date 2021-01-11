@@ -70,17 +70,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="12dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <Button
                 android:id="@+id/addIngredient"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="Zutat hinzufügen"
-                android:textSize="20sp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredientContainer"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredientContainer" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredients"
                 android:layout_width="match_parent"
@@ -88,30 +87,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/addIngredient"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
             <EditText
                 android:id="@+id/description"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textSize="30sp"
-                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:hint="Zubereitung"
                 android:inputType="textMultiLine"
-                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:textSize="30sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/submit"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients"/>
-            <Button
-                android:id="@+id/submit"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Hochladen"
-                android:textSize="24sp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/ingredients" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
