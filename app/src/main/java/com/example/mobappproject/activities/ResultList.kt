@@ -27,14 +27,20 @@ class ResultList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result_list)
 
+        val spices = ArrayList<DBIngredient>()
         bundle = intent.extras
         if (bundle != null) {
             ingredients = bundle!!.get("ingredients") as ArrayList<DBIngredient>
             searchString = bundle!!.get("searchString") as String
+            spices.addAll(bundle!!.get("spices") as ArrayList<DBIngredient>)
         }
 
         db = DatabaseHandler(this)
-        val recipes = db.searchRecipes(ingredients, searchString)
+        val recipes = if(spices.size > 0) {
+            db.searchRecipes(ingredients, searchString,spices)
+        } else {
+            db.searchRecipes(ingredients, searchString,null)
+        }
         if(recipes.size == 0) {
             val noResults = findViewById<TextView>(R.id.noResults)
             val text = "Keine Ergebnisse gefunden"
@@ -55,7 +61,7 @@ class ResultList : AppCompatActivity() {
      */
     private fun addViews(recipeList: ArrayList<DBRecipe>) {
         for (recipe in recipeList){
-            recipe.quantitys = db.getRecipeQuantitys(recipe.id)
+            recipe.quantitys = db.getRecipeQuantities(recipe.id)
             recipes.add(recipe)
         }
         recipes.sortDescending()

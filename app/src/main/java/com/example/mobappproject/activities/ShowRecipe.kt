@@ -34,7 +34,7 @@ class ShowRecipe : AppCompatActivity() {
         }
         if(id != -1){
             recipe = db.getRecipeByID(id)
-            quantityList = db.getRecipeQuantitys(id)
+            quantityList = db.getRecipeQuantities(id)
 
             setRecyclerView()
             setContent()
