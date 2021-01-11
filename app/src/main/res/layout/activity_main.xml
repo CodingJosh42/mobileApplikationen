@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null"
     tools:context=".activities.MainActivity">
 
     <TextView
@@ -57,7 +56,7 @@
                 android:contentDescription="@string/search"
                 android:focusable="true"
                 android:onClick="search"
-                app:backgroundTint="@color/white"
+                app:backgroundTint="@color/light_blue"
                 app:elevation="0dp"
                 app:fabSize="normal"
                 app:maxImageSize="40dp"
