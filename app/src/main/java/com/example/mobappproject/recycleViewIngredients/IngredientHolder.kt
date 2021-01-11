@@ -13,7 +13,7 @@ import com.example.mobappproject.database.DBIngredient
  * @param inflater Layout inflater
  * @param parent parent view
  */
-class IngredientHolder (inflater: LayoutInflater, parent: ViewGroup) :
+class IngredientHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_ingredient_list_item, parent, false)) {
     private var name: TextView? = null
     private var button: Button? = null

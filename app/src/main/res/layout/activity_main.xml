@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@null"
     tools:context=".activities.MainActivity">
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -20,6 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <RelativeLayout
         android:id="@+id/search_container"
         android:layout_width="wrap_content"
@@ -27,12 +29,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title">
+
         <LinearLayout
             android:id="@+id/search_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/inputSearch"
                 android:layout_width="320dp"
@@ -43,32 +47,35 @@
                 android:textSize="36sp"
                 tools:layout_editor_absoluteX="29dp"
                 tools:layout_editor_absoluteY="375dp" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/searchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:clickable="true"
+                android:contentDescription="@string/search"
                 android:focusable="true"
+                android:onClick="search"
                 app:backgroundTint="@color/white"
                 app:elevation="0dp"
-                android:layout_gravity="center_vertical"
-                app:srcCompat="@android:drawable/ic_menu_search"
                 app:fabSize="normal"
                 app:maxImageSize="40dp"
-                android:onClick="search"
-                android:contentDescription="@string/search" />
+                app:srcCompat="@android:drawable/ic_menu_search" />
         </LinearLayout>
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/useList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/use_ingredient_list"
-        android:layout_marginTop="10dp"
-        android:textSize="28sp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/search_layout"
-        android:layout_alignParentLeft="true" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/useList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_layout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/use_ingredient_list"
+            android:textSize="28sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/ingredientContainer"
         android:layout_width="360dp"
@@ -77,12 +84,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_container">
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:orientation="horizontal">
+
             <AutoCompleteTextView
                 android:id="@+id/inputIngredient"
                 android:layout_width="270dp"
@@ -91,6 +100,7 @@
                 android:hint="@string/addIngredient"
                 android:inputType="textPersonName"
                 android:textSize="30sp" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/ingredientButton"
                 android:layout_width="0dp"
@@ -99,20 +109,21 @@
                 android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:contentDescription="@string/add"
                 android:focusable="true"
                 app:backgroundTint="#08F412"
                 app:fabSize="normal"
                 app:maxImageSize="40dp"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:contentDescription="@string/add" />
+                app:srcCompat="@android:drawable/ic_input_add" />
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ingredients"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_below="@+id/linearLayout"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:scrollbars="vertical"
-            android:layout_below="@+id/linearLayout" />
+            android:scrollbars="vertical" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

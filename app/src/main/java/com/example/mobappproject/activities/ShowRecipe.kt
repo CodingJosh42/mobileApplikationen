@@ -21,7 +21,7 @@ class ShowRecipe : AppCompatActivity() {
     private val db = DatabaseHandler(this)
     private var recycler: RecyclerView? = null
     private var quantityList = ArrayList<DBQuantity>()
-    private var recipe: DBRecipe?= null
+    private var recipe: DBRecipe? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +29,10 @@ class ShowRecipe : AppCompatActivity() {
 
         val bundle = intent.extras
         var id = -1
-        if(bundle != null) {
+        if (bundle != null) {
             id = bundle.get("Id") as Int
         }
-        if(id != -1){
+        if (id != -1) {
             recipe = db.getRecipeByID(id)
             quantityList = db.getRecipeQuantities(id)
 
@@ -67,7 +67,7 @@ class ShowRecipe : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 true

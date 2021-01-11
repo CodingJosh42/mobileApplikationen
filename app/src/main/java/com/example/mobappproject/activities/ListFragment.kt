@@ -34,9 +34,9 @@ class ListFragment : Fragment() {
     private lateinit var db: DatabaseHandler
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
-    private var arrayListAdapter: ArrayListAdapter?= null
+    private var arrayListAdapter: ArrayListAdapter? = null
     private var isSpice: Int? = null
-    private var input: AutoCompleteTextView ?= null
+    private var input: AutoCompleteTextView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +64,7 @@ class ListFragment : Fragment() {
 
         return v
     }
+
     /**
      * Sets up the AutoCompleteTextView. Adds onClickListener, setOnEditorActionListener to input.
      * Initializes the arrayListAdapter and adds it to input
@@ -88,7 +89,7 @@ class ListFragment : Fragment() {
             if (handled) {
                 val focus = activity?.currentFocus
                 if (focus != null) {
-                    val imm: InputMethodManager = activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE)  as InputMethodManager
+                    val imm: InputMethodManager = activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(focus.windowToken, 0)
                 }
             }
@@ -96,11 +97,11 @@ class ListFragment : Fragment() {
         })
 
         this.arrayListAdapter = ArrayListAdapter(requireActivity(),
-            R.layout.simple_dropdown_item_1line, availableIngredients)
+                R.layout.simple_dropdown_item_1line, availableIngredients)
         input.threshold = 1
         input.setAdapter(arrayListAdapter)
 
-        if(isSpice == 0) {
+        if (isSpice == 0) {
             input.hint = "Zutat hinzufügen"
         } else {
             input.hint = "Gewürz hinzufügen"
@@ -125,15 +126,15 @@ class ListFragment : Fragment() {
      * Called when the user wants to add an Ingredient to his List
      * Adds the ingredient to the user list and removes it from the availableList
      */
-    private fun addIngredient(){
+    private fun addIngredient() {
         val text = input?.text.toString()
-        if(text != "") {
-            val fakeIng = DBIngredient(0,text,0,0)
-            if(arrayListAdapter?.contains(fakeIng) == true) {
+        if (text != "") {
+            val fakeIng = DBIngredient(0, text, 0, 0)
+            if (arrayListAdapter?.contains(fakeIng) == true) {
                 val index = arrayListAdapter?.indexOf(fakeIng) as Int
                 val ing = arrayListAdapter?.get(index) as DBIngredient
 
-                if (db.addStoreIngredient(ing) > -1 ) {
+                if (db.addStoreIngredient(ing) > -1) {
                     arrayListAdapter?.remove(ing)
                     arrayListAdapter?.notifyDataSetChanged()
                     ing.stored = 1
@@ -148,12 +149,12 @@ class ListFragment : Fragment() {
                     val msg = Toast.makeText(activity, text + " konnte nicht abgespeichert werden", Toast.LENGTH_SHORT)
                     msg.show()
                 }
-            } else if(mIngredients.contains(fakeIng)) {
+            } else if (mIngredients.contains(fakeIng)) {
                 val msg = Toast.makeText(activity, text + " ist bereits in deiner Liste", Toast.LENGTH_SHORT)
                 msg.show()
-            } else  {
+            } else {
                 var toPrint = " ist keine valide Zutat"
-                if(isSpice == 1)
+                if (isSpice == 1)
                     toPrint = " ist kein valides Gewürz"
                 val msg = Toast.makeText(activity, text + toPrint, Toast.LENGTH_SHORT)
                 msg.show()
@@ -168,15 +169,14 @@ class ListFragment : Fragment() {
      */
     private fun loadIngredients() {
         val dbIngs = db.getIngredients(isSpice as Int)
-        for (item in dbIngs){
-            if(item.stored == 1 && !mIngredients.contains(item)) {
+        for (item in dbIngs) {
+            if (item.stored == 1 && !mIngredients.contains(item)) {
                 mIngredients.add(item)
-            } else if(!availableIngredients.contains(item)){
+            } else if (!availableIngredients.contains(item)) {
                 availableIngredients.add(item)
             }
         }
     }
-
 
 
     companion object {

@@ -18,9 +18,9 @@ import kotlin.math.ceil
  * Creates tables in database and helps activity's load to load data from it
  * @param context Activity that uses this DatabaseHandler
  */
-class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_Version){
+class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_Version) {
 
-    companion object{
+    companion object {
         // Modes
         const val ONLY_INGREDIENTS = 0
         const val ONLY_SPICES = 1
@@ -38,10 +38,12 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         private const val INGREDIENT_KEY_NAME = "name"
         private const val INGREDIENT_KEY_SPICE = "spice"
         private const val INGREDIENT_KEY_STORED = "stored"
+
         //TABLE_QUANTITY Content
         private const val QUANTITY_KEY_INGREDIENTID = "ingredient_id"
         private const val QUANTITY_KEY_RECIPEID = "recipe_id"
         private const val QUANTITY_KEY_QUANTITY = "quantity"
+
         //TABLE_RECIPE Content
         private const val RECIPE_KEY_ID = "_id"
         private const val RECIPE_KEY_NAME = "title"
@@ -128,7 +130,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param recipe Recipe to be added
      * @return Returns recipe id
      */
-    fun addRecipe(recipe: DBRecipe):Long{
+    fun addRecipe(recipe: DBRecipe): Long {
         val db = this.writableDatabase
 
         //GET ID FROM THIS RECIPE
@@ -136,7 +138,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         val contentValues = ContentValues()
         contentValues.put(RECIPE_KEY_NAME, recipe.name)
         contentValues.put(RECIPE_KEY_DESCRIPTION, recipe.description)
-        if(recipe.picture != null) {
+        if (recipe.picture != null) {
             val byteArray = getByteArray(recipe.picture)
             contentValues.put(RECIPE_KEY_PICTURE, byteArray)
         }
@@ -152,7 +154,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param quantity Quantity to be added
      * @return returns Id of quantity
      */
-    fun addQuantity(quantity: DBQuantity):Long{
+    fun addQuantity(quantity: DBQuantity): Long {
         val db = this.writableDatabase
 
         val contentValues = ContentValues()
@@ -169,7 +171,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * Get all Ingredients from Database
      * @return List with all Ingredients
      */
-    fun getIngredients():ArrayList<DBIngredient>{
+    fun getIngredients(): ArrayList<DBIngredient> {
         val list: ArrayList<DBIngredient> = ArrayList()
         val select = "SELECT * FROM $TABLE_INGREDIENT"
         val db = this.readableDatabase
@@ -180,14 +182,14 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         var stored: Int
         var spice: Int
 
-        try{
+        try {
             cursor = db.rawQuery(select, null)
-        }catch (e: SQLiteException){
+        } catch (e: SQLiteException) {
             db.execSQL(select)
             return ArrayList()
         }
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 id = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_ID))
                 name = cursor.getString(cursor.getColumnIndex(INGREDIENT_KEY_NAME))
@@ -195,7 +197,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
                 spice = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_SPICE))
                 val newIngredient = DBIngredient(id = id, name = name, stored = stored, spice = spice)
                 list.add(newIngredient)
-            }while (cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         return list
     }
@@ -205,14 +207,14 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param mode Filter mode. Values are: ONLY_INGREDIENTS, ONLY_SPICES, STORED_INGREDIENTS, STORED_SPICES
      * @return List with chosen Ingredients
      */
-    fun getIngredients(mode: Int):ArrayList<DBIngredient>{
+    fun getIngredients(mode: Int): ArrayList<DBIngredient> {
         val list: ArrayList<DBIngredient> = ArrayList()
         val select = when (mode) {
             ONLY_INGREDIENTS -> "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0"
             ONLY_SPICES -> "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1"
             STORED_INGREDIENTS -> "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 0 AND $INGREDIENT_KEY_STORED = 1"
             STORED_SPICES -> "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 1 AND $INGREDIENT_KEY_STORED = 1"
-            else-> "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 2"
+            else -> "SELECT * FROM $TABLE_INGREDIENT WHERE $INGREDIENT_KEY_SPICE = 2"
         }
 
         val db = this.readableDatabase
@@ -223,14 +225,14 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         var stored: Int
         var spice: Int
 
-        try{
+        try {
             cursor = db.rawQuery(select, null)
-        }catch (e: SQLiteException){
+        } catch (e: SQLiteException) {
             db.execSQL(select)
             return ArrayList()
         }
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 id = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_ID))
                 name = cursor.getString(cursor.getColumnIndex(INGREDIENT_KEY_NAME))
@@ -238,7 +240,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
                 spice = cursor.getInt(cursor.getColumnIndex(INGREDIENT_KEY_SPICE))
                 val newIngredient = DBIngredient(id = id, name = name, stored = stored, spice = spice)
                 list.add(newIngredient)
-            }while (cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         return list
     }
@@ -249,7 +251,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      *  @param ingredient the Ingredient, that will be stored
      *  @return status of the update
      */
-    fun addStoreIngredient(ingredient: DBIngredient): Int{
+    fun addStoreIngredient(ingredient: DBIngredient): Int {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(INGREDIENT_KEY_STORED, 1)
@@ -263,7 +265,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param ingredient the Ingredient, that will be removed
      * @return status of the update
      */
-    fun removeStoreIngredient(ingredient: DBIngredient): Int{
+    fun removeStoreIngredient(ingredient: DBIngredient): Int {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(INGREDIENT_KEY_STORED, 0)
@@ -278,7 +280,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param recipeID ID of the recipe
      * @return ArrayList of quantities
      */
-    fun getRecipeQuantities(recipeID: Int): ArrayList<DBQuantity>{
+    fun getRecipeQuantities(recipeID: Int): ArrayList<DBQuantity> {
         val list: ArrayList<DBQuantity> = ArrayList()
         val select = "SELECT * FROM $TABLE_INGREDIENT JOIN $TABLE_QUANTITY" +
                 " ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
@@ -289,18 +291,18 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         val cursor: Cursor?
         //Values for each Element of the Table
         var recipeId: Int
-        var ingredientId :Int
+        var ingredientId: Int
         var quantity: String
         var ingredientName: String
 
-        try{
+        try {
             cursor = db.rawQuery(select, null)
-        }catch (e: SQLiteException){
+        } catch (e: SQLiteException) {
             db.execSQL(select)
             return ArrayList()
         }
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 recipeId = cursor.getInt(cursor.getColumnIndex(QUANTITY_KEY_RECIPEID))
                 ingredientId = cursor.getInt(cursor.getColumnIndex(QUANTITY_KEY_INGREDIENTID))
@@ -308,7 +310,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
                 ingredientName = cursor.getString(cursor.getColumnIndex(INGREDIENT_KEY_NAME))
                 val newQuantity = DBQuantity(recipe_id = recipeId, ingredient_id = ingredientId, quantity = quantity, ingredientName = ingredientName)
                 list.add(newQuantity)
-            }while (cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         return list
     }
@@ -318,29 +320,29 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * @param recipeID Id of recipe
      * @return Returns recipe with given id or null
      */
-    fun getRecipeByID(recipeID: Int): DBRecipe?{
+    fun getRecipeByID(recipeID: Int): DBRecipe? {
         val db = this.readableDatabase
         val select = "SELECT * FROM $TABLE_RECIPE WHERE $RECIPE_KEY_ID = $recipeID"
         val cursor: Cursor?
         //Values for the Recipe
         val id: Int
-        val name :String
+        val name: String
         val description: String
         val picture: ByteArray?
         val pictureBitmap: Bitmap?
 
-        try{
+        try {
             cursor = db.rawQuery(select, null)
-        }catch (e: SQLiteException){
+        } catch (e: SQLiteException) {
             db.execSQL(select)
             return null
         }
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             id = cursor.getInt(cursor.getColumnIndex(RECIPE_KEY_ID))
             name = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
             description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
             picture = cursor.getBlobOrNull(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
-            pictureBitmap = if(picture != null) {
+            pictureBitmap = if (picture != null) {
                 getBitmap(picture)
             } else {
                 null
@@ -354,39 +356,39 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * Get all Recipes (deprecated)
      * @return ArrayList of recipes
      */
-    fun getRecipes(): ArrayList<DBRecipe>{
+    fun getRecipes(): ArrayList<DBRecipe> {
         val list: ArrayList<DBRecipe> = ArrayList()
         val select = "SELECT * FROM $TABLE_RECIPE"
         val db = this.readableDatabase
         val cursor: Cursor?
         //Values for each Element of the Table
         var id: Int
-        var name :String
+        var name: String
         var description: String
         var picture: ByteArray?
         var pictureBitmap: Bitmap?
 
-        try{
+        try {
             cursor = db.rawQuery(select, null)
-        }catch (e: SQLiteException){
+        } catch (e: SQLiteException) {
             db.execSQL(select)
             return ArrayList()
         }
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 id = cursor.getInt(cursor.getColumnIndex(RECIPE_KEY_ID))
                 name = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
                 description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
                 picture = cursor.getBlobOrNull(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
-                pictureBitmap = if(picture != null) {
+                pictureBitmap = if (picture != null) {
                     getBitmap(picture)
                 } else {
                     null
                 }
                 val newRecipe = DBRecipe(id = id, name = name, description = description, picture = pictureBitmap)
                 list.add(newRecipe)
-            }while (cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         return list
     }
@@ -441,16 +443,16 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * Get Recipe list that contain given ingredients and catch phrase
      * @param storage List of ingredients
      * @param search Catch phrase
-     * @param spices Spices from the userList 
+     * @param spices Spices from the userList
      * @return Returns list of recipes
      */
-    fun searchRecipes(storage: ArrayList<DBIngredient>, search: String, spices: ArrayList<DBIngredient>?): ArrayList<DBRecipe>{
+    fun searchRecipes(storage: ArrayList<DBIngredient>, search: String, spices: ArrayList<DBIngredient>?): ArrayList<DBRecipe> {
         val recipeList: ArrayList<DBRecipe> = ArrayList()
         val db = this.readableDatabase
         val cursor: Cursor?
         //Values for each Element of the Table
         var id: Int
-        var title :String
+        var title: String
         var description: String
         var picture: ByteArray?
         var pictureBitmap: Bitmap?
@@ -460,17 +462,17 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
                 " ON $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = $TABLE_QUANTITY.$QUANTITY_KEY_INGREDIENTID" +
                 " JOIN $TABLE_RECIPE" +
                 " ON $TABLE_QUANTITY.$QUANTITY_KEY_RECIPEID = $TABLE_RECIPE.$RECIPE_KEY_ID "
-        if (storage.isNotEmpty()){
+        if (storage.isNotEmpty()) {
             select += "WHERE ("
-            for (i in storage.indices){
-                select += if (i == 0){
+            for (i in storage.indices) {
+                select += if (i == 0) {
                     "$TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + storage[i].id
-                }else{
+                } else {
                     " OR $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + storage[i].id
                 }
             }
-            if(spices != null) {
-                for (i in spices.indices){
+            if (spices != null) {
+                for (i in spices.indices) {
                     " OR $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id
                 }
             }
@@ -479,12 +481,12 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
             select += "WHERE $RECIPE_KEY_NAME LIKE \"%$search%\""
         }
         select += " GROUP BY $TABLE_RECIPE.$RECIPE_KEY_ID"
-        if(spices != null) {
+        if (spices != null) {
             select += " HAVING SUM("
-            for (i in spices.indices){
-                select += if (i == spices.size -1){
+            for (i in spices.indices) {
+                select += if (i == spices.size - 1) {
                     "case when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + " then 0 else 1 end) > 0"
-                }else{
+                } else {
                     "case when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + "then 0 "
                 }
             }
@@ -492,17 +494,17 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         select += " ORDER BY Matches DESC"
         try {
             cursor = db.rawQuery(select, null)
-        } catch (e: SQLiteException){
+        } catch (e: SQLiteException) {
             db.execSQL(select)
             return ArrayList()
         }
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 id = cursor.getInt(cursor.getColumnIndex(RECIPE_KEY_ID))
                 title = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
                 description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
                 picture = cursor.getBlobOrNull(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
-                pictureBitmap = if(picture != null) {
+                pictureBitmap = if (picture != null) {
                     getBitmap(picture)
                 } else {
                     null
@@ -520,20 +522,20 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * Creating Sample Ingredients into the Database
      * @param db CreatedDatabase
      */
-    private fun createIngredientList(db: SQLiteDatabase?){
+    private fun createIngredientList(db: SQLiteDatabase?) {
 
-        val ing = arrayListOf("Açaí" ,"Ananas", "Apfel", "Aprikose", "Avocado", "Banane", "Birne", "Blaubeere", "Brombeere", "Cashew", "Clementine", "Cranberry", "Dattel", "Erdbeere", "Feige", "Goji-Beere", "Granatapfel", "Grapefruit", "Guave", "Hagebutte", "Himbeere", "Holunder", "Honigmelone", "Jackfrucht", "Kaki","Kaktusfeige", "Physalis", "Kirsche", "Kiwi", "Limette", "Litschi", "Mandarine", "Mango", "Orange", "Pampelmuse", "Papaya", "Passionsfrucht", "Pfirsich", "Pflaume", "Drachenfrucht", "Pomelo", "Preiselbeere","Sternfrucht", "Wassermelone", "Stachelbeere", "Weintraube", "Zitrone", "Zwetschge", "Artischocke", "Aubergine", "Bärlauch", "Blumenkohl", "Broccoli", "Erbsen", "Fenchel", "Grüne Bohne", "Gurke", "Kartoffel", "Knoblauch", "Kürbis", "Lauch", "Lauchzwiebel", "Paprika", "Radieschen", "Rhabarber", "Rosenkohl", "Rote Bete", "Rotkohl", "Schalotten", "Schnittlauch", "Spargel", "Spitzkohl", "Spinat", "Staudensellerie", "Süßkartoffel", "Tomate", "Weißkohl", "Wirsing", "Wilder Spargel", "Zuckermais", "Zucchini", "Zwiebel", "Zuckerschoten", "Reis", "Risotto-Reis", "Weißer Reis", "Basmati-Reis", "Wild-Reis", "Sushi-Reis", "Bomba-Reis", "Spaghetti-Nudeln", "Penne-Nudeln", "Makkaroni-Nudeln", "Makkaroni-Nudeln", "Bandnudeln", "Kuhmilch", "Honig", "Rapsöl", "Olivenöl", "Sonnenblumenöl", "Käse", "Mozzarella", "Rinderfilet", "Hackfleisch-Schwein", "Hackfleisch-Rind", "Hackfleisch-Lamm", "Hähnchenbrust", "Putenbrust", "Kochschinken", "Ei", "Joghurt", "Ketchup", "Barbecue Sauce", "Senf-süß", "Senf-mittelscharf", "Senf-scharf", "Mayonnaise", "Sauce Hollandaise", "Schmand", "Kefir", "Lachs", "Forelle", "Wildlachs", "Aal", "Seelachs", "Dorade", "Hering", "Thunfisch", "Karpfen", "Makrele", "Grieß", "Bulgur", "Kuskus", "Sahne", "Cherrytomate", "Tomatenmark", "Mehl", "Butter", )
+        val ing = arrayListOf("Açaí", "Ananas", "Apfel", "Aprikose", "Avocado", "Banane", "Birne", "Blaubeere", "Brombeere", "Cashew", "Clementine", "Cranberry", "Dattel", "Erdbeere", "Feige", "Goji-Beere", "Granatapfel", "Grapefruit", "Guave", "Hagebutte", "Himbeere", "Holunder", "Honigmelone", "Jackfrucht", "Kaki", "Kaktusfeige", "Physalis", "Kirsche", "Kiwi", "Limette", "Litschi", "Mandarine", "Mango", "Orange", "Pampelmuse", "Papaya", "Passionsfrucht", "Pfirsich", "Pflaume", "Drachenfrucht", "Pomelo", "Preiselbeere", "Sternfrucht", "Wassermelone", "Stachelbeere", "Weintraube", "Zitrone", "Zwetschge", "Artischocke", "Aubergine", "Bärlauch", "Blumenkohl", "Broccoli", "Erbsen", "Fenchel", "Grüne Bohne", "Gurke", "Kartoffel", "Knoblauch", "Kürbis", "Lauch", "Lauchzwiebel", "Paprika", "Radieschen", "Rhabarber", "Rosenkohl", "Rote Bete", "Rotkohl", "Schalotten", "Schnittlauch", "Spargel", "Spitzkohl", "Spinat", "Staudensellerie", "Süßkartoffel", "Tomate", "Weißkohl", "Wirsing", "Wilder Spargel", "Zuckermais", "Zucchini", "Zwiebel", "Zuckerschoten", "Reis", "Risotto-Reis", "Weißer Reis", "Basmati-Reis", "Wild-Reis", "Sushi-Reis", "Bomba-Reis", "Spaghetti-Nudeln", "Penne-Nudeln", "Makkaroni-Nudeln", "Makkaroni-Nudeln", "Bandnudeln", "Kuhmilch", "Honig", "Rapsöl", "Olivenöl", "Sonnenblumenöl", "Käse", "Mozzarella", "Rinderfilet", "Hackfleisch-Schwein", "Hackfleisch-Rind", "Hackfleisch-Lamm", "Hähnchenbrust", "Putenbrust", "Kochschinken", "Ei", "Joghurt", "Ketchup", "Barbecue Sauce", "Senf-süß", "Senf-mittelscharf", "Senf-scharf", "Mayonnaise", "Sauce Hollandaise", "Schmand", "Kefir", "Lachs", "Forelle", "Wildlachs", "Aal", "Seelachs", "Dorade", "Hering", "Thunfisch", "Karpfen", "Makrele", "Grieß", "Bulgur", "Kuskus", "Sahne", "Cherrytomate", "Tomatenmark", "Mehl", "Butter")
 
-        val spice = arrayListOf("Ajowan", "Anis", "Annatto", "Asant", "Bärlauch", "Bärwurz", "Basilikum ", "Beifuß", "Berbere", "Bergkümmel", "Bertram", "Bockshornklee", "Bohnenkraut", "Borretsch", "Brotklee", "Brunnenkresse", "Cardamom", "Cayennepfeffer", "Chili", "Cilantro", "Cumin", "Curryblätter", "Currykraut", "Currypulver", "Dill", "Eberraute", "Engelwurz","Epazote", "Sumach", "Estragon", "Fenchel", "Fetthenne", "Gado-Gado", "Gänseblümchen", "Garam Masala", "Gewürznelke", "Gochujang", "Gomashio", "Harissa", "Herbes Fines", "Huflattich", "Ingwer", "Kaffernlimette", "Kakaopulver", "Kalmus", "Kapern", "Kapuzinerkresse", "Grüner Kardamom", "Schwarzer Kardamom", "Kerbel", "Kemirinuss", "Knoblauch", "Koriander", "Meerrettich", "Kresse", "Kreuzkümmel", "Kubebenpfeffer", "Kümmel", "Kurkuma", "Lakritze", "Lavendel", "Liebstöckel", "Lorbeer", "Löffelkraut", "Majoran", "Meerrettich", "Zitronenmelisse", "Minze", "Mitsuba", "Mohnsamen", "Muskat", "Piment", "Oregano", "Pandanus", "Paradieskörner", "Paprika", "Pastinake", "Petersilie", "Perilla", "Pfeffer weiß", "Pfeffer schwarz", "Pfeffer grün", "Pfefferminze", "Pimpinelle", "Quendel", "Ras el-Hanout", "Portulak", "Rosmarin", "Rouille", "Safran", "Salbei", "Salz", "Sambal", "Sassafras", "Sauerampfer", "Schabzigerklee", "Schafgarbe", "Schnittlauch", "Schwarzkümmel", "Senf", "Soumbala", "Spitzwegerich", "Sternanis", "Stevia", "Sumach", "Süßdolde", "Süßholz", "Szechuanpfeffer", "Tamarinde", "Tanduri Masala", "Tasmanischer Bergpfeffer", "Tonkabohne", "Thymian", "Tripmadam", "Trüffel", "Tschubritza", "Vanille", "Wasabi", "Wacholder", "Waldmeister", "Wald-Weidenröschen", "Wasserpfeffer","Weinblätter", "Weinraute", "Ysop", "Zichorie", "Zimt", "Zitronengras", "Zitronenmelisse", "Zitronenthymian", "Zitwerwurzel", "Zucker"
+        val spice = arrayListOf("Ajowan", "Anis", "Annatto", "Asant", "Bärlauch", "Bärwurz", "Basilikum ", "Beifuß", "Berbere", "Bergkümmel", "Bertram", "Bockshornklee", "Bohnenkraut", "Borretsch", "Brotklee", "Brunnenkresse", "Cardamom", "Cayennepfeffer", "Chili", "Cilantro", "Cumin", "Curryblätter", "Currykraut", "Currypulver", "Dill", "Eberraute", "Engelwurz", "Epazote", "Sumach", "Estragon", "Fenchel", "Fetthenne", "Gado-Gado", "Gänseblümchen", "Garam Masala", "Gewürznelke", "Gochujang", "Gomashio", "Harissa", "Herbes Fines", "Huflattich", "Ingwer", "Kaffernlimette", "Kakaopulver", "Kalmus", "Kapern", "Kapuzinerkresse", "Grüner Kardamom", "Schwarzer Kardamom", "Kerbel", "Kemirinuss", "Knoblauch", "Koriander", "Meerrettich", "Kresse", "Kreuzkümmel", "Kubebenpfeffer", "Kümmel", "Kurkuma", "Lakritze", "Lavendel", "Liebstöckel", "Lorbeer", "Löffelkraut", "Majoran", "Meerrettich", "Zitronenmelisse", "Minze", "Mitsuba", "Mohnsamen", "Muskat", "Piment", "Oregano", "Pandanus", "Paradieskörner", "Paprika", "Pastinake", "Petersilie", "Perilla", "Pfeffer weiß", "Pfeffer schwarz", "Pfeffer grün", "Pfefferminze", "Pimpinelle", "Quendel", "Ras el-Hanout", "Portulak", "Rosmarin", "Rouille", "Safran", "Salbei", "Salz", "Sambal", "Sassafras", "Sauerampfer", "Schabzigerklee", "Schafgarbe", "Schnittlauch", "Schwarzkümmel", "Senf", "Soumbala", "Spitzwegerich", "Sternanis", "Stevia", "Sumach", "Süßdolde", "Süßholz", "Szechuanpfeffer", "Tamarinde", "Tanduri Masala", "Tasmanischer Bergpfeffer", "Tonkabohne", "Thymian", "Tripmadam", "Trüffel", "Tschubritza", "Vanille", "Wasabi", "Wacholder", "Waldmeister", "Wald-Weidenröschen", "Wasserpfeffer", "Weinblätter", "Weinraute", "Ysop", "Zichorie", "Zimt", "Zitronengras", "Zitronenmelisse", "Zitronenthymian", "Zitwerwurzel", "Zucker"
         )
 
-        var name:String
-        for(i in ing.indices){
+        var name: String
+        for (i in ing.indices) {
             name = ing[i]
             db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME) " +
                     "VALUES(\"" + name + "\");")
         }
-        for(i in spice.indices){
+        for (i in spice.indices) {
             name = spice[i]
             db?.execSQL("INSERT INTO $TABLE_INGREDIENT ($INGREDIENT_KEY_NAME,$INGREDIENT_KEY_SPICE) " +
                     "VALUES(\"" + name + "\",1);")
@@ -544,7 +546,7 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
      * Creating Recipe samples into the Database
      * @param db CreatedDatabase
      */
-    private fun createRecipeList(db: SQLiteDatabase?){
+    private fun createRecipeList(db: SQLiteDatabase?) {
         val placeholder = getImage(R.drawable.placeholder)
         val recipes = ArrayList<DBRecipe>()
         recipes.add(DBRecipe(0, "Nudelauflauf mit Tomaten und Mozzarella", "Den Ofen auf 200 °C (Umluft 180 °C) vorheizen.\nDie Zwiebel und den Knoblauch sehr fein schneiden.Die Kirschtomaten waschen und halbieren. Den Parmesan reiben und den Mozzarella grob würfeln. Die Basilikumblätter abzupfen, waschen und trocken tupfen.\n\nIn einem großen Topf Salzwasser zum Kochen bringen und die Nudeln darin kochen. Währenddessen in einer großen Pfanne Olivenöl erhitzen und Zwiebel, Knoblauch anschwitzen.Die passierten Tomaten hinzufügen und die Sauce ein paar Minuten leicht köcheln lassen. Dann die Sahne und den geriebenen Parmesan unterrühren und die Sauce mit Salz, Pfeffer und einer ordentlichen Prise Zucker abschmecken.\n\nWenn die Nudeln soweit sind, diese abgießen und in die Pfanne zur Sauce geben. Die Pfanne von der Hitze nehmen und die halbierten Kirschtomaten und die Hälfte der Mozzarellawürfel unterheben. Die Basilikumblätter in Streifen schneiden und ebenfalls unterheben.\n\nAlles zusammen in eine Auflaufform geben, mit dem restlichen Mozzarella bestreuen und ca. 20 Minuten auf der mittleren Schiene im Backofen gratinieren.\n\nDazu passt zum Beispiel ein grüner Salat und Knoblauchbaguette.\n\nRezept von Katrinili @Chefkoch.de", getImage(R.drawable.recipe_1)))
@@ -665,20 +667,19 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         quantitys.add(DBQuantity(15, 265, "", ""))
         quantitys.add(DBQuantity(15, 265, "", ""))
 
-        for (i in 0 until recipes.size){
+        for (i in 0 until recipes.size) {
             contentValues.clear()
             contentValues.put(RECIPE_KEY_NAME, recipes[i].name)
             contentValues.put(RECIPE_KEY_DESCRIPTION, recipes[i].description)
-            if(recipes[i].picture != null) {
+            if (recipes[i].picture != null) {
                 val byteArray = getByteArray(recipes[i].picture!!)
                 contentValues.put(RECIPE_KEY_PICTURE, byteArray)
             }
             db?.insert(TABLE_RECIPE, null, contentValues)
 
 
-
         }
-        for (i in quantitys.indices){
+        for (i in quantitys.indices) {
             contentValues.clear()
             contentValues.put(QUANTITY_KEY_RECIPEID, quantitys[i].recipe_id)
             contentValues.put(QUANTITY_KEY_INGREDIENTID, quantitys[i].ingredient_id)
@@ -686,8 +687,6 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
             db?.insert(TABLE_QUANTITY, null, contentValues)
         }
     }
-
-
 
 
 }

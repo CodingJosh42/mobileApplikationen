@@ -36,16 +36,16 @@ class RecyclerAdapterQuantity(private val list: ArrayList<DBQuantity>, private v
      */
     fun remove(position: Int) {
         val quantity = list[position]
-            list.removeAt(position)
-            if (position != 0)
-                notifyItemRangeChanged(position, list.size)
-            else
-                notifyDataSetChanged()
-            adapter.add(quantity.ingredient)
-            adapter.notifyDataSetChanged()
+        list.removeAt(position)
+        if (position != 0)
+            notifyItemRangeChanged(position, list.size)
+        else
+            notifyDataSetChanged()
+        adapter.add(quantity.ingredient)
+        adapter.notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        return  list.size
+        return list.size
     }
 }

@@ -9,14 +9,14 @@ import java.io.Serializable
  * @param spice if ingredient is a spice = 1, if not 0
  * @param stored if ingredient is stored = 1, if not 0
  */
-class DBIngredient(val id: Int, val name: String, val spice : Int, var stored: Int) : Serializable{
+class DBIngredient(val id: Int, val name: String, val spice: Int, var stored: Int) : Serializable {
 
     override fun toString(): String {
         return this.name
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other != null && other is DBIngredient)
+        if (other != null && other is DBIngredient)
             return other.name.equals(name, ignoreCase = true)
         return false
     }

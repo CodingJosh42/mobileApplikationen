@@ -9,9 +9,9 @@ import android.graphics.Bitmap
  * @param description Preparation of recipe
  * @param picture Bitmap of recipe picture
  */
-class DBRecipe(val id: Int, val name: String, val description: String, val picture: Bitmap?): Comparable<DBRecipe> {
-    var quantitys: ArrayList<DBQuantity> ?= null
-    var matches: Int ?= null
+class DBRecipe(val id: Int, val name: String, val description: String, val picture: Bitmap?) : Comparable<DBRecipe> {
+    var quantitys: ArrayList<DBQuantity>? = null
+    var matches: Int? = null
 
     override fun compareTo(other: DBRecipe): Int {
         val percent = matches?.div(quantitys!!.size.toFloat())
@@ -25,7 +25,7 @@ class DBRecipe(val id: Int, val name: String, val description: String, val pictu
                     -1
                 }
                 else -> {
-                    if(quantitys!!.size > other.quantitys!!.size) {
+                    if (quantitys!!.size > other.quantitys!!.size) {
                         return -1
                     } else if (quantitys!!.size < other.quantitys!!.size) {
                         return 1

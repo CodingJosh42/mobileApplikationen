@@ -1,4 +1,5 @@
 package com.example.mobappproject.arrayListAdapter
+
 import android.widget.Filter
 import com.example.mobappproject.database.DBIngredient
 import kotlin.collections.ArrayList
@@ -8,7 +9,7 @@ import kotlin.collections.ArrayList
  * @param ingredients Contains all available ingredients
  * @param adapter Adapter that displays filtered list of ingredients
  */
-class IngredientFilter(private var ingredients: ArrayList<DBIngredient>,private var adapter: ArrayListAdapter) : Filter() {
+class IngredientFilter(private var ingredients: ArrayList<DBIngredient>, private var adapter: ArrayListAdapter) : Filter() {
 
     override fun performFiltering(constraint: CharSequence?): FilterResults {
         val results = FilterResults()

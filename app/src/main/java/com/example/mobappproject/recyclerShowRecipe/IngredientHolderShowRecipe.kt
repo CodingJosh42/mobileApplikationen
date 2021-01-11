@@ -13,7 +13,7 @@ import com.example.mobappproject.database.DBQuantity
  * @param parent parent view
  */
 class IngredientHolderShowRecipe(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_show_recipe_ingredients, parent, false)){
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_show_recipe_ingredients, parent, false)) {
 
     private var ingredient: TextView? = null
     private var quantity: TextView? = null

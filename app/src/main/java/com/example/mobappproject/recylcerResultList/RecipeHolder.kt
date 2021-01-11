@@ -18,13 +18,13 @@ import com.example.mobappproject.database.DBRecipe
  * Holder Class for Recipes
  */
 class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_list_item, parent, false)){
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_list_item, parent, false)) {
     private var title: TextView? = null
     private var img: ImageView? = null
     private var ingredients: TextView? = null
     private var matches: TextView? = null
-    private var quantitys: ArrayList<DBQuantity> ?= null
-    private var ingredientList: ArrayList<DBIngredient> ?= null
+    private var quantitys: ArrayList<DBQuantity>? = null
+    private var ingredientList: ArrayList<DBIngredient>? = null
     private var matchingString = ""
     private var ingredientString = ""
 
@@ -83,13 +83,13 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
      */
     private fun getMatches() {
         matchingString = ""
-        if(ingredientList != null) {
+        if (ingredientList != null) {
             for (item in ingredientList!!) {
                 if (contains(item)) {
                     matchingString += item.name + ", "
                 }
             }
-            if(matchingString.isNotEmpty()) {
+            if (matchingString.isNotEmpty()) {
                 matchingString = "Matches: $matchingString"
                 matchingString = matchingString.removeSuffix(", ")
                 matches?.text = matchingString
@@ -104,8 +104,8 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
      * Checks if quantity's contain an ingredient
      */
     private fun contains(searchItem: DBIngredient): Boolean {
-        for(item in quantitys!!) {
-            if(item.ingredientName == searchItem.name) {
+        for (item in quantitys!!) {
+            if (item.ingredientName == searchItem.name) {
                 return true
             }
         }

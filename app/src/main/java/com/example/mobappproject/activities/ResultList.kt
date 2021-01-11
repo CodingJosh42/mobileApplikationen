@@ -21,7 +21,7 @@ class ResultList : AppCompatActivity() {
     private lateinit var db: DatabaseHandler
     private var ingredients: ArrayList<DBIngredient> = ArrayList()
     private var searchString: String = ""
-    private var bundle: Bundle ?= null
+    private var bundle: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +36,12 @@ class ResultList : AppCompatActivity() {
         }
 
         db = DatabaseHandler(this)
-        val recipes = if(spices.size > 0) {
-            db.searchRecipes(ingredients, searchString,spices)
+        val recipes = if (spices.size > 0) {
+            db.searchRecipes(ingredients, searchString, spices)
         } else {
-            db.searchRecipes(ingredients, searchString,null)
+            db.searchRecipes(ingredients, searchString, null)
         }
-        if(recipes.size == 0) {
+        if (recipes.size == 0) {
             val noResults = findViewById<TextView>(R.id.noResults)
             val text = "Keine Ergebnisse gefunden"
             noResults.text = text
@@ -60,14 +60,14 @@ class ResultList : AppCompatActivity() {
      * @param recipeList List of recipes that should load their ingredients and be added to recipes
      */
     private fun addViews(recipeList: ArrayList<DBRecipe>) {
-        for (recipe in recipeList){
+        for (recipe in recipeList) {
             recipe.quantitys = db.getRecipeQuantities(recipe.id)
             recipes.add(recipe)
         }
         recipes.sortDescending()
-       for(item in recipes) {
-           System.out.println(item.name)
-       }
+        for (item in recipes) {
+            System.out.println(item.name)
+        }
         recyclerView?.adapter = RecyclerAdapterResult(this, recipes, ingredients)
     }
 }

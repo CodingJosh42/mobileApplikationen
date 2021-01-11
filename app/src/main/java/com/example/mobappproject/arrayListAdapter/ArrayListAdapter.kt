@@ -35,8 +35,8 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     }
 
     override fun addAll(collection: MutableCollection<out DBIngredient>) {
-        for(item in collection){
-            if(!ingredients.contains(item)){
+        for (item in collection) {
+            if (!ingredients.contains(item)) {
                 ingredients.add(item)
                 filteredIngredients.add(item)
             }

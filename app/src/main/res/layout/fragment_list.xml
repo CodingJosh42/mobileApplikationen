@@ -4,38 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ListFragment">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <AutoCompleteTextView
                 android:id="@+id/input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:inputType="text"
-                android:imeOptions="actionDone"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textSize="30sp" />
+
             <Button
                 android:id="@+id/addInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add"
                 android:layout_below="@+id/input"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp" />
+                android:layout_marginTop="15dp"
+                android:text="@string/add" />
         </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayout"
             android:layout_marginTop="40dp"
-            android:scrollbars="vertical"
-            android:layout_below="@+id/relativeLayout" />
+            android:scrollbars="vertical" />
     </RelativeLayout>
 </FrameLayout>

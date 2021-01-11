@@ -7,114 +7,123 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     tools:context=".activities.AddRecipe">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
                 android:id="@+id/recipeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:inputType="textPersonName"
-                android:imeOptions="actionDone"
                 android:hint="@string/rezept_titel"
-                android:textSize="30sp"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
                 android:textColor="@color/black"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageButton
                 android:id="@+id/imageInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:contentDescription="@string/addTitleImage"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipeTitle"
-                android:contentDescription="@string/addTitleImage" />
+                app:layout_constraintTop_toBottomOf="@+id/recipeTitle" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ingredientContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageInput">
+
                 <AutoCompleteTextView
                     android:id="@+id/inputIngredient"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:hint="@string/addIngredient"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:textSize="30sp"
-                    app:layout_constraintHorizontal_weight="0.7"
-                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@+id/quantity"
+                    app:layout_constraintHorizontal_weight="0.7"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <EditText
                     android:id="@+id/quantity"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    app:layout_constraintHorizontal_weight="0.3"
-                    android:textSize="30sp"
-                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="8dp"
                     android:hint="@string/quantity"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="12dp"
-                    app:layout_constraintStart_toEndOf="@+id/inputIngredient"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="12dp" />
+                    app:layout_constraintHorizontal_weight="0.3"
+                    app:layout_constraintStart_toEndOf="@+id/inputIngredient"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <Button
                 android:id="@+id/addIngredient"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/add"
                 android:textSize="20sp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredientContainer"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredientContainer" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/addIngredient"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/addIngredient" />
+
             <EditText
                 android:id="@+id/description"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textSize="30sp"
-                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:hint="@string/preparation"
                 android:inputType="textMultiLine"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/black"
+                android:textSize="30sp"
                 app:layout_constraintBottom_toTopOf="@+id/submit"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients" />
+
             <Button
                 android:id="@+id/submit"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:text="@string/upload"
                 android:textSize="24sp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

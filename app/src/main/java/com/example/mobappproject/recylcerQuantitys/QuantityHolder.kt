@@ -13,7 +13,7 @@ import com.example.mobappproject.database.DBQuantity
  * @param inflater Layout inflater
  * @param parent parent view
  */
-class QuantityHolder (inflater: LayoutInflater, parent: ViewGroup) :
+class QuantityHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_ingredient_list_item, parent, false)) {
     private var name: TextView? = null
     private var button: Button? = null

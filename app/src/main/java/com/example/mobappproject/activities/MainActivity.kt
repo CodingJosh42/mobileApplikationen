@@ -32,11 +32,11 @@ class MainActivity : AppCompatActivity() {
     private var userIngredientList = ArrayList<DBIngredient>()
     private val db = DatabaseHandler(this)
     private val availableIngredients = ArrayList<DBIngredient>()
-    private var arrayListAdapter: ArrayListAdapter?= null
-    private val spiceList= ArrayList<DBIngredient>()
+    private var arrayListAdapter: ArrayListAdapter? = null
+    private val spiceList = ArrayList<DBIngredient>()
 
-    private var inputIngredient: AutoCompleteTextView ?= null
-    private var inputSearch: EditText ?= null
+    private var inputIngredient: AutoCompleteTextView? = null
+    private var inputSearch: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,13 +169,13 @@ class MainActivity : AppCompatActivity() {
      */
     fun search(view: View) {
         val text = inputSearch?.text.toString()
-        if(!(text == "" && ingredientList.size == 0)) {
+        if (!(text == "" && ingredientList.size == 0)) {
             val intent = Intent(this, ResultList::class.java)
             intent.putExtra("searchString", text)
             val spices = ArrayList<DBIngredient>()
-            if (ingredientList.isNotEmpty()){
-                for(item in spiceList) {
-                    if(!ingredientList.contains(item)) {
+            if (ingredientList.isNotEmpty()) {
+                for (item in spiceList) {
+                    if (!ingredientList.contains(item)) {
                         spices.add(item)
                     }
                 }
@@ -184,7 +184,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("ingredients", ingredientList)
             startActivity(intent)
         } else {
-            Toast.makeText(this,"Schlagwort oder Zutat eingeben", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Schlagwort oder Zutat eingeben", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -194,7 +194,7 @@ class MainActivity : AppCompatActivity() {
     private fun addIngredient() {
         val text = inputIngredient?.text.toString()
         val fakeIng = DBIngredient(0, text, 0, 0)
-        if(text != "" && arrayListAdapter?.contains(fakeIng) == true && !ingredientList.contains((fakeIng))) {
+        if (text != "" && arrayListAdapter?.contains(fakeIng) == true && !ingredientList.contains((fakeIng))) {
             val index = arrayListAdapter?.indexOf(fakeIng) as Int
             val ing = arrayListAdapter?.get(index) as DBIngredient
             ingredientList.add(ing)
@@ -203,11 +203,11 @@ class MainActivity : AppCompatActivity() {
 
             inputIngredient?.text?.clear()
             recyclerIngredients?.adapter?.notifyDataSetChanged()
-            recyclerIngredients?.scrollToPosition(ingredientList.size -1)
+            recyclerIngredients?.scrollToPosition(ingredientList.size - 1)
 
             hideKeyboard()
-        } else if(text != ""){
-            Toast.makeText(this, "$text ist keine valide Zutat oder bereits in deiner Liste",Toast.LENGTH_SHORT).show()
+        } else if (text != "") {
+            Toast.makeText(this, "$text ist keine valide Zutat oder bereits in deiner Liste", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -229,9 +229,9 @@ class MainActivity : AppCompatActivity() {
      * Adds ingredients of userList to ingredientList
      */
     private fun addUserList() {
-        if(userIngredientList.size > 0) {
-            for(ing in userIngredientList){
-                if(arrayListAdapter?.contains(ing) == true) {
+        if (userIngredientList.size > 0) {
+            for (ing in userIngredientList) {
+                if (arrayListAdapter?.contains(ing) == true) {
                     ingredientList.add(ing)
                     arrayListAdapter?.remove(ing)
                     arrayListAdapter?.notifyDataSetChanged()
@@ -248,7 +248,7 @@ class MainActivity : AppCompatActivity() {
      * Removes ingredients of userList from ingredientList
      */
     private fun removeUserList() {
-        if(userIngredientList.size > 0){
+        if (userIngredientList.size > 0) {
             ingredientList.removeAll(userIngredientList)
             arrayListAdapter?.addAll(userIngredientList)
             arrayListAdapter?.notifyDataSetChanged()
