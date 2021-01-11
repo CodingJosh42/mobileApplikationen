@@ -12,7 +12,6 @@
     <color name="grey">#464646</color>
     <color name="red">#ff0101</color>
     <color name="light_blue">#c9dffc</color>
-    <color name="yellow">#f8ff7c</color>
-    <color name="light_orange">#ffd5ab</color>
-    <color name="light_grey">#dfdfdf</color>
+    <color name="yellow">#faf3cb</color>
+    <color name="light_grey">#DDDCDC</color>
 </resources>

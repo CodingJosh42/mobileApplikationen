@@ -55,7 +55,7 @@
                 android:contentDescription="@string/search"
                 android:focusable="true"
                 android:onClick="search"
-                app:backgroundTint="@color/light_blue"
+                app:backgroundTint="@color/light_grey"
                 app:elevation="0dp"
                 app:fabSize="normal"
                 app:maxImageSize="40dp"
@@ -103,16 +103,18 @@
                 android:id="@+id/ingredientButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:contentDescription="@string/add"
                 android:focusable="true"
-                app:backgroundTint="#08F412"
+                android:tint="#FFFFFF"
+                app:backgroundTint="@color/purple_500"
                 app:fabSize="normal"
                 app:maxImageSize="40dp"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                app:srcCompat="@android:drawable/ic_input_add"
+                app:tint="@color/light_grey" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
