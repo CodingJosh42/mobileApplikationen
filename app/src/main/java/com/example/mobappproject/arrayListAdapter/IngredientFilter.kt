@@ -1,15 +1,15 @@
-package com.example.mobappproject.recycleViewIngredients
+package com.example.mobappproject.arrayListAdapter
+
 import android.widget.Filter
 import com.example.mobappproject.database.DBIngredient
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
  * Filters results for AutoCompleteTextView
+ * @param ingredients Contains all available ingredients
+ * @param adapter Adapter that displays filtered list of ingredients
  */
-class IngredientFilter(ingredients: ArrayList<DBIngredient>, adapter: ArrayListAdapter) : Filter() {
-    private var ingredients = ingredients
-    private var adapter = adapter
+class IngredientFilter(private var ingredients: ArrayList<DBIngredient>, private var adapter: ArrayListAdapter) : Filter() {
 
     override fun performFiltering(constraint: CharSequence?): FilterResults {
         val results = FilterResults()

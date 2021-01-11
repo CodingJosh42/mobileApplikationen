@@ -10,8 +10,10 @@ import com.example.mobappproject.database.DBIngredient
 
 /**
  * Holder Class for ingredients
+ * @param inflater Layout inflater
+ * @param parent parent view
  */
-class IngredientHolder (inflater: LayoutInflater, parent: ViewGroup) :
+class IngredientHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_ingredient_list_item, parent, false)) {
     private var name: TextView? = null
     private var button: Button? = null
@@ -20,12 +22,13 @@ class IngredientHolder (inflater: LayoutInflater, parent: ViewGroup) :
      * Initializes name and button
      */
     init {
-        name = itemView.findViewById<TextView>(R.id.quantity_ing)
-        button = itemView.findViewById<Button>(R.id.delete)
+        name = itemView.findViewById(R.id.quantity_ing)
+        button = itemView.findViewById(R.id.delete)
     }
 
     /**
-     * Binds the name of an ingredient to the textView (name)
+     * Binds the name of an ingredient to the textView
+     * @param ingredient Ingredient to bind to textView
      */
     fun bind(ingredient: DBIngredient) {
         name?.text = ingredient.name

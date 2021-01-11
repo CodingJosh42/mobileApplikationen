@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">What to cook?</string>
     <string name="mainTitle">Starten Sie eine Suche!</string>
-    <string name="appDescription">Geben Sie  Zutaten ein auf deren Grundlage Ihnen Rezepte vorgeschlafen werden. Spezifizieren Sie Ihre Suche weiter mit Schlagwörtern wie z.B. "Nachtisch".</string>
-    <string name="addZutat">Zutat hinzufügen</string>
-    <string name="addSchlagwort">Schlagwort hinzufügen</string>
+    <string name="addIngredient">Zutat hinzufügen</string>
     <string name="search">Suchen</string>
     <string name="resultList">Rezeptvorschläge</string>
     <string name="preparationTitle">Zubereitung:</string>
@@ -14,4 +12,12 @@
     <string name="meine_zutaten">Meine Zutaten</string>
     <string name="use_ingredient_list">Zuatenliste verwenden</string>
     <string name="meine_gewuerze">Meine Gewürze</string>
+    <string name="ingredientList">Zutatenliste</string>
+    <string name="spiceList">Gewürzliste</string>
+    <string name="upload_recipe">Rezept hochladen</string>
+    <string name="rezept_titel">Rezept Titel</string>
+    <string name="addTitleImage">Titelbild hinzufügen</string>
+    <string name="quantity">Menge</string>
+    <string name="preparation">Zubereitung</string>
+    <string name="upload">Hochladen</string>
 </resources>

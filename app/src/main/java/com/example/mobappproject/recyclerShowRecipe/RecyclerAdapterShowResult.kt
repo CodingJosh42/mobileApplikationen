@@ -17,7 +17,7 @@ class RecyclerAdapterShowResult(private val list: ArrayList<DBQuantity>) : Recyc
     }
 
     override fun onBindViewHolder(holder: IngredientHolderShowRecipe, position: Int) {
-        val quantity: DBQuantity= list[position]
+        val quantity: DBQuantity = list[position]
         holder.bind(quantity)
     }
 

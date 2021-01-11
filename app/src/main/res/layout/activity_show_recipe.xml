@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ShowRecipe">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -22,71 +25,76 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:adjustViewBounds="true"
-                android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="117dp"
-                tools:layout_editor_absoluteY="265dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/recipe_image"
                 android:src="@drawable/placeholder"
-                android:contentDescription="@string/recipe_image" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                tools:layout_editor_absoluteX="117dp"
+                tools:layout_editor_absoluteY="265dp" />
+
             <TextView
                 android:id="@+id/ingredientTitle"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textSize="30sp"
-                android:textColor="@color/black"
-                android:text="@string/ingredientTitle"
-                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center_horizontal"
+                android:text="@string/ingredientTitle"
+                android:textColor="@color/black"
+                android:textSize="30sp"
                 app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredients"
                 android:layout_width="match_parent"
-                android:maxHeight="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:maxHeight="200dp"
                 android:scrollbars="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/ingredientTitle"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/ingredientTitle" />
+
             <TextView
                 android:id="@+id/preparationTitle"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textSize="30sp"
-                android:textColor="@color/black"
-                android:text="@string/preparationTitle"
-                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center_horizontal"
+                android:text="@string/preparationTitle"
+                android:textColor="@color/black"
+                android:textSize="30sp"
                 app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients" />
+
             <TextView
                 android:id="@+id/preparation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/preparationTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/black"
                 android:textSize="28sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/preparationTitle"
                 tools:layout_editor_absoluteX="147dp"
                 tools:layout_editor_absoluteY="217dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>

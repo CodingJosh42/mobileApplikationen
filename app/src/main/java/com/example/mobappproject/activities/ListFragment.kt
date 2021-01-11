@@ -20,10 +20,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobappproject.R
 import com.example.mobappproject.database.DBIngredient
 import com.example.mobappproject.database.DatabaseHandler
-import com.example.mobappproject.recycleViewIngredients.ArrayListAdapter
+import com.example.mobappproject.arrayListAdapter.ArrayListAdapter
 import com.example.mobappproject.recycleViewIngredients.RecyclerAdapter
 import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 
+/**
+ * ListFragment. Used for ingredient and SpiceList
+ */
 class ListFragment : Fragment() {
 
     private var linearLayoutManager: LinearLayoutManager? = null
@@ -31,8 +34,9 @@ class ListFragment : Fragment() {
     private lateinit var db: DatabaseHandler
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()
-    private var arrayListAdapter: ArrayListAdapter ?= null
+    private var arrayListAdapter: ArrayListAdapter? = null
     private var isSpice: Int? = null
+    private var input: AutoCompleteTextView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +54,7 @@ class ListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_list, container, false)
+        input = v.findViewById(R.id.input)
 
         loadIngredients()
 
@@ -59,30 +64,32 @@ class ListFragment : Fragment() {
 
         return v
     }
+
     /**
      * Sets up the AutoCompleteTextView. Adds onClickListener, setOnEditorActionListener to input.
      * Initializes the arrayListAdapter and adds it to input
+     * @param v view with input fields
      */
     private fun setUpInput(v: View) {
         val addInput = v.findViewById<Button>(R.id.addInput)
         addInput.setOnClickListener {
-            addIngredient(v)
+            addIngredient()
         }
 
         val input = v.findViewById<AutoCompleteTextView>(R.id.input)
         input.setOnEditorActionListener(TextView.OnEditorActionListener { view, keyCode, event ->
             var handled = false
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                addIngredient(v)
+                addIngredient()
                 handled = true
             } else if (event?.keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
-                addIngredient(v)
+                addIngredient()
                 handled = true
             }
             if (handled) {
                 val focus = activity?.currentFocus
                 if (focus != null) {
-                    val imm: InputMethodManager = activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE)  as InputMethodManager
+                    val imm: InputMethodManager = activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(focus.windowToken, 0)
                 }
             }
@@ -90,11 +97,11 @@ class ListFragment : Fragment() {
         })
 
         this.arrayListAdapter = ArrayListAdapter(requireActivity(),
-            R.layout.simple_dropdown_item_1line, availableIngredients)
+                R.layout.simple_dropdown_item_1line, availableIngredients)
         input.threshold = 1
         input.setAdapter(arrayListAdapter)
 
-        if(isSpice == 0) {
+        if (isSpice == 0) {
             input.hint = "Zutat hinzufügen"
         } else {
             input.hint = "Gewürz hinzufügen"
@@ -103,6 +110,7 @@ class ListFragment : Fragment() {
 
     /**
      * Sets up the Recycler. setUpInput must be called before this to initialize the arrayListAdapter
+     * @param v view with recycler
      */
     private fun setRecycler(v: View) {
         linearLayoutManager = LinearLayoutManager(activity)
@@ -118,16 +126,15 @@ class ListFragment : Fragment() {
      * Called when the user wants to add an Ingredient to his List
      * Adds the ingredient to the user list and removes it from the availableList
      */
-    private fun addIngredient(v: View){
-        val input = v.findViewById<AutoCompleteTextView>(R.id.input)
-        val text = input.text.toString()
-        if(text != "") {
-            val fakeIng = DBIngredient(0,text,0,0)
-            if(arrayListAdapter?.contains(fakeIng) == true) {
+    private fun addIngredient() {
+        val text = input?.text.toString()
+        if (text != "") {
+            val fakeIng = DBIngredient(0, text, 0, 0)
+            if (arrayListAdapter?.contains(fakeIng) == true) {
                 val index = arrayListAdapter?.indexOf(fakeIng) as Int
                 val ing = arrayListAdapter?.get(index) as DBIngredient
 
-                if (db.addStoreIngredient(ing) > -1 ) {
+                if (db.addStoreIngredient(ing) > -1) {
                     arrayListAdapter?.remove(ing)
                     arrayListAdapter?.notifyDataSetChanged()
                     ing.stored = 1
@@ -137,17 +144,17 @@ class ListFragment : Fragment() {
                     recyclerView?.scrollToPosition(mIngredients.size - 1)
                     val msg = Toast.makeText(activity, text + " hinzugefügt", Toast.LENGTH_SHORT)
                     msg.show()
-                    input.text.clear()
+                    input?.text?.clear()
                 } else {
                     val msg = Toast.makeText(activity, text + " konnte nicht abgespeichert werden", Toast.LENGTH_SHORT)
                     msg.show()
                 }
-            } else if(mIngredients.contains(fakeIng)) {
+            } else if (mIngredients.contains(fakeIng)) {
                 val msg = Toast.makeText(activity, text + " ist bereits in deiner Liste", Toast.LENGTH_SHORT)
                 msg.show()
-            } else  {
+            } else {
                 var toPrint = " ist keine valide Zutat"
-                if(isSpice == 1)
+                if (isSpice == 1)
                     toPrint = " ist kein valides Gewürz"
                 val msg = Toast.makeText(activity, text + toPrint, Toast.LENGTH_SHORT)
                 msg.show()
@@ -162,18 +169,22 @@ class ListFragment : Fragment() {
      */
     private fun loadIngredients() {
         val dbIngs = db.getIngredients(isSpice as Int)
-        for (item in dbIngs){
-            if(item.stored == 1 && !mIngredients.contains(item)) {
+        for (item in dbIngs) {
+            if (item.stored == 1 && !mIngredients.contains(item)) {
                 mIngredients.add(item)
-            } else if(!availableIngredients.contains(item)){
+            } else if (!availableIngredients.contains(item)) {
                 availableIngredients.add(item)
             }
         }
     }
 
 
-
     companion object {
+        /**
+         * Creates a new Instance of ListFragment
+         * @param spice 0 if IngredientList, 1 if SpiceList should be displayed
+         * @return Returns new ListFragment
+         */
         @JvmStatic
         fun newInstance(spice: Int) =
                 ListFragment().apply {

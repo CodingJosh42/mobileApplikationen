@@ -18,13 +18,15 @@ import com.example.mobappproject.database.DBRecipe
  * Holder Class for Recipes
  */
 class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_list_item, parent, false)){
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_result_list_item, parent, false)) {
     private var title: TextView? = null
     private var img: ImageView? = null
     private var ingredients: TextView? = null
     private var matches: TextView? = null
-    private var quantitys: ArrayList<DBQuantity> ?= null
+    private var quantitys: ArrayList<DBQuantity>? = null
+    private var ingredientList: ArrayList<DBIngredient>? = null
     private var matchingString = ""
+    private var ingredientString = ""
 
     /**
      * Initializes title, img, ingredients, matches
@@ -40,7 +42,7 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
     /**
      * Binds recipe on result_list_item
      */
-    fun bind(recipe: DBRecipe, context: Context) {
+    fun bind(recipe: DBRecipe, context: Context, ingredients: ArrayList<DBIngredient>?) {
         itemView.setOnClickListener {
             val intent = Intent(context, ShowRecipe::class.java)
             intent.putExtra("Id", recipe.id)
@@ -49,46 +51,61 @@ class RecipeHolder(inflater: LayoutInflater, parent: ViewGroup) :
 
         title?.text = recipe.name
 
-        var ings = "Zutaten: "
-        quantitys = recipe.quantitys
-        for (i in 0 until quantitys!!.size) {
-            if (i != quantitys!!.size - 1) {
-                ings += quantitys!![i].ingredientName + ", "
-            } else {
-                ings += quantitys!![i].ingredientName
-            }
-        }
-        ingredients?.text = ings
+
+        getIngredientText(recipe)
+
+
+        this.ingredientList = ingredients
+
+        getMatches()
 
         img?.setImageBitmap(recipe.picture)
     }
 
     /**
+     * Binds ingredient names to ingredient textView
+     */
+    private fun getIngredientText(recipe: DBRecipe) {
+        ingredientString = "Zutaten: "
+        quantitys = recipe.quantitys
+        for (i in 0 until quantitys!!.size) {
+            ingredientString += if (i != quantitys!!.size - 1) {
+                quantitys!![i].ingredientName + ", "
+            } else {
+                quantitys!![i].ingredientName
+            }
+        }
+        this.ingredients?.text = ingredientString
+    }
+
+    /**
      * Binds matching ingredients to textView
      */
-    fun getMatches(searchIngredients: ArrayList<DBIngredient>?) {
-        if(searchIngredients != null) {
-            for (item in searchIngredients) {
+    private fun getMatches() {
+        matchingString = ""
+        if (ingredientList != null) {
+            for (item in ingredientList!!) {
                 if (contains(item)) {
                     matchingString += item.name + ", "
                 }
             }
-            if(matchingString.isNotEmpty()) {
-                var matchingIngs = "Matches: $matchingString"
-                matchingIngs = matchingIngs.removeSuffix(", ")
-                matches?.text = matchingIngs
+            if (matchingString.isNotEmpty()) {
+                matchingString = "Matches: $matchingString"
+                matchingString = matchingString.removeSuffix(", ")
+                matches?.text = matchingString
             } else {
-                matches?.text = "Keine Matches"
+                val text = "Keine Matches"
+                matches?.text = text
             }
         }
     }
 
     /**
-     * Checks if quantitys contain an ingredient
+     * Checks if quantity's contain an ingredient
      */
     private fun contains(searchItem: DBIngredient): Boolean {
-        for(item in quantitys!!) {
-            if(item.ingredientName == searchItem.name) {
+        for (item in quantitys!!) {
+            if (item.ingredientName == searchItem.name) {
                 return true
             }
         }

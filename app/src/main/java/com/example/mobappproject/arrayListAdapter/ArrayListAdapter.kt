@@ -1,5 +1,4 @@
-package com.example.mobappproject.recycleViewIngredients
-
+package com.example.mobappproject.arrayListAdapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,13 +11,11 @@ import androidx.fragment.app.FragmentActivity
 import android.R.id
 import com.example.mobappproject.database.DBIngredient
 
-
-
 /**
  * Contains and displays the available ingredients
- * @param context Fragment that uses this adapter
+ * @param context Fragment/Activity that uses this adapter
  * @param resource Resource id to display ingredients
- * @param objects List of ingredients
+ * @param objects List of available ingredients
  */
 class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayList<DBIngredient>) : ArrayAdapter<DBIngredient>(context, resource, objects) {
     var ingredients = objects
@@ -38,8 +35,8 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     }
 
     override fun addAll(collection: MutableCollection<out DBIngredient>) {
-        for(item in collection){
-            if(!ingredients.contains(item)){
+        for (item in collection) {
+            if (!ingredients.contains(item)) {
                 ingredients.add(item)
                 filteredIngredients.add(item)
             }
@@ -60,7 +57,8 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     }
 
     /**
-     * Checks if ingredientlist contains an ingredient
+     * Checks if ingredientList contains an ingredient
+     * @param ingredient Ingredient to be checked
      */
     fun contains(ingredient: DBIngredient): Boolean {
         return ingredients.contains(ingredient)
@@ -68,6 +66,7 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
 
     /**
      * Returns index of an ingredient
+     * @param ingredient ingredient to be checked
      */
     fun indexOf(ingredient: DBIngredient): Int {
         return ingredients.indexOf(ingredient)
@@ -75,6 +74,7 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
 
     /**
      * Returns an ingredient at a specific position
+     * @param position position of ingredient
      */
     fun get(position: Int): DBIngredient {
         return ingredients[position]
@@ -84,8 +84,8 @@ class ArrayListAdapter(context: FragmentActivity, resource: Int, objects: ArrayL
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
         if (view == null) {
-            val infalter = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = infalter.inflate(resId, null)
+            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            view = inflater.inflate(resId, null)
         }
 
         val ingredient = filteredIngredients[position]
