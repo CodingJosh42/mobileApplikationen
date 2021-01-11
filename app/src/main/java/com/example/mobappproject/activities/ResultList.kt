@@ -65,9 +65,6 @@ class ResultList : AppCompatActivity() {
             recipes.add(recipe)
         }
         recipes.sortDescending()
-        for (item in recipes) {
-            System.out.println(item.name)
-        }
         recyclerView?.adapter = RecyclerAdapterResult(this, recipes, ingredients)
     }
 }
