@@ -30,7 +30,7 @@ import com.example.mobappproject.recycleViewIngredients.SwipeCallback
 class ListFragment : Fragment() {
 
     private var linearLayoutManager: LinearLayoutManager? = null
-    var recyclerView: RecyclerView? = null
+    private var recyclerView: RecyclerView? = null
     private lateinit var db: DatabaseHandler
     private val mIngredients = ArrayList<DBIngredient>()
     private val availableIngredients = ArrayList<DBIngredient>()

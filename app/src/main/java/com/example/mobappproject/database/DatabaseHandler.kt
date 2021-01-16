@@ -353,47 +353,6 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
     }
 
     /**
-     * Get all Recipes (deprecated)
-     * @return ArrayList of recipes
-     */
-    fun getRecipes(): ArrayList<DBRecipe> {
-        val list: ArrayList<DBRecipe> = ArrayList()
-        val select = "SELECT * FROM $TABLE_RECIPE"
-        val db = this.readableDatabase
-        val cursor: Cursor?
-        //Values for each Element of the Table
-        var id: Int
-        var name: String
-        var description: String
-        var picture: ByteArray?
-        var pictureBitmap: Bitmap?
-
-        try {
-            cursor = db.rawQuery(select, null)
-        } catch (e: SQLiteException) {
-            db.execSQL(select)
-            return ArrayList()
-        }
-
-        if (cursor.moveToFirst()) {
-            do {
-                id = cursor.getInt(cursor.getColumnIndex(RECIPE_KEY_ID))
-                name = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_NAME))
-                description = cursor.getString(cursor.getColumnIndex(RECIPE_KEY_DESCRIPTION))
-                picture = cursor.getBlobOrNull(cursor.getColumnIndex(RECIPE_KEY_PICTURE))
-                pictureBitmap = if (picture != null) {
-                    getBitmap(picture)
-                } else {
-                    null
-                }
-                val newRecipe = DBRecipe(id = id, name = name, description = description, picture = pictureBitmap)
-                list.add(newRecipe)
-            } while (cursor.moveToNext())
-        }
-        return list
-    }
-
-    /**
      * Converts ByteArray to Bitmap
      * @param bytes ByteArray that should be converted
      * @return Returns Bitmap
