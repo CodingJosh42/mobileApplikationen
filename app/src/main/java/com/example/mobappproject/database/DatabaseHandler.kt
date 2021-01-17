@@ -619,12 +619,6 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         quantitys.add(DBQuantity(14, 138, "", ""))
         quantitys.add(DBQuantity(14, 98, "1EL", ""))
         quantitys.add(DBQuantity(14, 230, "", ""))
-        quantitys.add(DBQuantity(15, 265, "", ""))
-        quantitys.add(DBQuantity(15, 265, "", ""))
-        quantitys.add(DBQuantity(15, 265, "", ""))
-        quantitys.add(DBQuantity(15, 265, "", ""))
-        quantitys.add(DBQuantity(15, 265, "", ""))
-        quantitys.add(DBQuantity(15, 265, "", ""))
 
         for (i in 0 until recipes.size) {
             contentValues.clear()

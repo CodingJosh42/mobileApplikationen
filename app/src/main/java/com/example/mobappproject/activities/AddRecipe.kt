@@ -150,8 +150,8 @@ class AddRecipe : AppCompatActivity() {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size, options)
-        val height = 500
-        val width = 500
+        val height = 300
+        val width = 300
         val heightRatio = ceil(((options.outHeight / height.toFloat()).toDouble()))
         val widthRatio = ceil((options.outWidth / width.toFloat()).toDouble())
 
