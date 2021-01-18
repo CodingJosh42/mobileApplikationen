@@ -177,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                 for (item in spiceList) {
                     if (!ingredientList.contains(item)) {
                         spices.add(item)
+                        ingredientList.add(item)
                     }
                 }
             }
