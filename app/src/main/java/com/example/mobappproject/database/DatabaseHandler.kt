@@ -441,12 +441,12 @@ class DatabaseHandler(val context: Context) : SQLiteOpenHelper(context, DB_NAME,
         }
         select += " GROUP BY $TABLE_RECIPE.$RECIPE_KEY_ID"
         if (spices != null) {
-            select += " HAVING SUM("
+            select += " HAVING SUM(case"
             for (i in spices.indices) {
                 select += if (i == spices.size - 1) {
-                    "case when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + " then 0 else 1 end) > 0"
+                    " when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + " then 0 else 1 end) > 0"
                 } else {
-                    "case when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + "then 0 "
+                    " when $TABLE_INGREDIENT.$INGREDIENT_KEY_ID = " + spices[i].id + " then 0 "
                 }
             }
         }
